@@ -19,7 +19,7 @@
 (use-package solarized-theme
   :ensure t
   :config
-  (load-theme 'solarized-gruvbox-colors t))
+  (load-theme 'solarized-gruvbox-dark t))
 
 (use-package dired
   :ensure nil
