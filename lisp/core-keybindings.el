@@ -147,7 +147,7 @@ Equivalent to Doom's <leader> m behavior."
    "p"   '(:ignore t :wk "project")
    "pf"  '(projectile-find-file :wk "find file in project")
    "pp"  '(projectile-switch-project :wk "switch project")
-   "ps"  '(projectile-ripgrep :wk "search in project")
+   "ps"  '(consult-ripgrep :wk "search in project")
 
    ;; search
    "s"   '(:ignore t :wk "search")
