@@ -65,11 +65,26 @@
       (if (file-directory-p file)
           (dired-find-file)
         (dired-find-file-other-window))))
+  (defun rk/dirvish-side-mouse-find-entry (event)
+    "Open file in other window, navigate directory in same window."
+    (interactive "e")
+    (let (window pos file)
+      (save-excursion
+        (setq window (posn-window (event-end event))
+              pos (posn-point (event-end event)))
+        (unless (windowp window) (error "No file chosen"))
+        (set-buffer (window-buffer window))
+        (goto-char pos)
+        (setq file (dired-get-file-for-visit)))
+      (select-window window)
+      (if (file-directory-p file)
+          (dired-find-file)
+        (dired-find-file-other-window))))
   (defun rk/dirvish-side--setup-keys ()
     "Set up keybindings for dirvish side sessions."
     (local-set-key (kbd "RET") 'rk/dirvish-side-find-entry)
-    (local-set-key (kbd "<mouse-1>") 'dired-mouse-find-file-other-window)
-    (local-set-key (kbd "<mouse-2>") 'dired-mouse-find-file-other-window))
+    (local-set-key (kbd "<mouse-1>") 'rk/dirvish-side-mouse-find-entry)
+    (local-set-key (kbd "<mouse-2>") 'rk/dirvish-side-mouse-find-entry))
   (add-hook 'dired-mode-hook
             (lambda ()
               (when (and (dirvish-curr)
