@@ -12,7 +12,8 @@
                 "core-keybindings"
                 "core-completion"
                 "core-lsp"
-                "core-vc"))
+                "core-vc"
+                "core-shell"))
   (load (expand-file-name core (expand-file-name "lisp/" user-emacs-directory))))
 
 ;; OS-specific modules
