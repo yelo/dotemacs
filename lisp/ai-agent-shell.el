@@ -11,6 +11,39 @@
 ;;      Get a key at https://platform.deepseek.com/api_keys
 ;;      (Or run `/connect` inside opencode to be guided through it.)
 
+(defun rk/agent-shell-new ()
+  "Start a new agent-shell session (never reuse an existing one)."
+  (interactive)
+  (let ((current-prefix-arg '(4)))
+    (call-interactively #'agent-shell)))
+
+(defun rk/agent-shell-toggle ()
+  "Toggle visibility of the most recent agent-shell buffer.
+If no agent-shell buffer exists, start one."
+  (interactive)
+  (if-let ((buf (seq-find (lambda (b)
+                            (string-prefix-p "*agent-shell" (buffer-name b)))
+                          (buffer-list))))
+      (if-let ((win (get-buffer-window buf)))
+          (delete-window win)
+        (pop-to-buffer buf))
+    (call-interactively #'agent-shell)))
+
+(defun rk/agent-shell-restart ()
+  "Kill the current agent-shell process and restart it."
+  (interactive)
+  (if-let ((buf (seq-find (lambda (b)
+                            (string-prefix-p "*agent-shell" (buffer-name b)))
+                          (buffer-list))))
+      (with-current-buffer buf
+        (when (fboundp 'agent-shell-restart)
+          (agent-shell-restart))
+        (unless (fboundp 'agent-shell-restart)
+          ;; Fallback: kill the buffer and open a fresh session
+          (kill-buffer buf)
+          (call-interactively #'agent-shell)))
+    (message "No agent-shell buffer found")))
+
 (use-package agent-shell
   :ensure t
   :config
@@ -27,3 +60,11 @@
   (setq agent-shell-opencode-environment
         (agent-shell-make-environment-variables
          :inherit-env t)))
+
+(rk/leader-keys
+  "A"   '(:ignore t :wk "agents")
+  "Aa"  '(agent-shell         :wk "start / reuse agent")
+  "An"  '(rk/agent-shell-new  :wk "new agent session")
+  "At"  '(rk/agent-shell-toggle  :wk "toggle agent window")
+  "Ar"  '(rk/agent-shell-restart :wk "restart agent")
+  "Ak"  '(kill-current-buffer :wk "kill agent buffer"))
