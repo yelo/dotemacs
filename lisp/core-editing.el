@@ -91,3 +91,12 @@
   :config
   (meow-setup)
   (meow-global-mode 1))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode)
+  :config
+  (setq rainbow-delimiters-highlight-parens t))
+
+(setq show-paren-delay 0)
+(show-paren-mode 1)
