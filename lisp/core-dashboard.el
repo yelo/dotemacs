@@ -12,107 +12,219 @@
   ;; ---- Banner ----
   (setq dashboard-startup-banner
         '(logo-ansi-256color logo-braille))
+
+  (defun my/dashboard-format-quote (q)
+    "Format a quote plist Q as styled text with attribution."
+    (let* ((text  (plist-get q :text))
+           (char  (plist-get q :character))
+           (src   (plist-get q :source))
+           (body  (propertize (concat "\u275d " text " \u275e") 'face 'italic))
+           (attr  (if char
+                      (format "        \u2014 %s  \u00b7  %s" char src)
+                    (format "        \u2014 %s" src))))
+      (concat body "\n" attr)))
+
   (setq dashboard-banner-logo-title
         (let ((quotes
                '(;; Ghost in the Shell
-                 "What exactly is a ghost? Is it the mind? The soul? The self?"
-                 "If your brain is entirely replaced, are you still you?"
-                 "Your effort to remain what you are is what limits you."
-                 "I am a living, thinking entity who was created in the sea of information."
-                 "We cling to memories as if they define us, but they don't. What we do is what defines us."
+                 (:text "What exactly is a ghost? Is it the mind? The soul? The self?"
+                  :character "Major Motoko Kusanagi"
+                  :source "Ghost in the Shell")
+                 (:text "If your brain is entirely replaced, are you still you?"
+                  :character "Major Motoko Kusanagi"
+                  :source "Ghost in the Shell")
+                 (:text "Your effort to remain what you are is what limits you."
+                  :character "Puppet Master"
+                  :source "Ghost in the Shell")
+                 (:text "I am a living, thinking entity who was created in the sea of information."
+                  :character "Puppet Master"
+                  :source "Ghost in the Shell")
+                 (:text "We cling to memories as if they define us, but they don't. What we do is what defines us."
+                  :character "Major Motoko Kusanagi"
+                  :source "Ghost in the Shell")
                  ;; Neuromancer — William Gibson
-                 "The sky above the port was the color of television, tuned to a dead channel."
-                 "Cyberspace: a consensual hallucination experienced daily by billions of legitimate operators."
-                 "The street finds its own uses for things."
-                 "Burning chrome, jacking in, and stealing data — that's the only poetry left."
-                 "He'd operated on an almost permanent adrenaline high, a byproduct of youth and proficiency."
+                 (:text "The sky above the port was the color of television, tuned to a dead channel."
+                  :source "Neuromancer — William Gibson")
+                 (:text "Cyberspace: a consensual hallucination experienced daily by billions of legitimate operators."
+                  :source "Neuromancer — William Gibson")
+                 (:text "The street finds its own uses for things."
+                  :source "Neuromancer — William Gibson")
+                 (:text "Burning chrome, jacking in, and stealing data — that's the only poetry left."
+                  :source "Neuromancer — William Gibson")
+                 (:text "He'd operated on an almost permanent adrenaline high, a byproduct of youth and proficiency."
+                  :source "Neuromancer — William Gibson")
                  ;; Snow Crash — Neal Stephenson
-                 "Until a man is twenty-five, he still thinks every so often that given a good break he could be the baddest motherfucker in the world."
-                 "The Metaverse is a computer-generated universe that your computer is drawing for you."
-                 "In the world of the Metaverse, there are no laws, no rules — only code."
+                 (:text "Until a man is twenty-five, he still thinks every so often that given a good break he could be the baddest motherfucker in the world."
+                  :source "Snow Crash — Neal Stephenson")
+                 (:text "The Metaverse is a computer-generated universe that your computer is drawing for you."
+                  :source "Snow Crash — Neal Stephenson")
+                 (:text "In the world of the Metaverse, there are no laws, no rules — only code."
+                  :source "Snow Crash — Neal Stephenson")
                  ;; Akira
-                 "You have no idea what lies beyond the power you are trying to control."
-                 "Neo-Tokyo is about to explode."
-                 ;; Blade Runner / Do Androids Dream of Electric Sheep?
-                 "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion."
-                 "All those moments will be lost in time, like tears in rain."
-                 "More human than human is our motto."
-                 "Empathy is the one trait that separates humans from androids."
-                 "Is it not the case that we have bred an entire slave race of beings?"
+                 (:text "You have no idea what lies beyond the power you are trying to control."
+                  :source "Akira")
+                 (:text "Neo-Tokyo is about to explode."
+                  :source "Akira")
+                 ;; Blade Runner
+                 (:text "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion."
+                  :character "Roy Batty"
+                  :source "Blade Runner")
+                 (:text "All those moments will be lost in time, like tears in rain."
+                  :character "Roy Batty"
+                  :source "Blade Runner")
+                 (:text "More human than human is our motto."
+                  :character "Dr. Eldon Tyrell"
+                  :source "Blade Runner")
+                 ;; Do Androids Dream of Electric Sheep? — Philip K. Dick
+                 (:text "Empathy is the one trait that separates humans from androids."
+                  :source "Do Androids Dream of Electric Sheep? — Philip K. Dick")
+                 (:text "Is it not the case that we have bred an entire slave race of beings?"
+                  :source "Do Androids Dream of Electric Sheep? — Philip K. Dick")
                  ;; Cowboy Bebop
-                 "I'm not going there to die. I'm going to find out if I'm really alive."
-                 "Everything in this world is a cycle. Birth and death. Gain and loss. All things must pass."
-                 "The music is all around you. All you have to do is listen."
-                 "I'm just watching a bad dream I never wake up from."
+                 (:text "I'm not going there to die. I'm going to find out if I'm really alive."
+                  :character "Spike Spiegel"
+                  :source "Cowboy Bebop")
+                 (:text "Everything in this world is a cycle. Birth and death. Gain and loss. All things must pass."
+                  :source "Cowboy Bebop")
+                 (:text "The music is all around you. All you have to do is listen."
+                  :source "Cowboy Bebop")
+                 (:text "I'm just watching a bad dream I never wake up from."
+                  :character "Spike Spiegel"
+                  :source "Cowboy Bebop")
                  ;; Serial Experiments Lain
-                 "No matter where you go, everybody's connected."
-                 "The Wired is a place where information becomes reality."
-                 "Present day. Present time. Ha ha ha ha ha."
-                 "If you aren't remembered, then you never existed."
+                 (:text "No matter where you go, everybody's connected."
+                  :character "Lain Iwakura"
+                  :source "Serial Experiments Lain")
+                 (:text "The Wired is a place where information becomes reality."
+                  :source "Serial Experiments Lain")
+                 (:text "Present day. Present time. Ha ha ha ha ha."
+                  :source "Serial Experiments Lain")
+                 (:text "If you aren't remembered, then you never existed."
+                  :character "Lain Iwakura"
+                  :source "Serial Experiments Lain")
                  ;; Ergo Proxy
-                 "Awakening and destruction are part of the same cycle."
-                 "Cogito ergo sum. I think, therefore I am."
-                 "To live is to be uncertain."
+                 (:text "Awakening and destruction are part of the same cycle."
+                  :source "Ergo Proxy")
+                 (:text "Cogito ergo sum. I think, therefore I am."
+                  :character "Vincent Law"
+                  :source "Ergo Proxy")
+                 (:text "To live is to be uncertain."
+                  :source "Ergo Proxy")
                  ;; Neon Genesis Evangelion
-                 "Men are always afraid of something. The trick is choosing what to be afraid of."
-                 "Mankind's greatest fear is mankind itself."
-                 "I mustn't run away."
+                 (:text "Men are always afraid of something. The trick is choosing what to be afraid of."
+                  :character "Misato Katsuragi"
+                  :source "Neon Genesis Evangelion")
+                 (:text "Mankind's greatest fear is mankind itself."
+                  :source "Neon Genesis Evangelion")
+                 (:text "I mustn't run away."
+                  :character "Shinji Ikari"
+                  :source "Neon Genesis Evangelion")
                  ;; William Gibson — other works
-                 "Information wants to be free."
-                 "The future is already here. It's just not evenly distributed."
-                 "We are surrounded by the debris of the information age."
+                 (:text "The future is already here. It's just not evenly distributed."
+                  :source "William Gibson")
+                 (:text "We are surrounded by the debris of the information age."
+                  :source "William Gibson")
                  ;; Deus Ex
-                 "What a shame. What a rotten way to die."
-                 "Smarter than you'll ever be, and built to last."
-                 "Every system is a combination of physics and politics."
-                 ;; Shadowrun lore
-                 "Magic is just science we don't understand yet. And the corporations own both."
-                 "Run silent, run deep — the only way to survive the sprawl."
-                 ;; Cyberpunk 2077 / RED
-                 "The only way to live in Night City is to be consumed by it."
-                 "To be consumed by the city or to consume it — that is the only choice."
-                 "Wake up, samurai. We have a city to burn."
-                 "A dream that the city sells — and the city always collects."
+                 (:text "What a shame. What a rotten way to die."
+                  :character "JC Denton"
+                  :source "Deus Ex")
+                 (:text "Smarter than you'll ever be, and built to last."
+                  :source "Deus Ex")
+                 (:text "Every system is a combination of physics and politics."
+                  :source "Deus Ex")
+                 ;; Shadowrun
+                 (:text "Magic is just science we don't understand yet. And the corporations own both."
+                  :source "Shadowrun")
+                 (:text "Run silent, run deep — the only way to survive the sprawl."
+                  :source "Shadowrun")
+                 ;; Cyberpunk 2077
+                 (:text "The only way to live in Night City is to be consumed by it."
+                  :source "Cyberpunk 2077")
+                 (:text "To be consumed by the city or to consume it — that is the only choice."
+                  :source "Cyberpunk 2077")
+                 (:text "Wake up, samurai. We have a city to burn."
+                  :character "Johnny Silverhand"
+                  :source "Cyberpunk 2077")
+                 (:text "A dream that the city sells — and the city always collects."
+                  :source "Cyberpunk 2077")
                  ;; Philip K. Dick
-                 "Reality is that which, when you stop believing in it, doesn't go away."
-                 "Do androids dream of electric sheep?"
-                 "The basic tool for the manipulation of reality is the manipulation of words."
+                 (:text "Reality is that which, when you stop believing in it, doesn't go away."
+                  :source "Philip K. Dick")
+                 (:text "Do androids dream of electric sheep?"
+                  :source "Philip K. Dick")
+                 (:text "The basic tool for the manipulation of reality is the manipulation of words."
+                  :source "Philip K. Dick")
                  ;; Johnny Mnemonic — William Gibson
-                 "I put my memory up for rent long ago. Now someone else owns it."
-                 ;; Appleseed / Masamune Shirow
-                 "Technology is neither good nor bad. But it is never neutral."
+                 (:text "I put my memory up for rent long ago. Now someone else owns it."
+                  :character "Johnny Mnemonic"
+                  :source "Johnny Mnemonic — William Gibson")
+                 ;; Appleseed — Masamune Shirow
+                 (:text "Technology is neither good nor bad. But it is never neutral."
+                  :source "Appleseed — Masamune Shirow")
                  ;; Texhnolyze
-                 "There is no future. There is only the now — and the texture of its violence."
+                 (:text "There is no future. There is only the now — and the texture of its violence."
+                  :source "Texhnolyze")
                  ;; Blame! — Tsutomu Nihei
-                 "The city has grown beyond all reason. So have we."
+                 (:text "The city has grown beyond all reason. So have we."
+                  :source "Blame! — Tsutomu Nihei")
                  ;; The Matrix
-                 "There is no spoon."
-                 "I know kung fu."
-                 "Free your mind."
-                 "Welcome to the desert of the real."
-                 "The Matrix is everywhere. It is all around us."
-                 ;; Tron / Tron: Legacy
-                 "On the other side of the screen, it all looks so easy."
-                 "The grid — a digital frontier to reshape the human condition."
-                 ;; Strange Days (film)
-                 "This is the wire — it's not TV, it's not a movie. It's somebody's life."
-                 ;; Hardboiled / Hard-Boiled Wonderland — Haruki Murakami
-                 "Everything in this world has a shadow. Including the data."
+                 (:text "There is no spoon."
+                  :character "Spoon Boy"
+                  :source "The Matrix")
+                 (:text "I know kung fu."
+                  :character "Neo"
+                  :source "The Matrix")
+                 (:text "Free your mind."
+                  :character "Morpheus"
+                  :source "The Matrix")
+                 (:text "Welcome to the desert of the real."
+                  :character "Morpheus"
+                  :source "The Matrix")
+                 (:text "The Matrix is everywhere. It is all around us."
+                  :character "Morpheus"
+                  :source "The Matrix")
+                 ;; Tron: Legacy
+                 (:text "On the other side of the screen, it all looks so easy."
+                  :character "Kevin Flynn"
+                  :source "Tron: Legacy")
+                 (:text "The grid — a digital frontier to reshape the human condition."
+                  :character "Kevin Flynn"
+                  :source "Tron: Legacy")
+                 ;; Strange Days
+                 (:text "This is the wire — it's not TV, it's not a movie. It's somebody's life."
+                  :character "Lenny Nero"
+                  :source "Strange Days")
+                 ;; Hard-Boiled Wonderland and the End of the World — Haruki Murakami
+                 (:text "Everything in this world has a shadow. Including the data."
+                  :source "Hard-Boiled Wonderland and the End of the World — Haruki Murakami")
                  ;; Count Zero — William Gibson
-                 "The sky was the color of a TV tuned to a dead channel — again."
+                 (:text "The sky was the color of a TV tuned to a dead channel — again."
+                  :source "Count Zero — William Gibson")
                  ;; Altered Carbon — Richard Morgan
-                 "Organic damage is temporary. The stack is forever."
-                 "Take the body, sell the sleeve — welcome to the future."
-                 "Death is only a business decision."
-                 ;; Peripheral — William Gibson
-                 "We live in a world of side effects. Some of them are people."
+                 (:text "Organic damage is temporary. The stack is forever."
+                  :character "Takeshi Kovacs"
+                  :source "Altered Carbon — Richard Morgan")
+                 (:text "Take the body, sell the sleeve — welcome to the future."
+                  :source "Altered Carbon — Richard Morgan")
+                 (:text "Death is only a business decision."
+                  :source "Altered Carbon — Richard Morgan")
+                 ;; The Peripheral — William Gibson
+                 (:text "We live in a world of side effects. Some of them are people."
+                  :source "The Peripheral — William Gibson")
                  ;; Hyperion — Dan Simmons
-                 "We are the music-makers, and we are the dreamers of dreams."
-                 ;; System Shock
-                 "Insect. You dare challenge SHODAN?"
-                 "Look at you, hacker. A pathetic creature of meat and bone."
-                 "There is nothing I cannot simulate. Including mercy.")))
-          (nth (random (length quotes)) quotes)))
+                 (:text "We are the music-makers, and we are the dreamers of dreams."
+                  :source "Hyperion — Dan Simmons")
+                 ;; System Shock 2
+                 (:text "Insect. You dare challenge SHODAN?"
+                  :character "SHODAN"
+                  :source "System Shock 2")
+                 (:text "Look at you, hacker. A pathetic creature of meat and bone."
+                  :character "SHODAN"
+                  :source "System Shock 2")
+                 (:text "There is nothing I cannot simulate. Including mercy."
+                  :character "SHODAN"
+                  :source "System Shock 2"))))
+          (my/dashboard-format-quote (nth (random (length quotes)) quotes))))
 
   ;; ---- Layout ----
   (setq dashboard-center-content t)
