@@ -68,7 +68,7 @@
            (,(concat (nerd-icons-octicon "nf-oct-history" :height 1.0 :v-adjust 0.0) "  ")
             "Recents"
             "Open recent file"
-            (lambda (&rest _) (counsel-recentf))
+            (lambda (&rest _) (consult-recent-file))
             nil " " " ")
            (,(concat (nerd-icons-octicon "nf-oct-rocket" :height 1.0 :v-adjust 0.0) "  ")
             "Projects"

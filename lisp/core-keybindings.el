@@ -104,12 +104,12 @@ Equivalent to Doom's <leader> m behavior."
    ;; files
    "f"   '(:ignore t :wk "files")
    "ft"  '(dirvish-side :wk "toggle file tree")
-   "ff"  '(counsel-find-file :wk "find file")
-   "fr"  '(counsel-recentf :wk "recent files")
+   "ff"  '(find-file :wk "find file")
+   "fr"  '(consult-recent-file :wk "recent files")
 
    ;; buffers
    "b"   '(:ignore t :wk "buffers")
-   "bb"  '(counsel-switch-buffer :wk "switch buffer")
+   "bb"  '(consult-buffer :wk "switch buffer")
    "bk"  '(kill-current-buffer :wk "kill buffer")
 
    ;; windows
@@ -125,8 +125,8 @@ Equivalent to Doom's <leader> m behavior."
 
    ;; search
    "s"   '(:ignore t :wk "search")
-   "ss"  '(swiper-isearch :wk "search buffer")
-   "sg"  '(counsel-rg :wk "ripgrep")
+   "ss"  '(consult-line :wk "search buffer")
+   "sg"  '(consult-ripgrep :wk "ripgrep")
 
    ;; major-mode (SPC m)
    "m"   '(:ignore t :wk "major-mode")

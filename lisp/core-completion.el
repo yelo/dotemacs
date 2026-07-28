@@ -1,26 +1,46 @@
-(use-package ivy
+(use-package vertico
   :ensure t
   :init
-  (ivy-mode 1)
+  (vertico-mode 1)
   :custom
-  (ivy-use-virtual-buffers t)
-  (ivy-count-format "(%d/%d) ")
+  (vertico-cycle t)
   (enable-recursive-minibuffers t))
 
-(use-package counsel
-  :ensure t
-  :after ivy
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("C-x b" . counsel-switch-buffer)
-         ("C-c k" . counsel-rg))
-  :config
-  (counsel-mode 1))
+(use-package savehist
+  :ensure nil
+  :init
+  (savehist-mode 1))
 
-(use-package swiper
+(use-package orderless
   :ensure t
-  :after ivy
-  :bind (("C-s" . swiper-isearch)))
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode 1))
+
+(use-package consult
+  :ensure t
+  :bind (("C-s" . consult-line)
+         ("C-x b" . consult-buffer)
+         ("C-c k" . consult-ripgrep)
+         ("M-x" . consult-M-x))
+  :custom
+  (consult-preview-key 'any)
+  (consult-project-function (lambda (_) (projectile-project-root))))
+
+(use-package embark
+  :ensure t
+  :bind (("C-." . embark-act)
+         ("C-;" . embark-dwim))
+  :config
+  (use-package embark-consult
+    :ensure t
+    :hook
+    (embark-collect-mode . consult-preview-at-point-mode)))
 
 (use-package corfu
   :ensure t
