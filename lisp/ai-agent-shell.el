@@ -67,4 +67,9 @@ If no agent-shell buffer exists, start one."
   "An"  '(rk/agent-shell-new  :wk "new agent session")
   "At"  '(rk/agent-shell-toggle  :wk "toggle agent window")
   "Ar"  '(rk/agent-shell-restart :wk "restart agent")
-  "Ak"  '(kill-current-buffer :wk "kill agent buffer"))
+  "Ak"  '(kill-current-buffer :wk "kill agent buffer")
+  "As"  '(agent-shell-send-region :wk "send region to agent")
+  "Ad"  '(agent-shell-send-dwim :wk "send region / context to agent"))
+
+(add-hook 'agent-shell-mode-hook
+          (lambda () (display-line-numbers-mode -1)))
