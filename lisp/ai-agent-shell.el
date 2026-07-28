@@ -42,7 +42,7 @@ If no agent-shell buffer exists, start one."
           ;; Fallback: kill the buffer and open a fresh session
           (kill-buffer buf)
           (call-interactively #'agent-shell)))
-    (message "No agent-shell buffer found")))
+    (call-interactively #'agent-shell)))
 
 (use-package agent-shell
   :ensure t
