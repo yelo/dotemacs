@@ -3,12 +3,13 @@
   :config
   (which-key-mode 1))
 
-(use-package moody
+(use-package mood-line
   :ensure t
-  :config
-  (moody-replace-mode-line-front-space)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
+  :init
+  (mood-line-mode 1)
+  :custom
+  (mood-line-format mood-line-format-default-extended)
+  (mood-line-glyph-alist mood-line-glyphs-ascii))
 
 (use-package minions
   :ensure t
