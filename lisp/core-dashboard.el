@@ -80,7 +80,7 @@
             "Open configuration (init.el + lisp/)"
             (lambda (&rest _)
               (let ((lisp-dir (expand-file-name "lisp/" user-emacs-directory)))
-                (dirvish lisp-dir)
+                (dired lisp-dir)
                 (split-window-right)
                 (other-window 1)
                 (find-file (expand-file-name "init.el" user-emacs-directory))))

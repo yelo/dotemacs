@@ -103,6 +103,7 @@ Equivalent to Doom's <leader> m behavior."
 
    ;; files
    "f"   '(:ignore t :wk "files")
+   "ft"  '(dirvish-side :wk "toggle file tree")
    "ff"  '(counsel-find-file :wk "find file")
    "fr"  '(counsel-recentf :wk "recent files")
 
