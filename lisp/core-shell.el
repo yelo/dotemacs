@@ -24,9 +24,10 @@
   ;; Restore the window layout when eat exits.
   (eat-kill-buffer-on-exit t)
   :hook
-  ;; Pass all keypresses directly to the terminal (fixes backspace and other
-  ;; keys that eat's semi-char mode intercepts before they reach the shell).
-  (eat-mode . eat-char-mode)
+  ;; eat-char-mode requires the terminal process to be running, so it must be
+  ;; set via eat-exec-hook (fires after exec) not eat-mode-hook (fires before).
+  ;; This forwards all keypresses — including backspace — straight to the shell.
+  (eat-exec . eat-char-mode)
   ;; Terminal buffers don't benefit from line numbers.
   (eat-mode . (lambda () (display-line-numbers-mode -1)))
   :config
