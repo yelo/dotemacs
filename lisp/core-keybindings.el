@@ -14,9 +14,15 @@ BINDINGS are alternating KEY and DEF pairs, where KEY is relative to `SPC m`."
           (push key expanded)
           (push def expanded)))
       `(with-eval-after-load ,feature
-         (rk/local-leader-keys
-           :keymaps ,keymaps
-           ,@(nreverse expanded)))))
+         (let* ((rk--keymaps (if (listp ,keymaps) ,keymaps (list ,keymaps)))
+                (rk--major-modes
+                 (mapcar (lambda (km)
+                           (intern (replace-regexp-in-string "-map\\'" ""
+                                                             (symbol-name km))))
+                         rk--keymaps)))
+           (rk/local-leader-keys
+            :major-modes rk--major-modes
+            ,@(nreverse expanded))))))
 
   (defmacro rk/major-mode-leader-keys (feature keymaps &rest bindings)
     "Define major-mode local-leader keys under `SPC m` after FEATURE loads."
@@ -35,16 +41,15 @@ BINDINGS are alternating KEY and DEF pairs, where KEY is relative to `SPC m`."
 
 (use-package general
   :ensure t
-  :after (evil which-key)
+  :after (meow which-key)
   :config
   (general-create-definer rk/leader-keys
-    :states '(normal visual motion emacs)
-    :keymaps 'override
+    :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)
     :prefix "SPC"
     :global-prefix "C-SPC")
 
   (general-create-definer rk/local-leader-keys
-    :states '(normal visual motion emacs)
+    :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)
     :prefix "SPC m"
     :global-prefix "C-SPC m")
 
@@ -97,8 +102,7 @@ Equivalent to Doom's <leader> m behavior."
   ;; ── Top-level leader bindings ──
 
   (general-define-key
-   :states '(normal visual motion emacs)
-   :keymaps 'override
+   :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)
    :prefix "SPC"
    :global-prefix "C-SPC"
 
