@@ -1,17 +1,5 @@
-(use-package general
-  :ensure t
-  :after (evil which-key)
-  :config
-  (general-create-definer rk/leader-keys
-    :states '(normal visual motion emacs)
-    :keymaps 'override
-    :prefix "SPC"
-    :global-prefix "C-SPC")
-
-  (general-create-definer rk/local-leader-keys
-    :states '(normal visual motion emacs)
-    :prefix "SPC m"
-    :global-prefix "C-SPC m")
+(eval-and-compile
+  (eval-when-compile (require 'cl-lib))
 
   (defmacro rk/feature-leader-keys (feature keymaps &rest bindings)
     "Define local-leader keys under `SPC m` after FEATURE is loaded.
@@ -43,7 +31,22 @@ BINDINGS are alternating KEY and DEF pairs, where KEY is relative to `SPC m`."
   (defmacro rk/lang (feature keymaps &rest bindings)
     "Tiny wrapper for language-focused major-mode local-leader bindings."
     (declare (indent 2))
-    `(rk/major-mode-leader-keys ,feature ,keymaps ,@bindings))
+    `(rk/major-mode-leader-keys ,feature ,keymaps ,@bindings)))
+
+(use-package general
+  :ensure t
+  :after (evil which-key)
+  :config
+  (general-create-definer rk/leader-keys
+    :states '(normal visual motion emacs)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (general-create-definer rk/local-leader-keys
+    :states '(normal visual motion emacs)
+    :prefix "SPC m"
+    :global-prefix "C-SPC m")
 
   ;; ── Show-keymap helper (robust across Emacs versions) ──
 
