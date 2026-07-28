@@ -30,19 +30,21 @@ If no agent-shell buffer exists, start one."
     (call-interactively #'agent-shell)))
 
 (defun rk/agent-shell-restart ()
-  "Kill the current agent-shell process and restart it."
+  "Kill the current agent-shell process and buffer, then start a new session."
   (interactive)
   (if-let ((buf (seq-find (lambda (b)
                             (string-prefix-p "*agent-shell" (buffer-name b)))
                           (buffer-list))))
-      (with-current-buffer buf
-        (when (fboundp 'agent-shell-restart)
-          (agent-shell-restart))
-        (unless (fboundp 'agent-shell-restart)
-          ;; Fallback: kill the buffer and open a fresh session
-          (kill-buffer buf)
-          (call-interactively #'agent-shell)))
-    (call-interactively #'agent-shell)))
+      (let ((dir (buffer-local-value 'default-directory buf)))
+        ;; Prevent process and query hooks from blocking the kill.
+        (when-let ((proc (get-buffer-process buf)))
+          (set-process-query-on-exit-flag proc nil)
+          (delete-process proc))
+        (let ((kill-buffer-query-functions nil))
+          (kill-buffer buf))
+        (let ((default-directory dir))
+          (agent-shell-new-shell)))
+    (agent-shell-new-shell)))
 
 (use-package agent-shell
   :ensure t
