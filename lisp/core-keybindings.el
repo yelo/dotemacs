@@ -107,8 +107,9 @@ Equivalent to Doom's <leader> m behavior."
    ;; files
    "f"   '(:ignore t :wk "files")
    "ft"  '(dirvish-side :wk "toggle file tree")
-   "ff"  '(find-file :wk "find file")
-   "fr"  '(consult-recent-file :wk "recent files")
+   "ff"  '(consult-fd :wk "fuzzy find file")
+   "fF"  '(find-file :wk "find file")
+   "fr"  '(consult-recent-file :wk "fuzzy recent files")
 
    ;; actions
    "a"   '(:ignore t :wk "actions")

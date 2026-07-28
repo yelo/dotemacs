@@ -5,13 +5,13 @@
 
 ;; Core modules (order matters for dependencies)
 (dolist (core '("core-settings"
-                 "core-ui"
-                 "core-dashboard"
-                 "core-editing"
-                 "core-keybindings"
-                 "core-completion"
-                 "core-dev"
-                 "core-vc"))
+                "core-ui"
+                "core-dashboard"
+                "core-editing"
+                "core-keybindings"
+                "core-completion"
+                "core-dev"
+                "core-vc"))
   (load (expand-file-name core (expand-file-name "lisp/" user-emacs-directory))))
 
 ;; Language modules (auto-discovered — add/remove files freely)
