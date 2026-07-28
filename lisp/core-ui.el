@@ -58,9 +58,16 @@
   (setq dirvish-side-width 35)
   (setq dirvish-side-auto-expand t)
   (setq dirvish-side-display-alist '((side . left) (slot . -1)))
+  (defun rk/dirvish-side-find-entry ()
+    "Open file in other window, navigate directory in same window."
+    (interactive)
+    (let ((file (dired-get-file-for-visit)))
+      (if (file-directory-p file)
+          (dired-find-file)
+        (dired-find-file-other-window))))
   (defun rk/dirvish-side--setup-keys ()
     "Set up keybindings for dirvish side sessions."
-    (local-set-key (kbd "RET") 'dired-find-file-other-window)
+    (local-set-key (kbd "RET") 'rk/dirvish-side-find-entry)
     (local-set-key (kbd "<mouse-1>") 'dired-mouse-find-file-other-window)
     (local-set-key (kbd "<mouse-2>") 'dired-mouse-find-file-other-window))
   (add-hook 'dired-mode-hook
