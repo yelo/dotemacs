@@ -23,6 +23,12 @@
   (eat-term-shell-command "/opt/homebrew/bin/fish")
   ;; Restore the window layout when eat exits.
   (eat-kill-buffer-on-exit t)
+  :hook
+  ;; Pass all keypresses directly to the terminal (fixes backspace and other
+  ;; keys that eat's semi-char mode intercepts before they reach the shell).
+  (eat-mode . eat-char-mode)
+  ;; Terminal buffers don't benefit from line numbers.
+  (eat-mode . (lambda () (display-line-numbers-mode -1)))
   :config
   ;; Route eshell visual commands (ssh, htop, …) through eat instead of term.
   (eat-eshell-mode 1)
