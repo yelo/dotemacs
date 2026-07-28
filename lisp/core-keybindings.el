@@ -99,74 +99,76 @@ Equivalent to Doom's <leader> m behavior."
             (message "No keymap for minor-mode %s" mode)))
       (error (message "Failed to show keymap for %s" mode))))
 
-  ;; ── Top-level leader bindings ──
+   ;; ── Top-level leader bindings ──
 
   (general-define-key
    :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)
    :prefix "SPC"
    :global-prefix "C-SPC"
 
-   "SPC" '(:ignore t :wk "M-x")
+   "SPC"  '(:ignore t :wk "M-x")
 
    ;; files
-   "f"   '(:ignore t :wk "files")
-   "ft"  '(dirvish-side :wk "toggle file tree")
-   "ff"  '(consult-fd :wk "fuzzy find file")
-   "fF"  '(find-file :wk "find file")
-   "fr"  '(consult-recent-file :wk "fuzzy recent files")
+   "f"    '(:ignore t :wk "files")
+   "ft"   '(dirvish-side               :wk "toggle file tree")
+   "ff"   '(consult-fd                 :wk "fuzzy find file")
+   "fF"   '(find-file                  :wk "find file")
+   "fr"   '(consult-recent-file        :wk "fuzzy recent files")
 
    ;; actions
-   "a"   '(:ignore t :wk "actions")
-   "a."  '(embark-act :wk "act")
-   "a;"  '(embark-dwim :wk "dwim")
+   "a"    '(:ignore t :wk "actions")
+   "a."   '(embark-act                 :wk "act")
+   "a;"   '(embark-dwim                :wk "dwim")
 
    ;; buffers
-   "b"   '(:ignore t :wk "buffers")
-   "bb"  '(consult-buffer :wk "switch buffer")
-   "bB"  '(consult-buffer-other-window :wk "buffer other window")
-   "bd"  '(kill-current-buffer :wk "kill this buffer")
-   "bi"  '(ibuffer :wk "ibuffer")
-   "bn"  '(next-buffer :wk "next")
-   "bp"  '(previous-buffer :wk "previous")
-   "br"  '(revert-buffer :wk "revert")
+   "b"    '(:ignore t :wk "buffers")
+   "bb"   '(consult-buffer             :wk "switch buffer")
+   "bB"   '(consult-buffer-other-window :wk "buffer other window")
+   "bd"   '(kill-current-buffer        :wk "kill this buffer")
+   "bi"   '(ibuffer                    :wk "ibuffer")
+   "bn"   '(next-buffer                :wk "next")
+   "bp"   '(previous-buffer            :wk "previous")
+   "br"   '(revert-buffer              :wk "revert")
 
    ;; windows
-   "w"   '(:ignore t :wk "windows")
-   "wh"  '(windmove-left :wk "left")
-   "wj"  '(windmove-down :wk "down")
-   "wk"  '(windmove-up :wk "up")
-   "wl"  '(windmove-right :wk "right")
-   "ww"  '(other-window :wk "cycle")
-   "wv"  '(split-window-right :wk "split right")
-   "ws"  '(split-window-below :wk "split below")
-   "wc"  '(delete-window :wk "close")
-   "wo"  '(delete-other-windows :wk "only")
-   "w="  '(balance-windows :wk "balance")
+   "w"    '(:ignore t :wk "windows")
+   ;; navigation
+   "wh"   '(windmove-left              :wk "left")
+   "wt"   '(windmove-up                :wk "up")
+   "wn"   '(windmove-down              :wk "down")
+   "ws"   '(windmove-right             :wk "right")
+   ;; actions
+   "ww"   '(other-window               :wk "cycle")
+   "w|"   '(split-window-right         :wk "split right")
+   "w-"   '(split-window-below         :wk "split below")
+   "wc"   '(delete-window              :wk "close")
+   "wo"   '(delete-other-windows       :wk "only")
+   "w="   '(balance-windows            :wk "balance")
 
    ;; project
-   "p"   '(:ignore t :wk "project")
-   "pf"  '(projectile-find-file :wk "find file in project")
-   "pp"  '(projectile-switch-project :wk "switch project")
-   "ps"  '(consult-ripgrep :wk "search in project")
+   "p"    '(:ignore t :wk "project")
+   "pf"   '(projectile-find-file       :wk "find file in project")
+   "pp"   '(projectile-switch-project  :wk "switch project")
+   "ps"   '(consult-ripgrep            :wk "search in project")
 
    ;; search
-   "s"   '(:ignore t :wk "search")
-   "ss"  '(consult-line :wk "search buffer")
-   "sg"  '(consult-ripgrep :wk "ripgrep")
+   "s"    '(:ignore t :wk "search")
+   "ss"   '(consult-line               :wk "search buffer")
+   "sg"   '(consult-ripgrep            :wk "ripgrep")
 
    ;; major-mode (SPC m)
-   "m"   '(:ignore t :wk "major-mode")
-   "mm"  '(rk/show-major-mode-bindings :wk "mode keybindings")
-   "mb"  '(rk/show-minor-mode-bindings :wk "minor-mode keybindings")
-   "m?"  '(describe-mode :wk "describe mode")
+   "m"    '(:ignore t :wk "major-mode")
+   "mm"   '(rk/show-major-mode-bindings :wk "mode keybindings")
+   "mb"   '(rk/show-minor-mode-bindings :wk "minor-mode keybindings")
+   "m?"   '(describe-mode              :wk "describe mode")
 
    ;; git
-   "g"   '(:ignore t :wk "git")
-   "gs"  '(magit-status :wk "status")
-   "gb"  '(magit-blame-addition :wk "blame")
-   "gl"  '(magit-log-current :wk "log current")
-   "gc"  '(magit-commit-create :wk "commit")
+   "g"    '(:ignore t :wk "git")
+   "gs"   '(magit-status               :wk "status")
+   "gb"   '(magit-blame-addition       :wk "blame")
+   "gl"   '(magit-log-current          :wk "log current")
+   "gc"   '(magit-commit-create        :wk "commit")
 
    ;; help
-   "h"   '(:ignore t :wk "help")
-   "hk"  '(which-key-show-top-level :wk "show keybindings")))
+   "h"    '(:ignore t :wk "help")
+   "hk"   '(which-key-show-top-level   :wk "show keybindings")))
