@@ -77,13 +77,9 @@
             nil " " " ")
            (,(concat (nerd-icons-octicon "nf-oct-gear" :height 1.0 :v-adjust 0.0) "  ")
             "Config"
-            "Open configuration (init.el + lisp/)"
+            "Open configuration"
             (lambda (&rest _)
-              (let ((lisp-dir (expand-file-name "lisp/" user-emacs-directory)))
-                (dired lisp-dir)
-                (split-window-right)
-                (other-window 1)
-                (find-file (expand-file-name "init.el" user-emacs-directory))))
+              (find-file (expand-file-name "init.el" user-emacs-directory)))
             nil " " " "))))
 
   ;; ---- Disable line numbers in dashboard ----
