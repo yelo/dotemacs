@@ -1,0 +1,10 @@
+elpa/
+auto-save-list/
+transient/
+url/
+.lsp-session-v1
+projectile-bookmarks.eld
+projects
+recentf
+*.elc
+*~
