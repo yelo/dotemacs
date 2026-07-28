@@ -11,7 +11,7 @@
 
   ;; ---- Banner ----
   (setq dashboard-startup-banner
-        '(official logo logo-ansi-truecolor logo-braille))
+        '(logo-ansi-truecolor logo-braille))
   (setq dashboard-banner-logo-title "Welcome, Jimmy! Let's hack something great today.")
 
   ;; ---- Layout ----
@@ -47,7 +47,6 @@
                            0))
                  (ver    emacs-version)
                  (host   (or (system-name) "localhost"))
-                 (uptime (emacs-uptime "%hh %mm"))
                  (init-time (if (fboundp 'emacs-init-time)
                                 (emacs-init-time "%0.2fs")
                               "?")))

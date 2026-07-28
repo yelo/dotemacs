@@ -28,7 +28,8 @@
   :bind (("C-s" . consult-line)
          ("C-x b" . consult-buffer)
          ("C-c k" . consult-ripgrep)
-         ("M-x" . consult-M-x))
+         ("M-x" . execute-extended-command)
+         ("C-c M-x" . consult-mode-command))
   :custom
   (consult-preview-key 'any)
   (consult-project-function (lambda (_) (projectile-project-root))))
