@@ -22,3 +22,7 @@
 ;; Language modules (auto-discovered — add/remove files freely)
 (dolist (file (directory-files (expand-file-name "lisp/" user-emacs-directory) t "^lang-.*\\.el$"))
   (load file nil t))
+
+;; AI/agent modules (auto-discovered — add/remove files freely)
+(dolist (file (directory-files (expand-file-name "lisp/" user-emacs-directory) t "^ai-.*\\.el$"))
+  (load file nil t))
