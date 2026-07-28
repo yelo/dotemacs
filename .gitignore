@@ -1,3 +1,4 @@
+sanemacs.el
 elpa/
 site-lisp/
 auto-save-list/
@@ -5,7 +6,9 @@ transient/
 url/
 .lsp-session-v1
 projectile-bookmarks.eld
+projectile-frecency.eld
 projects
 recentf
+history
 *.elc
 *~

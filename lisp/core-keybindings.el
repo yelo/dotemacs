@@ -107,15 +107,33 @@ Equivalent to Doom's <leader> m behavior."
    "ff"  '(find-file :wk "find file")
    "fr"  '(consult-recent-file :wk "recent files")
 
+   ;; actions
+   "a"   '(:ignore t :wk "actions")
+   "a."  '(embark-act :wk "act")
+   "a;"  '(embark-dwim :wk "dwim")
+
    ;; buffers
    "b"   '(:ignore t :wk "buffers")
    "bb"  '(consult-buffer :wk "switch buffer")
-   "bk"  '(kill-current-buffer :wk "kill buffer")
+   "bB"  '(consult-buffer-other-window :wk "buffer other window")
+   "bd"  '(kill-current-buffer :wk "kill this buffer")
+   "bi"  '(ibuffer :wk "ibuffer")
+   "bn"  '(next-buffer :wk "next")
+   "bp"  '(previous-buffer :wk "previous")
+   "br"  '(revert-buffer :wk "revert")
 
    ;; windows
    "w"   '(:ignore t :wk "windows")
-   "wd"  '(delete-window :wk "delete window")
-   "wo"  '(delete-other-windows :wk "delete other windows")
+   "wh"  '(windmove-left :wk "left")
+   "wj"  '(windmove-down :wk "down")
+   "wk"  '(windmove-up :wk "up")
+   "wl"  '(windmove-right :wk "right")
+   "ww"  '(other-window :wk "cycle")
+   "wv"  '(split-window-right :wk "split right")
+   "ws"  '(split-window-below :wk "split below")
+   "wc"  '(delete-window :wk "close")
+   "wo"  '(delete-other-windows :wk "only")
+   "w="  '(balance-windows :wk "balance")
 
    ;; project
    "p"   '(:ignore t :wk "project")
@@ -143,4 +161,4 @@ Equivalent to Doom's <leader> m behavior."
 
    ;; help
    "h"   '(:ignore t :wk "help")
-   "hk"  '(rk/show-keymap nil :wk "show keybindings")))
+   "hk"  '(which-key-show-top-level :wk "show keybindings")))
