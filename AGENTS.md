@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This repository is a modular Emacs configuration.
+This repository is a modular Emacs configuration targeting **Emacs 30.2+**.
 
 ## Current architecture
 

@@ -1,5 +1,7 @@
 # Emacs Configuration
 
+> **Requires Emacs 30.2+**
+
 Modular, self-contained Emacs config. `early-init.el` tunes GC and frame UI
 before `package.el` loads. `init.el` bootstraps `package.el` (with
 `package-quickstart`), `use-package`, and `custom-file`, then delegates to
