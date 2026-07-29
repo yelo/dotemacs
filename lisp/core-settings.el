@@ -1,10 +1,12 @@
+;;; core-settings.el --- Sensible defaults -*- lexical-binding: t; -*-
+
 ;;; Useful defaults
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message "")
 (setq-default frame-title-format '("%b"))
 (setq ring-bell-function 'ignore)
 (setq-default cursor-type 'bar)
-(fset 'yes-or-no-p 'y-or-n-p)   ; answer prompts with y/n instead of yes/no
+(setq use-short-answers t)           ; answer prompts with y/n instead of yes/no
 (delete-selection-mode 1)         ; typing replaces selected region
 (global-auto-revert-mode t)       ; reload files changed on disk
 (global-display-line-numbers-mode 1)

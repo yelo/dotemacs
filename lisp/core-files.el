@@ -1,3 +1,5 @@
+;;; core-files.el --- File management -*- lexical-binding: t; -*-
+
 (use-package dired
   :ensure nil
   :config

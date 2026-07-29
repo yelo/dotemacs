@@ -1,3 +1,5 @@
+;;; core-editing.el --- Editing packages and defaults -*- lexical-binding: t; -*-
+
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-dvorak)
   (meow-leader-define-key
@@ -94,9 +96,7 @@
 
 (use-package rainbow-delimiters
   :ensure t
-  :hook (prog-mode . rainbow-delimiters-mode)
-  :config
-  (setq rainbow-delimiters-highlight-parens t))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (setq-default tab-width 4)
 (setq show-paren-delay 0)

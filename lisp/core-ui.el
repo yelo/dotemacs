@@ -1,5 +1,7 @@
+;;; core-ui.el --- UI packages -*- lexical-binding: t; -*-
+
 (use-package which-key
-  :ensure t
+  :ensure nil  ; built-in since Emacs 30
   :config
   (which-key-mode 1))
 

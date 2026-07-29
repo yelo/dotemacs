@@ -1,3 +1,5 @@
+;;; core-dashboard.el --- Dashboard configuration -*- lexical-binding: t; -*-
+
 (use-package nerd-icons
   :ensure t)
 

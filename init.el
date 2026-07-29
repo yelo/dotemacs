@@ -1,17 +1,14 @@
+;;; init.el --- Main configuration entry point -*- lexical-binding: t; -*-
+
 ;;; Bootstrap package.el
 (require 'package)
-(setq package-enable-at-startup nil)
 (setq package-quickstart t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (unless package--initialized (package-initialize))
 
-;;; Bootstrap use-package
-(unless (require 'use-package nil 'noerror)
-  (unless package-archive-contents
-    (package-refresh-contents))
-  (package-install 'use-package)
-  (require 'use-package))
+;;; use-package is built-in since Emacs 29
+(require 'use-package)
 (setq use-package-always-ensure t)
 
 ;;; Custom file — keep auto-generated settings out of init.el
@@ -20,7 +17,7 @@
   (write-region "" nil custom-file))
 (load custom-file nil t)
 
-(setq byte-compile-warnings '(cl-functions))
+(setq byte-compile-warnings '(not cl-functions))
 (require 'cl-lib)
 
 ;; Core modules (order matters for dependencies)

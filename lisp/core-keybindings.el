@@ -1,3 +1,5 @@
+;;; core-keybindings.el --- Keybinding framework and leader keys -*- lexical-binding: t; -*-
+
 (eval-and-compile
   (eval-when-compile (require 'cl-lib))
 

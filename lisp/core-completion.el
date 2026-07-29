@@ -1,3 +1,5 @@
+;;; core-completion.el --- Completion framework -*- lexical-binding: t; -*-
+
 (use-package vertico
   :ensure t
   :init

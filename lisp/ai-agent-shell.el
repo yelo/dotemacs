@@ -1,3 +1,5 @@
+;;; ai-agent-shell.el --- AI coding agent shell integration -*- lexical-binding: t; -*-
+
 ;; agent-shell: native Emacs shell for ACP-driven coding agents
 ;; https://github.com/xenodium/agent-shell
 ;;

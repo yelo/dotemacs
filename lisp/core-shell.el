@@ -1,3 +1,5 @@
+;;; core-shell.el --- Shell and terminal configuration -*- lexical-binding: t; -*-
+
 ;; eshell — Emacs's built-in shell
 (use-package eshell
   :ensure nil

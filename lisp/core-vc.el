@@ -1,3 +1,5 @@
+;;; core-vc.el --- Version control -*- lexical-binding: t; -*-
+
 (use-package projectile
   :ensure t
   :init
