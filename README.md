@@ -1,12 +1,15 @@
 # Emacs Configuration
 
-Modular, self-contained Emacs config. `init.el` handles the full bootstrap
-(GC tuning, `package.el`, `use-package`, `custom-file`) before delegating to
+Modular, self-contained Emacs config. `early-init.el` tunes GC and frame UI
+before `package.el` loads. `init.el` bootstraps `package.el` (with
+`package-quickstart`), `use-package`, and `custom-file`, then delegates to
 purpose-specific modules under `lisp/`.
 
 ## Architecture
 
-`init.el` bootstraps the package system, then iterates over `lisp/` modules in order:
+`early-init.el` tunes the GC and kills menu/tool/scroll bars before the frame
+is created. `init.el` bootstraps the package system (using `package-quickstart`
+for fast startup), then iterates over `lisp/` modules in order:
 
 | Category              | Module(s)                         |
 | --------------------- | --------------------------------- |
@@ -23,6 +26,7 @@ purpose-specific modules under `lisp/`.
 | OS                    | `os-macos` (Darwin only)          |
 | Languages             | `lang-*.el` (auto-discovered)     |
 | AI / Agents           | `ai-*.el` (auto-discovered)       |
+| Early init            | `early-init.el` (frame UI, GC)    |
 
 Language and AI modules are discovered automatically — add or remove files
 without touching `init.el`.
