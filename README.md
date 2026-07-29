@@ -1,16 +1,16 @@
 # Emacs Configuration
 
-Modular Emacs config built on [Sanemacs](https://sanemacs.com), a set of
-performance-conscious defaults (package.el, `use-package`, UI cleanup, sane
-keybindings).
+Modular, self-contained Emacs config. `init.el` handles the full bootstrap
+(GC tuning, `package.el`, `use-package`, `custom-file`) before delegating to
+purpose-specific modules under `lisp/`.
 
 ## Architecture
 
-`init.el` loads `sanemacs.el`, then iterates over `lisp/` modules in order:
+`init.el` bootstraps the package system, then iterates over `lisp/` modules in order:
 
 | Category              | Module(s)                         |
 | --------------------- | --------------------------------- |
-| Settings              | `core-settings` (frame, archives) |
+| Settings              | `core-settings` (UI cleanup, sane defaults, backup) |
 | UI                    | `core-ui`                         |
 | Dashboard             | `core-dashboard`                  |
 | File management       | `core-files`                      |
