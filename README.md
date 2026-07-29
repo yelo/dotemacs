@@ -71,7 +71,7 @@ commands under `SPC m`.
 | Language | Package / mode | Notable commands               |
 | -------- | -------------- | ------------------------------ |
 | Elisp    | built-in       | eval-last-sexp, ielm, find-fn  |
-| Python   | built-in       | send statement/region/buffer, REPL |
+| Python   | built-in + **ruff-format**, **pyvenv**, **pytest**, **lsp-ruff** | format on save, virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file, ruff LSP linting |
 | Rust     | **rustic**     | cargo build/check/run/test/fmt/clippy |
 
 ### Version control
