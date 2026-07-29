@@ -19,3 +19,10 @@ Commit messages must follow [Conventional Commits](https://www.conventionalcommi
 ```
 
 Types: `feat`, `fix`, `chore`, `docs`, `style`, `refactor`, `perf`, `test`, `ci`, `revert`.
+
+## README Maintenance
+
+Keep `README.md` updated when adding, removing, or substantially reconfiguring
+packages. The README documents the architecture, rationale, and package
+selection — any change that alters what a reader would learn about the config
+should be reflected there.
