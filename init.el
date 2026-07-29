@@ -7,10 +7,11 @@
 (unless package--initialized (package-initialize))
 
 ;;; Bootstrap use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile (require 'use-package))
+(unless (require 'use-package nil 'noerror)
+  (unless package-archive-contents
+    (package-refresh-contents))
+  (package-install 'use-package)
+  (require 'use-package))
 (setq use-package-always-ensure t)
 
 ;;; Custom file — keep auto-generated settings out of init.el

@@ -3,11 +3,15 @@
 ;; ── Help / describe buffers open on the right side ──
 
 (add-to-list 'display-buffer-alist
-             '("\\*\\(Help\\|Apropos\\|info\\|Man \\)"
+             '("\\*\\(Help\\*\\(?:<.+>\\)?\\|Apropos\\*\\(?:<.+>\\)?\\|info\\*\\(?:<.+>\\)?\\|Man .+\\*\\)"
                (display-buffer-in-side-window)
                (side . right)
                (window-width . 0.40)
                (slot . 0)))
+
+(add-to-list 'display-buffer-alist
+             '("\\*[Dd]ashboard\\*"
+               (display-buffer-same-window)))
 
 ;; ── Window layout helpers ──
 

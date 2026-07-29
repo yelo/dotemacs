@@ -4,10 +4,28 @@
 (use-package dashboard
   :ensure t
   :after nerd-icons
-  :init
-  (setq initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name)))
   :config
   (dashboard-setup-startup-hook)
+  (defun rk/dashboard-open-in-main-window ()
+    "Ensure dashboard opens in a normal main window on startup."
+    (when (get-buffer dashboard-buffer-name)
+      (let ((main-win (window-main-window)))
+        (when (window-live-p main-win)
+          (select-window main-win)))
+      (switch-to-buffer dashboard-buffer-name)
+      (delete-other-windows)))
+  (defun rk/dashboard-normalize-window ()
+    "Move dashboard out of side windows if another rule displayed it there."
+    (let ((win (get-buffer-window (current-buffer) t)))
+      (when (and (window-live-p win)
+                 (window-parameter win 'window-side))
+        (let ((main-win (window-main-window win)))
+          (when (window-live-p main-win)
+            (select-window main-win)
+            (switch-to-buffer (current-buffer))
+            (delete-other-windows))))))
+  (add-hook 'emacs-startup-hook #'rk/dashboard-open-in-main-window 90)
+  (add-hook 'dashboard-mode-hook #'rk/dashboard-normalize-window)
 
   ;; ---- Banner ----
   (setq dashboard-startup-banner
