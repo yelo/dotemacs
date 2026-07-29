@@ -1,8 +1,3 @@
-;;; Disable UI chrome early
-(when (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
-(when (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-
 ;;; Useful defaults
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message "")

@@ -1,12 +1,7 @@
-;;; Startup performance — raise GC threshold during init, restore after
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ; 1 MB
-(add-hook 'after-init-hook
-          (lambda () (setq gc-cons-threshold 800000)))
-
 ;;; Bootstrap package.el
 (require 'package)
 (setq package-enable-at-startup nil)
+(setq package-quickstart t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (unless package--initialized (package-initialize))

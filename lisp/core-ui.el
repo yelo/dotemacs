@@ -19,5 +19,7 @@
 
 (use-package solarized-theme
   :ensure t
-  :config
-  (load-theme 'solarized-gruvbox-dark t))
+  :init
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (load-theme 'solarized-gruvbox-dark t))))
