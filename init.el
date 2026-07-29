@@ -1,5 +1,29 @@
-;; https://sanemacs.com
-(load "~/.emacs.d/sanemacs.el" nil t)
+;;; Startup performance — raise GC threshold during init, restore after
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ; 1 MB
+(add-hook 'after-init-hook
+          (lambda () (setq gc-cons-threshold 800000)))
+
+;;; Bootstrap package.el
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+(unless package--initialized (package-initialize))
+
+;;; Bootstrap use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile (require 'use-package))
+(setq use-package-always-ensure t)
+
+;;; Custom file — keep auto-generated settings out of init.el
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(unless (file-exists-p custom-file)
+  (write-region "" nil custom-file))
+(load custom-file nil t)
+
 (setq byte-compile-warnings '(cl-functions))
 (require 'cl-lib)
 

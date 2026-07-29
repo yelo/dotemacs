@@ -101,3 +101,16 @@
 (setq-default tab-width 4)
 (setq show-paren-delay 0)
 (show-paren-mode 1)
+
+;;; Kill word backward without polluting the kill ring
+(defun rk/backward-kill-word ()
+  "Delete word backward without copying it to the kill ring."
+  (interactive "*")
+  (push-mark)
+  (backward-word)
+  (delete-region (point) (mark)))
+
+(global-set-key (kbd "M-DEL") 'rk/backward-kill-word)
+(global-set-key (kbd "C-DEL") 'rk/backward-kill-word)
+(global-set-key (kbd "C->")   'indent-rigidly-right-to-tab-stop)
+(global-set-key (kbd "C-<")   'indent-rigidly-left-to-tab-stop)
