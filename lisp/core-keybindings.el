@@ -132,11 +132,17 @@ Equivalent to Doom's <leader> m behavior."
 
    ;; windows
    "w"    '(:ignore t :wk "windows")
-   ;; navigation
+   ;; navigation (htns — Dvorak home row)
    "wh"   '(windmove-left              :wk "left")
    "wt"   '(windmove-up                :wk "up")
    "wn"   '(windmove-down              :wk "down")
    "ws"   '(windmove-right             :wk "right")
+   ;; layouts
+   "wl"   '(rk/2-column-layout         :wk "2 columns")
+   "wL"   '(rk/3-column-layout         :wk "3 columns")
+   "wr"   '(rk/2-row-layout            :wk "2 rows")
+   "wd"   '(rk/toggle-window-split     :wk "toggle split")
+   "wz"   '(rk/zoom-toggle             :wk "zoom toggle")
    ;; actions
    "ww"   '(other-window               :wk "cycle")
    "w|"   '(split-window-right         :wk "split right")
@@ -171,4 +177,11 @@ Equivalent to Doom's <leader> m behavior."
 
    ;; help
    "h"    '(:ignore t :wk "help")
-   "hk"   '(which-key-show-top-level   :wk "show keybindings")))
+   "hf"   '(describe-function          :wk "describe function")
+   "hv"   '(describe-variable          :wk "describe variable")
+   "hk"   '(describe-key               :wk "describe key")
+   "hs"   '(describe-symbol            :wk "describe symbol")
+   "hp"   '(describe-package           :wk "describe package")
+   "hm"   '(describe-mode              :wk "describe mode")
+   "hi"   '(info                       :wk "info")
+   "h?"   '(which-key-show-top-level   :wk "show keybindings")))

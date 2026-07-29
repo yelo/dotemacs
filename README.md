@@ -18,6 +18,7 @@ for fast startup), then iterates over `lisp/` modules in order:
 | Dashboard             | `core-dashboard`                  |
 | File management       | `core-files`                      |
 | Editing               | `core-editing`                    |
+| Window management     | `core-windows`                    |
 | Keybindings           | `core-keybindings`                |
 | Completion            | `core-completion`                 |
 | LSP                   | `core-lsp`                        |
@@ -97,6 +98,14 @@ commands under `SPC m`.
   Configured with **opencode** as the agent and **DeepSeek**
   (`deepseek/deepseek-chat`) as the provider. Leader key `SPC A` menu provides
   start, toggle, restart, and send-region commands.
+
+### Window management
+
+**[popper]** manages transient buffers (messages, compilation, backtrace, etc.)
+as a popup at the bottom of the frame. The `SPC w` leader menu includes layout
+presets (2-column, 3-column, 2-row), split-direction toggling, and a zoom
+toggle. Help/describe buffers (`*Help*`, `*Apropos*`, etc.) open automatically
+in a right-side split for easy side-by-side reference.
 
 ### macOS
 

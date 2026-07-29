@@ -28,6 +28,7 @@
                 "core-dashboard"
                 "core-files"
                 "core-editing"
+                "core-windows"
                 "core-keybindings"
                 "core-completion"
                 "core-lsp"
