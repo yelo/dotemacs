@@ -99,7 +99,10 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (setq-default tab-width 4)
+(electric-pair-mode 1)            ; built-in bracket/quote pairing
+
 (setq show-paren-delay 0)
+(setq show-paren-context-when-offscreen 'overlay) ; show matching paren in overlay when off-screen (Emacs 29)
 (show-paren-mode 1)
 
 ;;; Kill word backward without polluting the kill ring
@@ -110,7 +113,7 @@
   (backward-word)
   (delete-region (point) (mark)))
 
-(global-set-key (kbd "M-DEL") 'rk/backward-kill-word)
-(global-set-key (kbd "C-DEL") 'rk/backward-kill-word)
-(global-set-key (kbd "C->")   'indent-rigidly-right-to-tab-stop)
-(global-set-key (kbd "C-<")   'indent-rigidly-left-to-tab-stop)
+(keymap-global-set "M-DEL" 'rk/backward-kill-word)
+(keymap-global-set "C-DEL" 'rk/backward-kill-word)
+(keymap-global-set "C->"   'indent-rigidly-right-to-tab-stop)
+(keymap-global-set "C-<"   'indent-rigidly-left-to-tab-stop)

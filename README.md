@@ -24,6 +24,7 @@ for fast startup), then iterates over `lisp/` modules in order:
 | Keybindings           | `core-keybindings`                |
 | Completion            | `core-completion`                 |
 | LSP                   | `core-lsp`                        |
+| Tree-sitter           | `core-treesit`                    |
 | Version control       | `core-vc`                         |
 | Shell                 | `core-shell`                      |
 | OS                    | `os-macos` (Darwin only)          |
@@ -58,6 +59,7 @@ The stack follows the modern Emacs completion paradigm:
 - **[corfu](https://github.com/minad/corfu)** — in-buffer popup completion, backed by **[cape](https://github.com/minad/cape)** (dabbrev, file,
   keyword) and **[tempel](https://github.com/minad/tempel)** for template expansion.
 - **[embark](https://github.com/oantolin/embark)** — context-sensitive action menus at point.
+- **completion-preview** (built-in, Emacs 30) — inline ghost-text preview of the top completion candidate in `prog-mode` buffers.
 
 ### UI
 
@@ -68,6 +70,7 @@ The stack follows the modern Emacs completion paradigm:
   projects, agenda, and navigator buttons. Powered by **[nerd-icons](https://github.com/rainstormstudio/nerd-icons.el)**.
 - **[dirvish](https://github.com/alexluigit/dirvish)** — Dired replacement with side-panel tree, git indicators,
   nerd-icons, and `fd` integration.
+- **dired-preview** — file preview in Dired buffers on hover.
 
 ### LSP & languages
 
@@ -75,17 +78,21 @@ The stack follows the modern Emacs completion paradigm:
 Language modules hook `lsp-deferred` in and expose cargo / python-shell / eval
 commands under `SPC m`.
 
+**[treesit-auto](https://github.com/renzmann/treesit-auto)** automatically installs tree-sitter grammars and remaps
+classic major modes to their `*-ts-mode` equivalents when a grammar is
+available. `treesit-font-lock-level` is set to 4 for maximum syntax-highlight
+detail. Language modules register hooks for both the classic and `ts` variants.
+
 | Language | Package / mode | Notable commands               |
 | -------- | -------------- | ------------------------------ |
 | Elisp    | built-in       | eval-last-sexp, ielm, find-fn  |
-| Python   | built-in + **ruff-format**, **pyvenv**, **pytest**, **lsp-ruff** | format on save, virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file, ruff LSP linting |
+| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv**, **pytest**, **lsp-ruff** | format on save, virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file, ruff LSP linting |
 | Rust     | **rustic**     | cargo build/check/run/test/fmt/clippy |
 
 ### Version control
 
 - **[magit](https://magit.vc)** — git porcelain.
-- **[projectile](https://github.com/bbatsov/projectile)** — project navigation, tied into consult for ripgrep and
-  dirvish-side for tree views.
+- **project.el** (built-in, Emacs 28+) — project navigation (`SPC p`), tied into consult for ripgrep and magit for status. Replaces projectile.
 
 ### Shell
 
@@ -105,9 +112,10 @@ commands under `SPC m`.
 
 **[popper](https://github.com/karthink/popper)** manages transient buffers (messages, compilation, backtrace, etc.)
 as a popup at the bottom of the frame. The `SPC w` leader menu includes layout
-presets (2-column, 3-column, 2-row), split-direction toggling, and a zoom
-toggle. Help/describe buffers (`*Help*`, `*Apropos*`, etc.) open automatically
-in a right-side split for easy side-by-side reference.
+presets (2-column, 3-column, 2-row), split-direction toggling, a zoom toggle,
+and `SPC wu`/`SPC wU` for `winner-undo`/`winner-redo` (built-in window
+configuration history). Help/describe buffers (`*Help*`, `*Apropos*`, etc.)
+open automatically in a right-side split for easy side-by-side reference.
 
 ### macOS
 

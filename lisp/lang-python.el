@@ -1,16 +1,17 @@
 ;;; lang-python.el --- Python bindings -*- lexical-binding: t; -*-
 
 (add-hook 'python-mode-hook #'lsp-deferred)
+(add-hook 'python-ts-mode-hook #'lsp-deferred)
 
 ;; ── ruff-format: format on save ──
 (use-package ruff-format
   :ensure t
-  :hook (python-mode . ruff-format-on-save-mode))
+  :hook ((python-mode python-ts-mode) . ruff-format-on-save-mode))
 
 ;; ── pyvenv: virtual environment management ──
 (use-package pyvenv
   :ensure t
-  :hook (python-mode . pyvenv-mode)
+  :hook ((python-mode python-ts-mode) . pyvenv-mode)
   :config
   (defun rk/pyvenv-auto-activate ()
     (let ((venv (locate-dominating-file default-directory ".venv")))
@@ -21,7 +22,7 @@
 ;; ── pytest: test runner ──
 (use-package pytest
   :ensure t
-  :hook (python-mode . pytest-mode))
+  :hook ((python-mode python-ts-mode) . pytest-mode))
 
 ;; ── lsp-ruff: LSP-based linting via ruff (bundled with lsp-mode) ──
 (use-package lsp-ruff
@@ -31,7 +32,7 @@
   (lsp-ruff-lint-enable t))
 
 ;; ── keybindings ──
-(rk/lang 'python 'python-mode-map
+(rk/lang 'python '(python-mode-map python-ts-mode-map)
   "e" '(python-shell-send-statement :which-key "send statement")
   "r" '(python-shell-send-region :which-key "send region")
   "b" '(python-shell-send-buffer :which-key "send buffer")

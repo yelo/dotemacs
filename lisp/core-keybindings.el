@@ -145,6 +145,9 @@ Equivalent to Doom's <leader> m behavior."
    "wr"   '(rk/2-row-layout            :wk "2 rows")
    "wd"   '(rk/toggle-window-split     :wk "toggle split")
    "wz"   '(rk/zoom-toggle             :wk "zoom toggle")
+   ;; window history (winner-mode)
+   "wu"   '(winner-undo              :wk "undo layout")
+   "wU"   '(winner-redo              :wk "redo layout")
    ;; actions
    "ww"   '(other-window               :wk "cycle")
    "w|"   '(split-window-right         :wk "split right")
@@ -153,11 +156,12 @@ Equivalent to Doom's <leader> m behavior."
    "wo"   '(delete-other-windows       :wk "only")
    "w="   '(balance-windows            :wk "balance")
 
-   ;; project
+   ;; project (project.el — built-in)
    "p"    '(:ignore t :wk "project")
-   "pf"   '(projectile-find-file       :wk "find file in project")
-   "pp"   '(projectile-switch-project  :wk "switch project")
-   "ps"   '(consult-ripgrep            :wk "search in project")
+   "pf"   '(project-find-file       :wk "find file in project")
+   "pp"   '(project-switch-project  :wk "switch project")
+   "pd"   '(project-dired           :wk "project dired")
+   "ps"   '(consult-ripgrep         :wk "search in project")
 
    ;; search
    "s"    '(:ignore t :wk "search")

@@ -9,6 +9,7 @@
 (setq use-short-answers t)           ; answer prompts with y/n instead of yes/no
 (delete-selection-mode 1)         ; typing replaces selected region
 (global-auto-revert-mode t)       ; reload files changed on disk
+(setq auto-revert-use-notify t)   ; use OS filesystem notifications instead of polling
 (global-display-line-numbers-mode 1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -33,6 +34,12 @@
                 (top . 100)
                 (width . 190)
                 (height . 50))))
+
+;;; Emacs 29/30 built-in quality-of-life modes
+(pixel-scroll-precision-mode 1)   ; smooth pixel-level scrolling (Emacs 29)
+(context-menu-mode 1)             ; right-click context menus (Emacs 28)
+(global-so-long-mode 1)           ; graceful handling of very long lines (Emacs 27)
+(repeat-mode 1)                   ; make built-in commands repeatable (Emacs 28)
 
 (defun reload-config ()
   "Reload init.el without restarting Emacs."

@@ -1,5 +1,9 @@
 ;;; core-windows.el --- Window management, layouts, popups -*- lexical-binding: t; -*-
 
+;; ── Built-in window history (undo/redo configurations) ──
+
+(winner-mode 1)
+
 ;; ── Help / describe buffers open on the right side ──
 
 (add-to-list 'display-buffer-alist

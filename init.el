@@ -30,6 +30,7 @@
                 "core-keybindings"
                 "core-completion"
                 "core-lsp"
+                "core-treesit"
                 "core-vc"
                 "core-shell"))
   (load (expand-file-name core (expand-file-name "lisp/" user-emacs-directory))))

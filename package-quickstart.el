@@ -720,6 +720,22 @@ disabled.
 
 
 )
+(let* ((load-file-name "/Users/jimmy/.emacs.d/elpa/treesit-auto-20260210.2010/treesit-auto-autoloads.el")(load-true-file-name load-file-name))
+
+
+
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
+
+
+
+
+(register-definition-prefixes "treesit-auto" '("global-treesit-auto-mode" "treesit-auto-"))
+
+
+(provide 'treesit-auto-autoloads)
+
+
+)
 (let* ((load-file-name "/Users/jimmy/.emacs.d/elpa/transient-20260725.1105/transient-autoloads.el")(load-true-file-name load-file-name))
 
 
@@ -8302,6 +8318,69 @@ to `dired-current-directory'.
 
 
 )
+(let* ((load-file-name "/Users/jimmy/.emacs.d/elpa/dired-preview-0.6.1/dired-preview-autoloads.el")(load-true-file-name load-file-name))
+
+
+
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
+
+
+
+
+(autoload 'dired-preview-with-window "dired-preview" "\
+Evaluate BODY with the Dired preview window as selected.
+
+(fn &rest BODY)" nil t)
+(function-put 'dired-preview-with-window 'lisp-indent-function 0)
+(autoload 'dired-preview-mode "dired-preview" "\
+Buffer-local mode to preview file at point in Dired.
+
+This is a minor mode.  If called interactively, toggle the
+`Dired-Preview mode' mode.  If the prefix argument is positive, enable
+the mode, and if it is zero or negative, disable the mode.
+
+If called from Lisp, toggle the mode if ARG is `toggle'.  Enable the
+mode if ARG is nil, omitted, or is a positive number.  Disable the mode
+if ARG is a negative number.
+
+To check whether the minor mode is enabled in the current buffer,
+evaluate the variable `dired-preview-mode'.
+
+The mode's hook is called both when the mode is enabled and when it is
+disabled.
+
+(fn &optional ARG)" t)
+(put 'dired-preview-global-mode 'globalized-minor-mode t)
+(defvar dired-preview-global-mode nil "\
+Non-nil if Dired-Preview-Global mode is enabled.
+See the `dired-preview-global-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `dired-preview-global-mode'.")
+(custom-autoload 'dired-preview-global-mode "dired-preview" nil)
+(autoload 'dired-preview-global-mode "dired-preview" "\
+Toggle Dired-Preview mode in all buffers.
+With prefix ARG, enable Dired-Preview-Global mode if ARG is positive;
+otherwise, disable it.
+
+If called from Lisp, toggle the mode if ARG is `toggle'.
+Enable the mode if ARG is nil, omitted, or is a positive number.
+Disable the mode if ARG is a negative number.
+
+Dired-Preview mode is enabled in all buffers where `dired-preview--on'
+would do it.
+
+See `dired-preview-mode' for more information on Dired-Preview mode.
+
+(fn &optional ARG)" t)
+(register-definition-prefixes "dired-preview" '("dired-preview-"))
+
+
+(provide 'dired-preview-autoloads)
+
+
+)
 (let* ((load-file-name "/Users/jimmy/.emacs.d/elpa/dashboard-20260402.436/dashboard-autoloads.el")(load-true-file-name load-file-name))
 
 
@@ -9171,33 +9250,35 @@ The user is prompted to confirm or edit the worktree path before creation." t)
 )
 (defvar package-activated-list)
 (setq package-activated-list
-	  (delete-dups
-	   (append
-		'(xterm-color ws-butler compat cond-let llama with-editor
-					  vertico transient tempel tempel-collection
-					  spinner solarized-theme shell-maker s rust-mode
-					  dash f markdown-mode rustic reformatter
-					  ruff-format rainbow-delimiters pyvenv pytest
-					  projectile popper orderless nerd-icons mood-line
-					  minions meow marginalia magit-section magit lv
-					  ht lsp-mode general embark consult
-					  embark-consult eat dirvish dashboard corfu cape
-					  acp agent-shell)
-		package-activated-list)))
+      (delete-dups
+       (append
+	'(xterm-color ws-butler compat cond-let llama with-editor
+		      vertico treesit-auto transient tempel
+		      tempel-collection spinner solarized-theme
+		      shell-maker s rust-mode dash f markdown-mode
+		      rustic reformatter ruff-format
+		      rainbow-delimiters pyvenv pytest projectile
+		      popper orderless nerd-icons mood-line minions
+		      meow marginalia magit-section magit lv ht
+		      lsp-mode general embark consult embark-consult
+		      eat dirvish dired-preview dashboard corfu cape
+		      acp agent-shell)
+	package-activated-list)))
 (progn
   (require 'info) (info-initialize)
   (setq Info-directory-list
-		(append
-		 '("/Users/jimmy/.emacs.d/elpa/eat-0.9.4"
-		   "/Users/jimmy/.emacs.d/elpa/embark-20260610.302"
-		   "/Users/jimmy/.emacs.d/elpa/magit-20260728.922"
-		   "/Users/jimmy/.emacs.d/elpa/magit-section-20260722.2131"
-		   "/Users/jimmy/.emacs.d/elpa/orderless-20260519.1029"
-		   "/Users/jimmy/.emacs.d/elpa/dash-20260221.1346"
-		   "/Users/jimmy/.emacs.d/elpa/transient-20260725.1105"
-		   "/Users/jimmy/.emacs.d/elpa/with-editor-20260729.1509"
-		   "/Users/jimmy/.emacs.d/elpa/compat-31.0.0.2")
-		 Info-directory-list)))
+	(append
+	 '("/Users/jimmy/.emacs.d/elpa/dired-preview-0.6.1"
+	   "/Users/jimmy/.emacs.d/elpa/eat-0.9.4"
+	   "/Users/jimmy/.emacs.d/elpa/embark-20260610.302"
+	   "/Users/jimmy/.emacs.d/elpa/magit-20260728.922"
+	   "/Users/jimmy/.emacs.d/elpa/magit-section-20260722.2131"
+	   "/Users/jimmy/.emacs.d/elpa/orderless-20260519.1029"
+	   "/Users/jimmy/.emacs.d/elpa/dash-20260221.1346"
+	   "/Users/jimmy/.emacs.d/elpa/transient-20260725.1105"
+	   "/Users/jimmy/.emacs.d/elpa/with-editor-20260729.1509"
+	   "/Users/jimmy/.emacs.d/elpa/compat-31.0.0.2")
+	 Info-directory-list)))
 
 ;; Local Variables:
 ;; version-control: never

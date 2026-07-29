@@ -34,7 +34,8 @@
          ("C-c M-x" . consult-mode-command))
   :custom
   (consult-preview-key 'any)
-  (consult-project-function (lambda (_) (projectile-project-root))))
+  (consult-project-function (lambda (_)
+    (when-let (p (project-current)) (project-root p)))))
 
 (use-package embark
   :ensure t
@@ -80,3 +81,10 @@
   :after tempel)
 
 (setq tab-always-indent 'complete)
+
+;; Emacs 30: inline ghost-text completion preview (works alongside corfu)
+(use-package completion-preview
+  :ensure nil  ; built-in since Emacs 30
+  :hook (prog-mode . completion-preview-mode)
+  :custom
+  (completion-preview-minimum-symbol-length 2))

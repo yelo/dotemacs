@@ -70,8 +70,6 @@
                          (eq 'side (dv-type (dirvish-curr))))
                 (rk/dirvish-side--setup-keys)))))
 
-(use-package dirvish-fd
-  :ensure nil
-  :after dirvish
-  :config
-  (setq dirvish-fd-switches "--hidden"))
+(use-package dired-preview
+  :ensure t
+  :hook (dired-mode . dired-preview-mode))
