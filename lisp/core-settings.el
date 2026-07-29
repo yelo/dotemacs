@@ -27,13 +27,11 @@
 
 (setq create-lockfiles nil)
 
-;;; Initial frame size
-(setq initial-frame-alist
-      (append initial-frame-alist
-              '((left . 350)
-                (top . 100)
-                (width . 190)
-                (height . 50))))
+;;; Global font and startup frame behavior
+(add-to-list 'default-frame-alist '(font . "Iosevka NFM-14"))
+(add-to-list 'initial-frame-alist '(font . "Iosevka NFM-14"))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 ;;; Emacs 29/30 built-in quality-of-life modes
 (pixel-scroll-precision-mode 1)   ; smooth pixel-level scrolling (Emacs 29)

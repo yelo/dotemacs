@@ -15,7 +15,7 @@ for fast startup), then iterates over `lisp/` modules in order:
 
 | Category              | Module(s)                         |
 | --------------------- | --------------------------------- |
-| Settings              | `core-settings` (UI cleanup, sane defaults, backup) |
+| Settings              | `core-settings` (UI cleanup, sane defaults, backup, global font/frame defaults) |
 | UI                    | `core-ui`                         |
 | Dashboard             | `core-dashboard`                  |
 | File management       | `core-files`                      |
@@ -27,13 +27,16 @@ for fast startup), then iterates over `lisp/` modules in order:
 | Tree-sitter           | `core-treesit`                    |
 | Version control       | `core-vc`                         |
 | Shell                 | `core-shell`                      |
-| OS                    | `os-macos` (Darwin only)          |
+| OS                    | `os-macos` (Darwin), `os-linux` (GNU/Linux), `os-windows` (Windows) |
 | Languages             | `lang-*.el` (auto-discovered)     |
 | AI / Agents           | `ai-*.el` (auto-discovered)       |
 | Early init            | `early-init.el` (frame UI, GC)    |
 
 Language and AI modules are discovered automatically — add or remove files
 without touching `init.el`.
+
+Global frame defaults live in `core-settings`: Emacs starts maximized and uses
+`Iosevka NFM 14` by default across platforms.
 
 ## Rationale & Packages
 
@@ -119,5 +122,5 @@ open automatically in a right-side split for easy side-by-side reference.
 
 ### macOS
 
-`os-macos.el` sets `Iosevka NFM 14` as the frame font, binds Cmd to Super
-(standard macOS shortcuts work), and Option to Meta.
+`os-macos.el` binds Cmd to Super (standard macOS shortcuts work), and Option to
+Meta.

@@ -36,8 +36,13 @@
   (load (expand-file-name core (expand-file-name "lisp/" user-emacs-directory))))
 
 ;; OS-specific modules
-(when (eq system-type 'darwin)
-  (load (expand-file-name "os-macos" (expand-file-name "lisp/" user-emacs-directory))))
+(pcase system-type
+  ('darwin
+   (load (expand-file-name "os-macos" (expand-file-name "lisp/" user-emacs-directory))))
+  ('gnu/linux
+   (load (expand-file-name "os-linux" (expand-file-name "lisp/" user-emacs-directory)) nil t))
+  ('windows-nt
+   (load (expand-file-name "os-windows" (expand-file-name "lisp/" user-emacs-directory)) nil t)))
 
 ;; Language modules (auto-discovered — add/remove files freely)
 (dolist (file (directory-files (expand-file-name "lisp/" user-emacs-directory) t "^lang-.*\\.el$"))
