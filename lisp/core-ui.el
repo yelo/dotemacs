@@ -1,5 +1,17 @@
 ;;; core-ui.el --- UI packages -*- lexical-binding: t; -*-
 
+;; ---- Fonts ----
+;; Only "Iosevka Nerd Font" is installed; plain Iosevka is not available.
+(when (display-graphic-p)
+  (set-face-attribute 'default nil
+                      :family "Iosevka Nerd Font"
+                      :height 135
+                      :weight 'regular)
+  (set-face-attribute 'fixed-pitch nil
+                      :family "Iosevka Nerd Font"
+                      :height 135
+                      :weight 'regular))
+
 (use-package which-key
   :ensure nil  ; built-in since Emacs 30
   :config
