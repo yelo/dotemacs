@@ -21,8 +21,7 @@
 
 ;; ── pytest: test runner ──
 (use-package pytest
-  :ensure t
-  :hook ((python-mode python-ts-mode) . pytest-mode))
+  :ensure t)
 
 ;; ── keybindings ──
 (rk/lang 'python '(python-mode-map python-ts-mode-map)
@@ -37,5 +36,5 @@
   "a" '(lsp-execute-code-action :which-key "code action")
   "v" '(pyvenv-activate :which-key "activate venv")
   "V" '(pyvenv-deactivate :which-key "deactivate venv")
-  "T" '(pytest-pytest :which-key "run all tests")
-  "t" '(pytest-pytest-one :which-key "run test at point"))
+  "T" '(pytest-all :which-key "run all tests")
+  "t" '(pytest-one :which-key "run test at point"))
