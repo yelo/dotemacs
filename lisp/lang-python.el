@@ -1,10 +1,12 @@
 ;;; lang-python.el --- Python bindings -*- lexical-binding: t; -*-
 
-;; Restrict lsp-mode to only the two servers we actually install in .venv:
-;;   ruff (diagnostics) and pylsp (completions/hover/go-to-def).
-;; Must run before lsp-deferred, which is appended below.
+;; Only use pylsp from the project's .venv.
+;; ruff handles formatting (ruff-format) and diagnostics (flycheck python-ruff)
+;; already; no need for the ruff LSP server on top of that.
+;; Install per project: pip install "python-lsp-server[all]"
+;; (or: uv add --dev python-lsp-server)
 (defun rk/python-lsp-setup ()
-  (setq-local lsp-enabled-clients '(pylsp ruff)))
+  (setq-local lsp-enabled-clients '(pylsp)))
 
 (add-hook 'python-mode-hook    #'rk/python-lsp-setup)
 (add-hook 'python-ts-mode-hook #'rk/python-lsp-setup)
