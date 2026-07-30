@@ -5,4 +5,5 @@
   :commands (lsp lsp-deferred)
   :custom
   (lsp-auto-guess-root t)
-  (lsp-restart 'auto-restart))
+  (lsp-restart 'auto-restart)
+  (lsp-diagnostics-provider :flycheck))

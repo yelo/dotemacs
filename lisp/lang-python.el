@@ -24,13 +24,6 @@
   :ensure t
   :hook ((python-mode python-ts-mode) . pytest-mode))
 
-;; ── lsp-ruff: LSP-based linting via ruff (bundled with lsp-mode) ──
-(use-package lsp-ruff
-  :ensure nil
-  :after lsp-mode
-  :custom
-  (lsp-ruff-lint-enable t))
-
 ;; ── keybindings ──
 (rk/lang 'python '(python-mode-map python-ts-mode-map)
   "e" '(python-shell-send-statement :which-key "send statement")

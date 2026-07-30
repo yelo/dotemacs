@@ -18,3 +18,11 @@
     "R" '(lsp-rename :which-key "rename")
     "a" '(lsp-execute-code-action :which-key "code action")
     "=" '(rustic-cargo-outdated :which-key "cargo outdated")))
+
+;; ── flycheck-rust: configure flycheck for cargo projects + clippy ──
+(use-package flycheck-rust
+  :ensure t
+  :after flycheck
+  :hook (rustic-mode . flycheck-rust-setup)
+  :custom
+  (flycheck-rust-cargo-use-clippy t))

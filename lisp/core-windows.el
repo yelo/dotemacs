@@ -95,7 +95,7 @@
      "Output\\*$"
      "\\*Async Shell Command\\*"
      "\\*eldoc\\*"
-     "\\*Flycheck\\*"
+     "\\*Flycheck"
      "\\*Echo Area\\*"
      "\\*Process List\\*"))
   (popper-group-function #'popper-group-by-directory)

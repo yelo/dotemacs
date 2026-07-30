@@ -24,6 +24,7 @@ for fast startup), then iterates over `lisp/` modules in order:
 | Keybindings           | `core-keybindings`                |
 | Completion            | `core-completion`                 |
 | LSP                   | `core-lsp`                        |
+| Syntax checking       | `core-flycheck`                   |
 | Tree-sitter           | `core-treesit`                    |
 | Version control       | `core-vc`                         |
 | Shell                 | `core-shell`                      |
@@ -75,11 +76,18 @@ The stack follows the modern Emacs completion paradigm:
   nerd-icons, and `fd` integration.
 - **dired-preview** — file preview in Dired buffers on hover.
 
-### LSP & languages
+### LSP & syntax checking
 
 **[lsp-mode](https://github.com/emacs-lsp/lsp-mode)** provides IDE features (diagnostics, refactoring, code actions).
 Language modules hook `lsp-deferred` in and expose cargo / python-shell / eval
-commands under `SPC m`.
+commands under `SPC m`. LSP diagnostics are routed through flycheck via
+`lsp-diagnostics-provider :flycheck`.
+
+**[flycheck](https://www.flycheck.org/)** is the global syntax-checking layer, replacing flymake. It
+receives LSP diagnostics from lsp-mode and also runs language-native checkers
+directly (e.g. `python-ruff` for Python, cargo/clippy for Rust via
+`flycheck-rust`). Error navigation and checker management live under the `SPC e`
+leader prefix. The `*Flycheck errors*` list buffer is managed as a popper popup.
 
 **[treesit-auto](https://github.com/renzmann/treesit-auto)** automatically installs tree-sitter grammars and remaps
 classic major modes to their `*-ts-mode` equivalents when a grammar is
@@ -89,8 +97,8 @@ detail. Language modules register hooks for both the classic and `ts` variants.
 | Language | Package / mode | Notable commands               |
 | -------- | -------------- | ------------------------------ |
 | Elisp    | built-in       | eval-last-sexp, ielm, find-fn  |
-| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv**, **pytest**, **lsp-ruff** | format on save, virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file, ruff LSP linting |
-| Rust     | **rustic**     | cargo build/check/run/test/fmt/clippy |
+| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv**, **pytest** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file; linting via flycheck `python-ruff` checker |
+| Rust     | **rustic** + **flycheck-rust** | cargo build/check/run/test/fmt/clippy; flycheck runs clippy via `flycheck-rust` |
 
 ### Version control
 

@@ -30,6 +30,7 @@
                 "core-keybindings"
                 "core-completion"
                 "core-lsp"
+                "core-flycheck"
                 "core-treesit"
                 "core-vc"
                 "core-shell"))
