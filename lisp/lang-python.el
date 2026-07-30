@@ -24,7 +24,7 @@
 (use-package pyvenv
   :ensure t
   :hook ((python-mode python-ts-mode) . pyvenv-mode)
-  :config
+  :init
   (defun rk/pyvenv-auto-activate ()
     (let ((venv (locate-dominating-file default-directory ".venv")))
       (when venv
