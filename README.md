@@ -109,7 +109,7 @@ detail. Language modules register hooks for both the classic and `ts` variants.
 | Language | Package / mode | Notable commands               |
 | -------- | -------------- | ------------------------------ |
 | Elisp    | built-in       | eval-last-sexp, ielm, find-fn  |
-| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv**, **pytest** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file; linting via flycheck `python-ruff` checker |
+| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv**, **pytest** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file; linting via flycheck `python-ruff` checker. LSP servers (`ruff`, `pylsp`) are loaded from the project's `.venv` — install them per project: `pip install ruff "python-lsp-server[all]"` (or `uv add --dev ruff python-lsp-server`). |
 | Rust     | **rustic** + **flycheck-rust** | cargo build/check/run/test/fmt/clippy; flycheck runs clippy via `flycheck-rust` |
 
 ### Version control

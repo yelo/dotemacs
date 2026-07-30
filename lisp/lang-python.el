@@ -1,7 +1,17 @@
 ;;; lang-python.el --- Python bindings -*- lexical-binding: t; -*-
 
-(add-hook 'python-mode-hook #'lsp-deferred)
-(add-hook 'python-ts-mode-hook #'lsp-deferred)
+;; Restrict lsp-mode to only the two servers we actually install in .venv:
+;;   ruff (diagnostics) and pylsp (completions/hover/go-to-def).
+;; Must run before lsp-deferred, which is appended below.
+(defun rk/python-lsp-setup ()
+  (setq-local lsp-enabled-clients '(pylsp ruff)))
+
+(add-hook 'python-mode-hook    #'rk/python-lsp-setup)
+(add-hook 'python-ts-mode-hook #'rk/python-lsp-setup)
+
+;; Append so lsp starts after pyvenv has activated the .venv and updated exec-path.
+(add-hook 'python-mode-hook    #'lsp-deferred t)
+(add-hook 'python-ts-mode-hook #'lsp-deferred t)
 
 ;; ── ruff-format: format on save ──
 (use-package ruff-format
@@ -17,7 +27,8 @@
     (let ((venv (locate-dominating-file default-directory ".venv")))
       (when venv
         (pyvenv-activate (expand-file-name ".venv" venv)))))
-  (add-hook 'python-mode-hook #'rk/pyvenv-auto-activate))
+  (add-hook 'python-mode-hook    #'rk/pyvenv-auto-activate)
+  (add-hook 'python-ts-mode-hook #'rk/pyvenv-auto-activate))
 
 ;; ── pytest: test runner ──
 (use-package pytest
