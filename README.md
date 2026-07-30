@@ -7,6 +7,10 @@ before `package.el` loads. `init.el` bootstraps `package.el` (with
 `package-quickstart`), `use-package`, and `custom-file`, then delegates to
 purpose-specific modules under `lisp/`.
 
+> **Note:** after installing new packages run `M-x package-quickstart-refresh`
+> to rebuild the startup cache; without it, new packages fall back to a full
+> scan which is slower but still correct.
+
 ## Architecture
 
 `early-init.el` tunes the GC and kills menu/tool/scroll bars before the frame
