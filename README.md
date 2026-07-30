@@ -87,6 +87,14 @@ Language modules hook `lsp-deferred` in and expose cargo / python-shell / eval
 commands under `SPC m`. LSP diagnostics are routed through flycheck via
 `lsp-diagnostics-provider :flycheck`.
 
+**lsp-lens-mode** (built into lsp-mode) provides Code Vision–style inline
+annotations above function definitions: reference counts, implementation counts,
+and test counts — depending on what the language server reports. Each lens is
+clickable and triggers the corresponding LSP action (e.g. `lsp-find-references`).
+Enabled by default in all LSP buffers; toggle per-buffer with `SPC g L`. Quality
+varies by server: `rust-analyzer` reports references and implementations;
+`pyright`/`pylsp` report references only.
+
 **[flycheck](https://www.flycheck.org/)** is the global syntax-checking layer, replacing flymake. It
 receives LSP diagnostics from lsp-mode and also runs language-native checkers
 directly (e.g. `python-ruff` for Python, cargo/clippy for Rust via
@@ -108,6 +116,11 @@ detail. Language modules register hooks for both the classic and `ts` variants.
 
 - **[magit](https://magit.vc)** — git porcelain.
 - **project.el** (built-in, Emacs 28+) — project navigation (`SPC p`), tied into consult for ripgrep and magit for status. Replaces projectile.
+- **[blamer](https://github.com/Artawower/blamer.el)** — Code Vision–style inline git blame. Shows author name and
+  commit summary as virtual text beside every line (defaulting on via
+  `global-blamer-mode`). Clicking the annotation opens the full commit details
+  popup. Toggle per-buffer with `SPC g B`; the existing `SPC g b` still runs
+  `magit-blame-addition` for a full blame view.
 
 ### Shell
 

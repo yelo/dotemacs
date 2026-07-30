@@ -180,6 +180,8 @@ Equivalent to Doom's <leader> m behavior."
    "gb"   '(magit-blame-addition       :wk "blame")
    "gl"   '(magit-log-current          :wk "log current")
    "gc"   '(magit-commit-create        :wk "commit")
+   "gB"   '(blamer-mode                :wk "toggle inline blame")
+   "gL"   '(lsp-lens-mode              :wk "toggle code lens")
 
    ;; help
    "h"    '(:ignore t :wk "help")
