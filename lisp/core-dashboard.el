@@ -291,22 +291,26 @@
   ;; ---- Navigator buttons ----
   (setq dashboard-set-navigator t)
   (setq dashboard-navigator-buttons
-        `(((,(concat (nerd-icons-octicon "nf-oct-file" :height 1.0 :v-adjust 0.0) "  ")
+        `(((,(concat (nerd-icons-octicon "nf-oct-file" :height 1.0 :v-adjust 0.0)
+                     (propertize "  " 'face 'default))
             "New file"
             "Create a new file"
             (lambda (&rest _) (call-interactively 'find-file))
             nil " " " ")
-           (,(concat (nerd-icons-octicon "nf-oct-history" :height 1.0 :v-adjust 0.0) "  ")
+           (,(concat (nerd-icons-octicon "nf-oct-history" :height 1.0 :v-adjust 0.0)
+                     (propertize "  " 'face 'default))
             "Recents"
             "Open recent file"
             (lambda (&rest _) (consult-recent-file))
             nil " " " ")
-           (,(concat (nerd-icons-octicon "nf-oct-rocket" :height 1.0 :v-adjust 0.0) "  ")
+           (,(concat (nerd-icons-octicon "nf-oct-rocket" :height 1.0 :v-adjust 0.0)
+                     (propertize "  " 'face 'default))
             "Projects"
             "Switch project"
             (lambda (&rest _) (projectile-switch-project))
             nil " " " ")
-           (,(concat (nerd-icons-octicon "nf-oct-gear" :height 1.0 :v-adjust 0.0) "  ")
+           (,(concat (nerd-icons-octicon "nf-oct-gear" :height 1.0 :v-adjust 0.0)
+                     (propertize "  " 'face 'default))
             "Config"
             "Open configuration"
             (lambda (&rest _)
