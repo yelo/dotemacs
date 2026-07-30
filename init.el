@@ -3,6 +3,8 @@
 ;;; Bootstrap package.el
 (require 'package)
 (setq package-quickstart t)
+;; package-quickstart.el is auto-generated; run M-x package-quickstart-refresh
+;; after installing packages to rebuild it (absent file → full scan, works fine).
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (unless package--initialized (package-initialize))

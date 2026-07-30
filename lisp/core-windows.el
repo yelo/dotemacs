@@ -100,7 +100,7 @@
      "\\*Process List\\*"))
   (popper-group-function #'popper-group-by-directory)
   (popper-display-function #'popper-select-popup-at-bottom)
-  :init
+  :config
   (popper-mode 1)
   (popper-echo-mode -1))
 
