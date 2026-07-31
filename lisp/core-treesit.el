@@ -1,12 +1,12 @@
 ;;; core-treesit.el --- Tree-sitter integration -*- lexical-binding: t; -*-
 
-;; treesit-auto: automatically install grammars and remap major modes to their
-;; tree-sitter equivalents when the grammar is available.
-(use-package treesit-auto
-  :ensure t
-  :config
-  (setq treesit-auto-install 'prompt)
-  (global-treesit-auto-mode 1))
+;; Emacs 31: automatically switch to tree-sitter major modes when grammars are
+;; available, and offer to install missing grammars on demand.
+(setq treesit-enabled-modes t)
+(setq treesit-auto-install-grammar 'ask)
 
 ;; Maximize syntax highlighting detail (levels 1-4, default is 3).
 (setq treesit-font-lock-level 4)
+
+(provide 'core-treesit)
+;;; core-treesit.el ends here

@@ -49,6 +49,16 @@
 
 (add-hook 'emacs-startup-hook #'rk/enable-post-startup-modes)
 
+;;; Emacs 31 settings
+;; No surprise fan spin-up from background native compilation on battery.
+(setq native-comp-async-on-battery-power nil)
+;; Live lossage view — useful when screen-sharing or teaching.
+(setq view-lossage-auto-refresh t)
+;; Show help-at-point documentation via ElDoc.
+(setq eldoc-help-at-pt t)
+;; Tooltips in terminal frames.
+(tty-tip-mode 1)
+
 (defun reload-config ()
   "Reload init.el without restarting Emacs."
   (interactive)
@@ -60,3 +70,6 @@
   (message
    "Measure: emacs --init-directory %s --eval '(kill-emacs)'; Profile: RK_PROFILE_STARTUP=1 emacs --init-directory %s"
    user-emacs-directory user-emacs-directory))
+
+(provide 'core-settings)
+;;; core-settings.el ends here
