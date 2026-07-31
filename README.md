@@ -80,6 +80,7 @@ The stack follows the modern Emacs completion paradigm:
 - **[dirvish](https://github.com/alexluigit/dirvish)** — Dired replacement with side-panel tree, git indicators,
   nerd-icons, and `fd` integration.
 - **dired-preview** — file preview in Dired buffers on hover.
+- **auto-revert** (built-in) — automatically reverts buffers when files change on disk.
 
 ### LSP & syntax checking
 

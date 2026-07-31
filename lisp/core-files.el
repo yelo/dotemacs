@@ -73,3 +73,9 @@
 (use-package dired-preview
   :ensure t
   :hook (dired-mode . dired-preview-mode))
+
+(use-package autorevert
+  :ensure nil
+  :config
+  (setq auto-revert-verbose nil)
+  (global-auto-revert-mode 1))
