@@ -83,49 +83,6 @@
 
 ;; ── Window layout helpers ──
 
-(defun rk/toggle-window-split ()
-  "Flip between vertical (side-by-side) and horizontal (stacked) split."
-  (interactive)
-  (if (= (count-windows) 1)
-      (message "Only one window")
-    (let* ((this-buf (window-buffer))
-           (next-buf (window-buffer (next-window)))
-           (this-edges (window-edges))
-           (next-edges (window-edges (next-window)))
-           (this-second (not (and (<= (car this-edges) (car next-edges))
-                                 (<= (cadr this-edges) (cadr next-edges)))))
-           (split-fn (if (= (car this-edges) (car (window-edges (next-window))))
-                         'split-window-horizontally
-                       'split-window-vertically)))
-      (delete-other-windows)
-      (funcall split-fn)
-      (when this-second (other-window 1))
-      (set-window-buffer (selected-window) this-buf)
-      (when (= (count-windows) 2)
-        (set-window-buffer (next-window) next-buf)))))
-
-(defun rk/2-column-layout ()
-  "Two equal side-by-side columns."
-  (interactive)
-  (delete-other-windows)
-  (split-window-right)
-  (balance-windows))
-
-(defun rk/3-column-layout ()
-  "Three equal columns."
-  (interactive)
-  (delete-other-windows)
-  (split-window-right)
-  (split-window-right)
-  (balance-windows))
-
-(defun rk/2-row-layout ()
-  "Two equal rows stacked vertically."
-  (interactive)
-  (delete-other-windows)
-  (split-window-below)
-  (balance-windows))
-
 (defvar rk/zoom--saved-config nil
   "Saved window configuration for `rk/zoom-toggle'.")
 

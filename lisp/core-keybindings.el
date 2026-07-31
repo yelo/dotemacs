@@ -140,10 +140,6 @@ Equivalent to Doom's <leader> m behavior."
    "wn"   '(windmove-down              :wk "down")
    "ws"   '(windmove-right             :wk "right")
    ;; layouts
-   "wl"   '(rk/2-column-layout         :wk "2 columns")
-   "wL"   '(rk/3-column-layout         :wk "3 columns")
-   "wr"   '(rk/2-row-layout            :wk "2 rows")
-   "wd"   '(rk/toggle-window-split     :wk "toggle split")
    "wz"   '(rk/zoom-toggle             :wk "zoom toggle")
    ;; window history (winner-mode)
    "wu"   '(winner-undo              :wk "undo layout")
