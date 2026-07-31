@@ -35,6 +35,11 @@
 
 ;;; Emacs 29/30 built-in quality-of-life modes
 (pixel-scroll-precision-mode 1)   ; smooth pixel-level scrolling (Emacs 29)
+(setq scroll-margin 0
+      scroll-conservatively 101
+      scroll-preserve-screen-position t
+      next-screen-context-lines 3
+      maximum-scroll-margin 0.0)  ; disable scroll-past-end-of-buffer
 (context-menu-mode 1)             ; right-click context menus (Emacs 28)
 (global-so-long-mode 1)           ; graceful handling of very long lines (Emacs 27)
 (repeat-mode 1)                   ; make built-in commands repeatable (Emacs 28)
