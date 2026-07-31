@@ -1,11 +1,11 @@
 # Emacs Configuration
 
-> **Requires Emacs 30.2+**
+> **Requires Emacs 31+**
 
-Modular, self-contained Emacs config. `early-init.el` tunes GC and frame UI
-before `package.el` loads. `init.el` bootstraps `package.el` (with
-`package-quickstart`), `use-package`, and `custom-file`, then delegates to
-purpose-specific modules under `lisp/`.
+Modular, self-contained Emacs config targeting **Emacs 31**. `early-init.el`
+tunes GC and frame UI before `package.el` loads. `init.el` bootstraps
+`package.el` (with `package-quickstart`), `use-package`, and `custom-file`,
+then delegates to purpose-specific modules under `lisp/`.
 
 > **Note:** after installing new packages run `M-x package-quickstart-refresh`
 > to rebuild the startup cache; without it, new packages fall back to a full
@@ -28,10 +28,11 @@ for fast startup), then iterates over `lisp/` modules in order:
 | Keybindings           | `core-keybindings`                |
 | Completion            | `core-completion`                 |
 | LSP                   | `core-lsp`                        |
-| Syntax checking       | `core-flycheck`                   |
+| Syntax checking       | `core-flymake`                    |
 | Tree-sitter           | `core-treesit`                    |
 | Version control       | `core-vc`                         |
 | Shell                 | `core-shell`                      |
+| Markdown              | `core-markdown`                   |
 | OS                    | `os-macos` (Darwin), `os-linux` (GNU/Linux), `os-windows` (Windows) |
 | Languages             | `lang-*.el` (auto-discovered)     |
 | AI / Agents           | `ai-*.el` (auto-discovered)       |
@@ -67,60 +68,60 @@ The stack follows the modern Emacs completion paradigm:
 - **[corfu](https://github.com/minad/corfu)** — in-buffer popup completion, backed by **[cape](https://github.com/minad/cape)** (dabbrev, file,
   keyword) and **[tempel](https://github.com/minad/tempel)** for template expansion.
 - **[embark](https://github.com/oantolin/embark)** — context-sensitive action menus at point.
-- **completion-preview** (built-in, Emacs 30) — inline ghost-text preview of the top completion candidate in `prog-mode` buffers.
+- **completion-preview** (built-in) — inline ghost-text preview of the top completion candidate in `prog-mode` buffers.
 
 ### UI
 
 - **[solarized-theme](https://github.com/bbatsov/solarized-emacs)** (`solarized-gruvbox-dark`) — low-contrast, warm.
 - **[mood-line](https://github.com/jessiehildebrandt/mood-line)** — compact mode-line with glyphs.
-- **[minions](https://github.com/tarsius/minions)** — hides minor-mode lighters behind a single indicator.
+- **mode-line-collapse-minor-modes** (built-in, Emacs 31) — collapses minor mode lighters into a single button. Replaces the `minions` package.
 - **[dashboard](https://github.com/emacs-dashboard/emacs-dashboard)** — cyberpunk-themed startup screen with recents, bookmarks,
   projects, agenda, and navigator buttons. Powered by **[nerd-icons](https://github.com/rainstormstudio/nerd-icons.el)**.
-- **[dirvish](https://github.com/alexluigit/dirvish)** — Dired replacement with side-panel tree, git indicators,
-  nerd-icons, and `fd` integration.
+- **[dirvish](https://github.com/alexluigit/dirvish)** — Dired enhancement with git indicators, nerd-icons, and `fd` integration.
 - **dired-preview** — file preview in Dired buffers on hover.
 
 ### LSP & syntax checking
 
 **[lsp-mode](https://github.com/emacs-lsp/lsp-mode)** provides IDE features (diagnostics, refactoring, code actions).
 Language modules hook `lsp-deferred` in and expose cargo / python-shell / eval
-commands under `SPC m`. LSP diagnostics are routed through flycheck via
-`lsp-diagnostics-provider :flycheck`.
+commands under `SPC m`. LSP diagnostics are routed through **flymake** via
+`lsp-diagnostics-provider :flymake`.
 
 **lsp-lens-mode** (built into lsp-mode) provides Code Vision–style inline
-annotations above function definitions: reference counts, implementation counts,
-and test counts — depending on what the language server reports. Each lens is
-clickable and triggers the corresponding LSP action (e.g. `lsp-find-references`).
-Enabled by default in all LSP buffers; toggle per-buffer with `SPC g L`. Quality
-varies by server: `rust-analyzer` reports references and implementations;
-`pyright`/`pylsp` report references only.
+annotations above function definitions. Toggle per-buffer with `SPC g L`.
 
-**[flycheck](https://www.flycheck.org/)** is the global syntax-checking layer, replacing flymake. It
-receives LSP diagnostics from lsp-mode and also runs language-native checkers
-directly (e.g. `python-ruff` for Python, cargo/clippy for Rust via
-`flycheck-rust`). Error navigation and checker management live under the `SPC e`
-leader prefix. The `*Flycheck errors*` list buffer is managed as a popper popup.
+**flymake** (built-in) is the global syntax-checking layer, replacing the
+`flycheck` package. Error navigation and checker management live under the
+`SPC e` leader prefix (backed by `core-flymake.el`).
 
-**[treesit-auto](https://github.com/renzmann/treesit-auto)** automatically installs tree-sitter grammars and remaps
-classic major modes to their `*-ts-mode` equivalents when a grammar is
-available. `treesit-font-lock-level` is set to 4 for maximum syntax-highlight
-detail. Language modules register hooks for both the classic and `ts` variants.
+**Tree-sitter** (built-in, Emacs 31) — `treesit-enabled-modes` is set to `t`
+so Emacs automatically switches to `*-ts-mode` variants when grammars are
+available. `treesit-auto-install-grammar` is set to `ask` so missing grammars
+are offered on demand — no more manual `treesit-install-language-grammar`
+calls. Replaces the `treesit-auto` package. `treesit-font-lock-level` is set
+to 4 for maximum syntax-highlight detail.
 
 | Language | Package / mode | Notable commands               |
 | -------- | -------------- | ------------------------------ |
 | Elisp    | built-in       | eval-last-sexp, ielm, find-fn  |
-| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv**, **pytest** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file; linting via flycheck `python-ruff` checker. LSP uses `pylsp` for completions/hover/go-to-def — install per project: `pip install "python-lsp-server[all]"` (or `uv add --dev python-lsp-server`). |
-| Rust     | **rustic** + **flycheck-rust** | cargo build/check/run/test/fmt/clippy; flycheck runs clippy via `flycheck-rust` |
+| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv**, **pytest** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file; LSP uses `pylsp` for completions/hover/go-to-def — install per project: `pip install "python-lsp-server[all]"` |
+| Rust     | **rustic** | cargo build/check/run/test/fmt/clippy; diagnostics via flymake |
+
+### Markdown
+
+**markdown-ts-mode** (built-in, Emacs 31, experimental) — org-like navigation
+and heading folding, live syntax-highlighted fenced code blocks (using the
+real major mode for each language), and inline image rendering. Loaded in
+`core-markdown.el` and wired to `.md`/`.markdown` files. `markdown-ts-view-mode`
+is used by eglot to render hover documentation with proper syntax highlighting.
 
 ### Version control
 
 - **[magit](https://magit.vc)** — git porcelain.
 - **project.el** (built-in, Emacs 28+) — project navigation (`SPC p`), tied into consult for ripgrep and magit for status. Replaces projectile.
-- **[blamer](https://github.com/Artawower/blamer.el)** — Code Vision–style inline git blame. Shows author name and
-  commit summary as virtual text beside every line (defaulting on via
-  `global-blamer-mode`). Clicking the annotation opens the full commit details
-  popup. Toggle per-buffer with `SPC g B`; the existing `SPC g b` still runs
-  `magit-blame-addition` for a full blame view.
+- **[blamer](https://github.com/Artawower/blamer.el)** — Code Vision–style inline git blame. Toggle per-buffer with `SPC g B`.
+- **vc-dir-auto-hide-up-to-date** (Emacs 31) — `vc-dir` hides up-to-date files automatically on refresh.
+- **xref-edit-mode** (Emacs 31) — press `e` in `*xref*` buffers to edit matches inline (like grep-edit-mode).
 
 ### Shell
 
@@ -128,6 +129,7 @@ detail. Language modules register hooks for both the classic and `ts` variants.
   commands (ssh, htop, etc.) and uses `fish` as the underlying shell.
 - **eshell** — Emacs' own shell, configured with `fish` for external commands,
   large history, and scroll-to-bottom.
+- IELM history is persisted across sessions via `ielm-history-file-name` (Emacs 31).
 
 ### AI / Agents
 
@@ -138,12 +140,19 @@ detail. Language modules register hooks for both the classic and `ts` variants.
 
 ### Window management
 
-**[popper](https://github.com/karthink/popper)** manages transient buffers (messages, compilation, backtrace, etc.)
-as a popup at the bottom of the frame. The `SPC w` leader menu includes layout
-presets (2-column, 3-column, 2-row), split-direction toggling, a zoom toggle,
-and `SPC wu`/`SPC wU` for `winner-undo`/`winner-redo` (built-in window
-configuration history). Help/describe buffers (`*Help*`, `*Apropos*`, etc.)
-open automatically in a right-side split for easy side-by-side reference.
+Window placement is fully controlled by `display-buffer-alist` — no random
+popup windows. The layout is:
+
+- **Right side** (38%): Help, Apropos, Info, Man, xref, eldoc
+- **Bottom** (25-30%): Compilation, flymake diagnostics, eshell/eat, Messages, Warnings
+- **Left side** (via `SPC f t`): **Speedbar** — file tree, imenu, VC status (Emacs 31: `speedbar-window` docks in a side window instead of a separate frame)
+
+The `SPC w` leader menu includes:
+- Layout presets: 2-column, 3-column, 2-row, split-direction toggle, zoom toggle
+- `SPC wu`/`SPC wU` — `winner-undo`/`winner-redo` (built-in window configuration history)
+- `SPC wR` — rotate window layout clockwise (Emacs 31)
+- `SPC wF` — flip window layout left/right (Emacs 31)
+- `SPC wT` — transpose window layout (swap horizontal/vertical splits) (Emacs 31)
 
 ### macOS
 

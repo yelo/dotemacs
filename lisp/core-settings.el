@@ -39,7 +39,20 @@
 (global-so-long-mode 1)           ; graceful handling of very long lines (Emacs 27)
 (repeat-mode 1)                   ; make built-in commands repeatable (Emacs 28)
 
+;;; Emacs 31 settings
+;; No surprise fan spin-up from background native compilation on battery.
+(setq native-comp-async-on-battery-power nil)
+;; Live lossage view — useful when screen-sharing or teaching.
+(setq view-lossage-auto-refresh t)
+;; Show help-at-point documentation via ElDoc.
+(setq eldoc-help-at-pt t)
+;; Tooltips in terminal frames.
+(tty-tip-mode 1)
+
 (defun reload-config ()
   "Reload init.el without restarting Emacs."
   (interactive)
   (load-file (expand-file-name "init.el" user-emacs-directory)))
+
+(provide 'core-settings)
+;;; core-settings.el ends here

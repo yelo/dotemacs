@@ -25,11 +25,8 @@
   (mood-line-format mood-line-format-default-extended)
   (mood-line-glyph-alist mood-line-glyphs-ascii))
 
-(use-package minions
-  :ensure t
-  :init (minions-mode)
-  :config
-  (setq minions-mode-lighter "#"))
+;; Emacs 31: collapse minor mode lighters into a single button, replacing minions.
+(setq mode-line-collapse-minor-modes t)
 
 (use-package solarized-theme
   :ensure t
@@ -37,3 +34,6 @@
   (add-hook 'emacs-startup-hook
             (lambda ()
               (load-theme 'solarized-gruvbox-dark t))))
+
+(provide 'core-ui)
+;;; core-ui.el ends here

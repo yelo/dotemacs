@@ -117,3 +117,17 @@
 (keymap-global-set "C-DEL" 'rk/backward-kill-word)
 (keymap-global-set "C->"   'indent-rigidly-right-to-tab-stop)
 (keymap-global-set "C-<"   'indent-rigidly-left-to-tab-stop)
+
+;; Emacs 31: kill word backwards with C-w when no region is active (no more
+;; "mark not active" errors).
+(setq kill-region-dwim 'emacs-word)
+
+;; Emacs 31: don't highlight mismatched parens inside comments and strings.
+(setq show-paren-not-in-comments-or-strings 'on-mismatch)
+
+;; Emacs 31: show fold indicators and line counts in the fringe.
+(setq hs-show-indicators t)
+(setq hs-display-lines-hidden t)
+
+(provide 'core-editing)
+;;; core-editing.el ends here
