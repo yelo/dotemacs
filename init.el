@@ -39,6 +39,10 @@
                 "core-markdown"))
   (load (expand-file-name core (expand-file-name "lisp/" user-emacs-directory))))
 
+;; TTY / terminal-mode enhancements (only when running without a window system)
+(unless (display-graphic-p)
+  (load (expand-file-name "core-tty" (expand-file-name "lisp/" user-emacs-directory)) nil t))
+
 ;; OS-specific modules
 (pcase system-type
   ('darwin

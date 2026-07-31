@@ -34,6 +34,7 @@ for fast startup), then iterates over `lisp/` modules in order:
 | Shell                 | `core-shell`                      |
 | Markdown              | `core-markdown`                   |
 | OS                    | `os-macos` (Darwin), `os-linux` (GNU/Linux), `os-windows` (Windows) |
+| TTY                   | `core-tty` (loaded only when `(display-graphic-p)` is nil)          |
 | Languages             | `lang-*.el` (auto-discovered)     |
 | AI / Agents           | `ai-*.el` (auto-discovered)       |
 | Early init            | `early-init.el` (frame UI, GC)    |
@@ -153,6 +154,16 @@ The `SPC w` leader menu includes:
 - `SPC wR` — rotate window layout clockwise (Emacs 31)
 - `SPC wF` — flip window layout left/right (Emacs 31)
 - `SPC wT` — transpose window layout (swap horizontal/vertical splits) (Emacs 31)
+
+### TTY / terminal mode
+
+`core-tty.el` is loaded only when `(display-graphic-p)` returns nil (i.e. `emacs -nw`).
+
+- **xterm-mouse-mode** — enables mouse clicks, selection, and scroll-wheel in xterm-compatible terminals.
+- **[clipetty](https://github.com/spudlyo/clipetty)** — forwards the kill-ring to the system clipboard via OSC 52, so copy/paste works inside tmux, SSH, etc. without `xclip`/`xsel` binaries.
+- Mouse scroll mapped to `[mouse-4]`/`[mouse-5]` (3 lines, no acceleration).
+- Cursor blink disabled and `visible-bell` enabled (prevents terminal beep).
+- `xterm-extra-capabilities` tuned when `$TERM` reports 256-color or truecolor support.
 
 ### macOS
 
