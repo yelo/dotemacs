@@ -5,6 +5,8 @@
   :hook (rustic-mode . lsp-deferred)
   :init
   (setq rustic-lsp-client 'lsp-mode)
+  ;; Use flymake for diagnostics (replaces flycheck-rust)
+  (setq rustic-flycheck-setup-mode-line-p nil)
   :config
   (rk/lang 'rustic '(rust-mode-map rustic-mode-map)
     "b" '(rustic-cargo-build :which-key "cargo build")
@@ -18,11 +20,3 @@
     "R" '(lsp-rename :which-key "rename")
     "a" '(lsp-execute-code-action :which-key "code action")
     "=" '(rustic-cargo-outdated :which-key "cargo outdated")))
-
-;; ── flycheck-rust: configure flycheck for cargo projects + clippy ──
-(use-package flycheck-rust
-  :ensure t
-  :after flycheck
-  :hook (rustic-mode . flycheck-rust-setup)
-  :custom
-  (flycheck-rust-cargo-use-clippy t))

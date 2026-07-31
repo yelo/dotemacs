@@ -32,10 +32,11 @@
                 "core-keybindings"
                 "core-completion"
                 "core-lsp"
-                "core-flycheck"
+                "core-flymake"
                 "core-treesit"
                 "core-vc"
-                "core-shell"))
+                "core-shell"
+                "core-markdown"))
   (load (expand-file-name core (expand-file-name "lisp/" user-emacs-directory))))
 
 ;; TTY / terminal-mode enhancements (only when running without a window system)
