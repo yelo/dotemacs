@@ -6,7 +6,8 @@
   (defmacro rk/feature-leader-keys (feature keymaps &rest bindings)
     "Define local-leader keys under `SPC m` after FEATURE is loaded.
 FEATURE is a symbol suitable for `with-eval-after-load` (typically a quoted
-feature name like 'python).  KEYMAPS is a keymap symbol or list of symbols.
+feature name like 'python).  KEYMAPS is a keymap symbol or list of symbols
+whose keymaps receive the bindings — so they are active only in those modes.
 BINDINGS are alternating KEY and DEF pairs, where KEY is relative to `SPC m`."
     (declare (indent 2))
     (let (expanded)
@@ -16,14 +17,9 @@ BINDINGS are alternating KEY and DEF pairs, where KEY is relative to `SPC m`."
           (push key expanded)
           (push def expanded)))
       `(with-eval-after-load ,feature
-         (let* ((rk--keymaps (if (listp ,keymaps) ,keymaps (list ,keymaps)))
-                (rk--major-modes
-                 (mapcar (lambda (km)
-                           (intern (replace-regexp-in-string "-map\\'" ""
-                                                             (symbol-name km))))
-                         rk--keymaps)))
+         (let ((rk--keymaps (if (listp ,keymaps) ,keymaps (list ,keymaps))))
            (rk/local-leader-keys
-            :major-modes rk--major-modes
+            :keymaps rk--keymaps
             ,@(nreverse expanded))))))
 
   (defmacro rk/major-mode-leader-keys (feature keymaps &rest bindings)
