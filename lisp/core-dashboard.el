@@ -263,7 +263,7 @@
           (bookmarks . 5)
           (projects  . 5)
           (agenda    . 5)))
-  (setq dashboard-projects-backend 'projectile)
+  (setq dashboard-projects-backend 'project-el)
 
   (setq dashboard-item-shortcuts
         '((recents   . "r")
@@ -307,7 +307,7 @@
                      (propertize "  " 'face 'default))
             "Projects"
             "Switch project"
-            (lambda (&rest _) (projectile-switch-project))
+            (lambda (&rest _) (project-switch-project))
             nil " " " ")
            (,(concat (nerd-icons-octicon "nf-oct-gear" :height 1.0 :v-adjust 0.0)
                      (propertize "  " 'face 'default))
