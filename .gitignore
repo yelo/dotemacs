@@ -1,4 +1,7 @@
 sanemacs.el
+custom.el
+package-quickstart.el
+tree-sitter/
 elpa/
 site-lisp/
 auto-save-list/

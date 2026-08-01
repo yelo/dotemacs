@@ -134,8 +134,7 @@ detail. Language modules register hooks for both the classic and `ts` variants.
 ### AI / Agents
 
 - **[agent-shell](https://github.com/xenodium/agent-shell)** — native Emacs shell for ACP-driven coding agents.
-  Configured with **opencode** as the agent and **DeepSeek**
-  (`deepseek/deepseek-chat`) as the provider. Leader key `SPC A` menu provides
+  Configured with **opencode** as the agent. Leader key `SPC A` menu provides
   start, toggle, restart, and send-region commands.
 
 ### Window management

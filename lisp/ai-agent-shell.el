@@ -4,14 +4,11 @@
 ;; https://github.com/xenodium/agent-shell
 ;;
 ;; Preferred agent: opencode (https://opencode.ai)
-;; Provider:        DeepSeek (deepseek/deepseek-chat)
 ;;
 ;; Setup:
 ;;   1. Install opencode:  curl -fsSL https://opencode.ai/install | bash
-;;   2. Add your DeepSeek API key to ~/.local/share/opencode/auth.json:
-;;        { "deepseek": { "type": "api", "key": "YOUR_DEEPSEEK_API_KEY" } }
-;;      Get a key at https://platform.deepseek.com/api_keys
-;;      (Or run `/connect` inside opencode to be guided through it.)
+;;   2. Add your provider's API key to ~/.local/share/opencode/auth.json
+;;      (or run `/connect` inside opencode to be guided through it).
 
 (defun rk/agent-shell-new ()
   "Start a new agent-shell session (never reuse an existing one)."
