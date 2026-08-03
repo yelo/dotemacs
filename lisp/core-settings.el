@@ -11,6 +11,7 @@
 (global-auto-revert-mode t)       ; reload files changed on disk
 (setq auto-revert-use-notify t)   ; use OS filesystem notifications instead of polling
 (global-display-line-numbers-mode 1)
+(global-hl-line-mode 1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;; Backup and autosave — redirect to system tmp
