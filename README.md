@@ -158,5 +158,6 @@ open automatically in a right-side split for easy side-by-side reference.
 
 ### macOS
 
-`os-macos.el` binds Cmd to Super (standard macOS shortcuts work), and Option to
-Meta.
+`os-macos.el` binds Cmd to Super (standard macOS shortcuts work), and the left
+Option to Meta. The right Option is left as AltGr so macOS unicode/hex character
+composition still works.
