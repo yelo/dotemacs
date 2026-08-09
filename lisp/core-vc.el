@@ -17,6 +17,7 @@
 ;; ── blamer: inline git author annotations (Code Vision style) ──
 (use-package blamer
   :ensure t
+  :hook (emacs-startup . global-blamer-mode)
   :custom
   ;; Delay before rendering the annotation after the cursor stops.
   (blamer-idle-time 0.3)
@@ -28,6 +29,4 @@
   ;; Format strings — keep them concise.
   (blamer-author-formatter "  ● %s")
   (blamer-commit-formatter ", %s")
-  (blamer-datetime-formatter " · %s")
-  :init
-  (global-blamer-mode 1))
+  (blamer-datetime-formatter " · %s"))

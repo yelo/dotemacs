@@ -2,16 +2,14 @@
 
 (use-package vertico
   :ensure t
-  :init
-  (vertico-mode 1)
+  :hook (emacs-startup . vertico-mode)
   :custom
   (vertico-cycle t)
   (enable-recursive-minibuffers t))
 
 (use-package savehist
   :ensure nil
-  :init
-  (savehist-mode 1))
+  :hook (emacs-startup . savehist-mode))
 
 (use-package orderless
   :ensure t
@@ -22,8 +20,7 @@
 
 (use-package marginalia
   :ensure t
-  :init
-  (marginalia-mode 1))
+  :hook (emacs-startup . marginalia-mode))
 
 (use-package consult
   :ensure t
@@ -54,8 +51,7 @@
   (corfu-auto-delay 0.15)
   (corfu-auto-prefix 2)
   (corfu-cycle t)
-  :init
-  (global-corfu-mode 1)
+  :hook (emacs-startup . global-corfu-mode)
   :bind (:map corfu-map
               ("TAB" . corfu-next)
               ([tab] . corfu-next)

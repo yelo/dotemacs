@@ -20,20 +20,19 @@
 ;; eat — fast terminal emulator; integrates with eshell for visual commands
 (use-package eat
   :ensure t
+  :commands (eat)
   :custom
   ;; Use fish as the shell inside eat buffers.
   (eat-term-shell-command "/opt/homebrew/bin/fish")
   ;; Restore the window layout when eat exits.
   (eat-kill-buffer-on-exit t)
   :hook
+  ;; Only load eat integration when eshell starts.
+  (eshell-load . eat-eshell-mode)
+  (eshell-load . eat-eshell-visual-command-mode)
   ;; eat-char-mode requires the terminal process to be running, so it must be
   ;; set via eat-exec-hook (fires after exec) not eat-mode-hook (fires before).
   ;; Forward all keypresses straight to the shell.
   (eat-exec . eat-char-mode)
   ;; Terminal buffers don't benefit from line numbers.
-  (eat-mode . (lambda () (display-line-numbers-mode -1)))
-  :config
-  ;; Route eshell visual commands (ssh, htop, …) through eat instead of term.
-  (eat-eshell-mode 1)
-  ;; Keep the cursor style in sync with the running program.
-  (eat-eshell-visual-command-mode 1))
+  (eat-mode . (lambda () (display-line-numbers-mode -1))))

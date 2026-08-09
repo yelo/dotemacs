@@ -15,20 +15,21 @@
 
 (use-package dirvish
   :ensure t
-  :config
-  (dirvish-override-dired-mode)
-  (setq dirvish-mode-line-format nil)
-  (setq dirvish-mode-line-height 21)
-  (setq dirvish-attributes
-        '(subtree-state
-          nerd-icons
-          collapse
-          git-msg
-          file-time
-          file-size))
-  (setq dirvish-subtree-state-style 'nerd)
-  (setq dirvish-default-layout '(1 0.11 0.55))
-  (setq dirvish-hide-details t))
+  :commands (dirvish dirvish-side)
+  :hook (dired-mode . dirvish-override-dired-mode)
+  :custom
+  (dirvish-mode-line-format nil)
+  (dirvish-mode-line-height 21)
+  (dirvish-attributes
+   '(subtree-state
+     nerd-icons
+     collapse
+     git-msg
+     file-time
+     file-size))
+  (dirvish-subtree-state-style 'nerd)
+  (dirvish-default-layout '(1 0.11 0.55))
+  (dirvish-hide-details t))
 
 (use-package dirvish-side
   :ensure nil
@@ -76,6 +77,6 @@
 
 (use-package autorevert
   :ensure nil
-  :config
-  (setq auto-revert-verbose nil)
-  (global-auto-revert-mode 1))
+  :custom
+  (auto-revert-verbose nil)
+  :hook (emacs-startup . global-auto-revert-mode))

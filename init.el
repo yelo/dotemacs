@@ -22,6 +22,10 @@
 (setq byte-compile-warnings '(not cl-functions))
 (require 'cl-lib)
 
+(when (getenv "RK_PROFILE_STARTUP")
+  (require 'profiler)
+  (profiler-start 'cpu+mem))
+
 ;; Core modules (order matters for dependencies)
 (dolist (core '("core-settings"
                 "core-ui"
@@ -51,10 +55,35 @@
   ('windows-nt
    (load (expand-file-name "os-windows" (expand-file-name "lisp/" user-emacs-directory)) nil t)))
 
-;; Language modules (auto-discovered — add/remove files freely)
-(dolist (file (directory-files (expand-file-name "lisp/" user-emacs-directory) t "^lang-.*\\.el$"))
-  (load file nil t))
+(defvar rk/extra-modules-loaded nil
+  "Non-nil once optional language and AI modules have been loaded.")
 
-;; AI/agent modules (auto-discovered — add/remove files freely)
-(dolist (file (directory-files (expand-file-name "lisp/" user-emacs-directory) t "^ai-.*\\.el$"))
-  (load file nil t))
+(defun rk/load-module-family (prefix)
+  "Load all optional modules from lisp/ that start with PREFIX."
+  (dolist (file (directory-files (expand-file-name "lisp/" user-emacs-directory)
+                                 t
+                                 (format "^%s-.*\\.el$" prefix)))
+    (load file nil t)))
+
+(defun rk/load-extra-modules ()
+  "Load optional language and AI modules once."
+  (unless rk/extra-modules-loaded
+    (setq rk/extra-modules-loaded t)
+    (rk/load-module-family "lang")
+    (rk/load-module-family "ai")))
+
+;; Keep startup critical path minimal; load optional modules right after startup
+;; or immediately when the first file is opened.
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (run-with-idle-timer 0.2 nil #'rk/load-extra-modules)))
+(add-hook 'find-file-hook #'rk/load-extra-modules)
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (emacs-init-time "%0.2f seconds")
+                     gcs-done)
+            (when (getenv "RK_PROFILE_STARTUP")
+              (profiler-stop)
+              (profiler-report))))

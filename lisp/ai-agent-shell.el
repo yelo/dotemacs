@@ -45,12 +45,13 @@ If no agent-shell buffer exists, start one."
           (agent-shell-new-shell)))
     (agent-shell-new-shell)))
 
+;; opencode default install location (curl -fsSL https://opencode.ai/install | bash)
+(add-to-list 'exec-path (expand-file-name "~/.opencode/bin/"))
+
 (use-package agent-shell
   :ensure t
+  :commands (agent-shell agent-shell-send-region agent-shell-send-dwim agent-shell-new-shell)
   :config
-  ;; opencode default install location (curl -fsSL https://opencode.ai/install | bash)
-  (add-to-list 'exec-path (expand-file-name "~/.opencode/bin/"))
-
   ;; Use opencode as the default agent
   (setq agent-shell-preferred-agent-config 'opencode)
 

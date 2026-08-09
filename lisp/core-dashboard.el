@@ -6,8 +6,12 @@
 (use-package dashboard
   :ensure t
   :after nerd-icons
+  :commands (dashboard-open)
+  :init
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (run-with-idle-timer 0.3 nil #'dashboard-open)))
   :config
-  (dashboard-setup-startup-hook)
   (defun rk/dashboard-open-in-main-window ()
     "Ensure dashboard opens in a normal main window on startup."
     (when (get-buffer dashboard-buffer-name)
@@ -26,7 +30,7 @@
             (select-window main-win)
             (switch-to-buffer (current-buffer))
             (delete-other-windows))))))
-  (add-hook 'emacs-startup-hook #'rk/dashboard-open-in-main-window 90)
+  (advice-add 'dashboard-open :after (lambda (&rest _) (rk/dashboard-open-in-main-window)))
   (add-hook 'dashboard-mode-hook #'rk/dashboard-normalize-window)
 
   ;; ---- Banner ----

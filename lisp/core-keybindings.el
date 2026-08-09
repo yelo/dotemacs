@@ -39,7 +39,7 @@ BINDINGS are alternating KEY and DEF pairs, where KEY is relative to `SPC m`."
 
 (use-package general
   :ensure t
-  :after (meow which-key)
+  :after meow
   :config
   (general-create-definer rk/leader-keys
     :keymaps '(meow-normal-state-keymap meow-motion-state-keymap)

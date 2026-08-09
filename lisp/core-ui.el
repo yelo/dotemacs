@@ -14,20 +14,18 @@
 
 (use-package which-key
   :ensure nil  ; built-in since Emacs 30
-  :config
-  (which-key-mode 1))
+  :hook (emacs-startup . which-key-mode))
 
 (use-package mood-line
   :ensure t
-  :init
-  (mood-line-mode 1)
+  :hook (emacs-startup . mood-line-mode)
   :custom
   (mood-line-format mood-line-format-default-extended)
   (mood-line-glyph-alist mood-line-glyphs-ascii))
 
 (use-package minions
   :ensure t
-  :init (minions-mode)
+  :hook (emacs-startup . minions-mode)
   :config
   (setq minions-mode-lighter "#"))
 

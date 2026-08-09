@@ -15,7 +15,8 @@ purpose-specific modules under `lisp/`.
 
 `early-init.el` tunes the GC and kills menu/tool/scroll bars before the frame
 is created. `init.el` bootstraps the package system (using `package-quickstart`
-for fast startup), then iterates over `lisp/` modules in order:
+for fast startup), then loads core modules in order and defers optional module
+families until right after startup (or first file open):
 
 | Category              | Module(s)                         |
 | --------------------- | --------------------------------- |
@@ -38,8 +39,21 @@ for fast startup), then iterates over `lisp/` modules in order:
 | AI / Agents           | `ai-*.el` (auto-discovered)       |
 | Early init            | `early-init.el` (frame UI, GC)    |
 
-Language and AI modules are discovered automatically — add or remove files
+Language and AI modules are discovered automatically and loaded once after
+startup (or immediately on first file open), so you can add/remove files
 without touching `init.el`.
+
+## Startup profiling
+
+Use these commands to benchmark and profile startup from a terminal:
+
+```bash
+emacs --init-directory ~/.config/emacs --eval '(kill-emacs)'
+RK_PROFILE_STARTUP=1 emacs --init-directory ~/.config/emacs
+```
+
+With `RK_PROFILE_STARTUP=1`, the built-in CPU+memory profiler starts during
+init and opens a profiler report after startup.
 
 Global frame defaults live in `core-settings`: Emacs starts maximized and uses
 `Iosevka NFM 14` by default across platforms.
@@ -111,7 +125,7 @@ detail. Language modules register hooks for both the classic and `ts` variants.
 | Language | Package / mode | Notable commands               |
 | -------- | -------------- | ------------------------------ |
 | Elisp    | built-in       | eval-last-sexp, ielm, find-fn  |
-| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv**, **pytest** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point, REPL, send region/buffer/file; linting via flycheck `python-ruff` checker. LSP uses `pylsp` for completions/hover/go-to-def — install per project: `pip install "python-lsp-server[all]"` (or `uv add --dev python-lsp-server`). |
+| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point via `python -m pytest`, REPL, send region/buffer/file; linting via flycheck `python-ruff` checker. LSP uses `pylsp` for completions/hover/go-to-def — install per project: `pip install "python-lsp-server[all]"` (or `uv add --dev python-lsp-server`). |
 | Rust     | **rustic** + **flycheck-rust** | cargo build/check/run/test/fmt/clippy; flycheck runs clippy via `flycheck-rust` |
 
 ### Version control

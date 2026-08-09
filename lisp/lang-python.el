@@ -32,9 +32,38 @@
   (add-hook 'python-mode-hook    #'rk/pyvenv-auto-activate)
   (add-hook 'python-ts-mode-hook #'rk/pyvenv-auto-activate))
 
-;; ── pytest: test runner ──
-(use-package pytest
-  :ensure t)
+;; ── pytest commands (project.el-based; no projectile dependency) ──
+(defun rk/python-project-root ()
+  "Return current project root or `default-directory`."
+  (if-let ((proj (project-current nil default-directory)))
+      (project-root proj)
+    default-directory))
+
+(defun rk/python-pytest--run (&optional target)
+  "Run pytest in the current project, optionally scoped to TARGET."
+  (let ((default-directory (rk/python-project-root)))
+    (compile
+     (if (and target (> (length target) 0))
+         (format "python -m pytest %s" (shell-quote-argument target))
+       "python -m pytest"))))
+
+(defun rk/pytest-all ()
+  "Run all Python tests in the current project."
+  (interactive)
+  (rk/python-pytest--run))
+
+(defun rk/pytest-one ()
+  "Run pytest for the current file/function when available."
+  (interactive)
+  (if-let* ((file (buffer-file-name))
+            (root (rk/python-project-root))
+            (rel (file-relative-name file root)))
+      (let ((test (python-info-current-defun)))
+        (rk/python-pytest--run
+         (if (and test (> (length test) 0))
+             (format "%s::%s" rel test)
+           rel)))
+    (user-error "Current buffer is not visiting a file")))
 
 ;; ── keybindings ──
 (rk/lang 'python '(python-mode-map python-ts-mode-map)
@@ -49,5 +78,5 @@
   "a" '(lsp-execute-code-action :which-key "code action")
   "v" '(pyvenv-activate :which-key "activate venv")
   "V" '(pyvenv-deactivate :which-key "deactivate venv")
-  "T" '(pytest-all :which-key "run all tests")
-  "t" '(pytest-one :which-key "run test at point"))
+  "T" '(rk/pytest-all :which-key "run all tests")
+  "t" '(rk/pytest-one :which-key "run test at point"))
