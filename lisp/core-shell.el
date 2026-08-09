@@ -28,7 +28,7 @@
   :hook
   ;; eat-char-mode requires the terminal process to be running, so it must be
   ;; set via eat-exec-hook (fires after exec) not eat-mode-hook (fires before).
-  ;; This forwards all keypresses — including backspace — straight to the shell.
+  ;; Forward all keypresses straight to the shell.
   (eat-exec . eat-char-mode)
   ;; Terminal buffers don't benefit from line numbers.
   (eat-mode . (lambda () (display-line-numbers-mode -1)))
