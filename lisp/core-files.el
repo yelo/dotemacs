@@ -7,6 +7,7 @@
   (setq dired-dwim-target t)
   (setq dired-recursive-copies 'always)
   (setq dired-recursive-deletes 'top)
+  (setq dired-kill-when-opening-new-dired-buffer t)
   (setq delete-by-moving-to-trash t)
   (let ((gls (executable-find "gls")))
     (when gls
@@ -70,10 +71,6 @@
               (when (and (dirvish-curr)
                          (eq 'side (dv-type (dirvish-curr))))
                 (rk/dirvish-side--setup-keys)))))
-
-(use-package dired-preview
-  :ensure t
-  :hook (dired-mode . dired-preview-mode))
 
 (use-package autorevert
   :ensure nil
