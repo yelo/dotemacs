@@ -1,9 +1,14 @@
 ;;; lang-csharp.el --- C# / .NET bindings -*- lexical-binding: t; -*-
 
 ;; Requires: .NET SDK on $PATH.
-;; LSP server: csharp-ls on $PATH (for example: dotnet tool install --global csharp-ls)
-;; csharpier:        optional format-on-save — dotnet tool install -g csharpier
-;; Note: eglot-ensure for csharp-mode and csharp-ts-mode is hooked in core-eglot.el.
+;; LSP server: csharp-ls — install with: dotnet tool install --global csharp-ls
+;; csharpier: optional format-on-save — dotnet tool install -g csharpier
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '((csharp-mode csharp-ts-mode) . ("csharp-ls"))))
+
+(add-hook 'csharp-mode-hook    #'eglot-ensure)
+(add-hook 'csharp-ts-mode-hook #'eglot-ensure)
 
 ;; ── Formatting: csharpier (optional) ──
 (use-package reformatter

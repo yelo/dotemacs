@@ -1,5 +1,8 @@
 ;;; lang-rust.el --- Rust bindings -*- lexical-binding: t; -*-
 
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '((rust-mode rust-ts-mode rustic-mode) . ("rust-analyzer"))))
+
 (use-package rustic
   :ensure t
   :hook (rustic-mode . eglot-ensure)
