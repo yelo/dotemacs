@@ -129,5 +129,11 @@
 (setq hs-show-indicators t)
 (setq hs-display-lines-hidden t)
 
+;; ── editorconfig: honour .editorconfig files in all modes ──
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 (provide 'core-editing)
 ;;; core-editing.el ends here

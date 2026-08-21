@@ -92,7 +92,7 @@ The stack follows the modern Emacs completion paradigm:
 - **mode-line-collapse-minor-modes** (built-in, Emacs 31) — collapses minor mode lighters into a single button. Replaces the `minions` package.
 - **[dashboard](https://github.com/emacs-dashboard/emacs-dashboard)** — cyberpunk-themed startup screen with recents, bookmarks,
   projects, agenda, and navigator buttons. Powered by **[nerd-icons](https://github.com/rainstormstudio/nerd-icons.el)**.
-- **[dirvish](https://github.com/alexluigit/dirvish)** — Dired enhancement with git indicators, nerd-icons, and `fd` integration.
+- **dired** (built-in) — simple file management defaults (recursive copy/delete prompts streamlined, DWIM target, optional GNU `ls` integration).
 - **auto-revert** (built-in) — automatically reverts buffers when files change on disk.
 
 ### LSP & syntax checking
@@ -109,6 +109,10 @@ annotations above function definitions. Toggle per-buffer with `SPC g L`.
 `flycheck` package. Error navigation and checker management live under the
 `SPC e` leader prefix (backed by `core-flymake.el`).
 
+**editorconfig** (ELPA) — globally active; reads `.editorconfig` files and
+applies indent style, line endings, charset, and trailing-whitespace settings
+across all major modes automatically.
+
 **Tree-sitter** (built-in, Emacs 31) — `treesit-enabled-modes` is set to `t`
 so Emacs automatically switches to `*-ts-mode` variants when grammars are
 available. `treesit-auto-install-grammar` is set to `ask` so missing grammars
@@ -121,6 +125,7 @@ to 4 for maximum syntax-highlight detail.
 | Elisp    | built-in       | eval-last-sexp, ielm, find-fn  |
 | Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point (`python -m pytest`), REPL, send region/buffer/file; LSP uses `pylsp` for completions/hover/go-to-def — install per project: `pip install "python-lsp-server[all]"` (or `uv add --dev python-lsp-server`). |
 | Rust     | **rustic** | cargo build/check/run/test/fmt/clippy; diagnostics via flymake |
+| C# / .NET | built-in (`csharp-ts-mode`) + **lsp-csharp** (OmniSharp, auto-downloads), **dap-mode** + netcoredbg (auto-downloads), **reformatter** + csharpier (optional) | dotnet build/run/test, DAP debugging, csharpier format-on-save; only `.NET SDK` on `$PATH` is required — OmniSharp Roslyn downloads via `M-x lsp-install-server`, netcoredbg downloads on first `M-x dap-debug`. Optional: `dotnet tool install -g csharpier` for format-on-save. |
 
 ### Markdown
 
@@ -155,7 +160,7 @@ is used by eglot to render hover documentation with proper syntax highlighting.
 ### Window management
 
 Window placement is fully controlled by `display-buffer-alist` — no random
-popup windows. The layout is:
+popup windows. Rules are grouped by intent (docs/xref, diagnostics/output, shell), and the layout is:
 
 - **Right side** (38%): Help, Apropos, Info, Man, xref, eldoc
 - **Bottom** (25-30%): Compilation, flymake diagnostics, eshell/eat, Messages, Warnings

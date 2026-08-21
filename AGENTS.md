@@ -15,6 +15,7 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
     `core-treesit`, `core-vc`, `core-shell`, `core-markdown`.
   - OS-specific module: `os-macos` (loaded on Darwin only).
   - Auto-discovered module families: `lang-*.el` and `ai-*.el`.
+    Current language modules: `lang-elisp`, `lang-python`, `lang-rust`, `lang-csharp`.
 - `custom.el` stores `custom-set-variables`/`custom-set-faces`
   (auto-generated).
 
