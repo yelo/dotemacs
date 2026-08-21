@@ -74,13 +74,20 @@
   (speedbar-indentation-width 2)
   (speedbar-update-flag t)
   :config
+  (defun rk/speedbar-open-with-mouse (_event)
+    "Open or follow the item clicked in speedbar."
+    (interactive "e")
+    (mouse-set-point last-input-event)
+    (speedbar-edit-line))
+
   (defun rk/speedbar-sync-font-with-ui ()
     "Match speedbar faces to the current default UI font."
     (when (display-graphic-p)
       (let ((family (face-attribute 'default :family nil t))
             (height (face-attribute 'default :height nil t))
             (weight (face-attribute 'default :weight nil t)))
-        (dolist (face '(speedbar-button-face
+        (dolist (face '(speedbar-face
+                        speedbar-button-face
                         speedbar-directory-face
                         speedbar-file-face
                         speedbar-highlight-face
@@ -92,7 +99,32 @@
                                 :family family
                                 :height height
                                 :weight weight))))))
-  (add-hook 'speedbar-mode-hook #'rk/speedbar-sync-font-with-ui)
+  (defun rk/speedbar-mode-setup ()
+    "Apply local speedbar behavior customizations."
+    (rk/speedbar-sync-font-with-ui)
+    (local-set-key [mouse-1] #'rk/speedbar-open-with-mouse))
+
+  (add-hook 'speedbar-mode-hook #'rk/speedbar-mode-setup)
+
+  (defun rk/speedbar--main-window ()
+    "Return the MRU non-speedbar, non-dedicated editing window."
+    (let ((wins (sort (window-list nil 'no-minibuf)
+                      (lambda (a b)
+                        (> (window-use-time a) (window-use-time b))))))
+      (seq-find (lambda (w)
+                  (and (not (window-dedicated-p w))
+                       (not (eq (window-buffer w)
+                                (get-buffer speedbar-buffer)))))
+                wins)))
+
+  (defun rk/speedbar--select-main-window (&rest _)
+    "Select the main editing window before speedbar opens something."
+    (when-let* ((w (rk/speedbar--main-window)))
+      (select-window w)))
+
+  (advice-add 'speedbar-find-file-in-frame :before #'rk/speedbar--select-main-window)
+  (advice-add 'speedbar-buffer-click       :before #'rk/speedbar--select-main-window)
+
   ;; Dock speedbar in the left side window instead of a separate frame
   (when (fboundp 'speedbar-window)
     (defun rk/speedbar-toggle ()
