@@ -20,10 +20,10 @@
   "Toggle visibility of the most recent agent-shell buffer.
 If no agent-shell buffer exists, start one."
   (interactive)
-  (if-let ((buf (seq-find (lambda (b)
+  (if-let* ((buf (seq-find (lambda (b)
                             (string-prefix-p "*agent-shell" (buffer-name b)))
                           (buffer-list))))
-      (if-let ((win (get-buffer-window buf)))
+      (if-let* ((win (get-buffer-window buf)))
           (delete-window win)
         (pop-to-buffer buf))
     (call-interactively #'agent-shell)))
@@ -31,12 +31,12 @@ If no agent-shell buffer exists, start one."
 (defun rk/agent-shell-restart ()
   "Kill the current agent-shell process and buffer, then start a new session."
   (interactive)
-  (if-let ((buf (seq-find (lambda (b)
+  (if-let* ((buf (seq-find (lambda (b)
                             (string-prefix-p "*agent-shell" (buffer-name b)))
                           (buffer-list))))
       (let ((dir (buffer-local-value 'default-directory buf)))
         ;; Prevent process and query hooks from blocking the kill.
-        (when-let ((proc (get-buffer-process buf)))
+        (when-let* ((proc (get-buffer-process buf)))
           (set-process-query-on-exit-flag proc nil)
           (delete-process proc))
         (let ((kill-buffer-query-functions nil))

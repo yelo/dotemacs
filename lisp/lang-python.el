@@ -34,7 +34,7 @@
 ;; ── pytest commands (project.el-based; no projectile dependency) ──
 (defun rk/python-project-root ()
   "Return current project root or `default-directory`."
-  (if-let ((proj (project-current nil default-directory)))
+  (if-let* ((proj (project-current nil default-directory)))
       (project-root proj)
     default-directory))
 
