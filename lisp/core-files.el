@@ -41,9 +41,5 @@
   (auto-revert-verbose nil)
   :hook (emacs-startup . global-auto-revert-mode))
 
-(use-package dired-preview
-  :ensure t
-  :hook (dired-mode . dired-preview-mode))
-
 (provide 'core-files)
 ;;; core-files.el ends here

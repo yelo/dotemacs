@@ -93,7 +93,6 @@ The stack follows the modern Emacs completion paradigm:
 - **[dashboard](https://github.com/emacs-dashboard/emacs-dashboard)** — cyberpunk-themed startup screen with recents, bookmarks,
   projects, agenda, and navigator buttons. Powered by **[nerd-icons](https://github.com/rainstormstudio/nerd-icons.el)**.
 - **[dirvish](https://github.com/alexluigit/dirvish)** — Dired enhancement with git indicators, nerd-icons, and `fd` integration.
-- **dired-preview** — file preview in Dired buffers on hover.
 - **auto-revert** (built-in) — automatically reverts buffers when files change on disk.
 
 ### LSP & syntax checking
