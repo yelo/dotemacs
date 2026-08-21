@@ -74,6 +74,25 @@
   (speedbar-indentation-width 2)
   (speedbar-update-flag t)
   :config
+  (defun rk/speedbar-sync-font-with-ui ()
+    "Match speedbar faces to the current default UI font."
+    (when (display-graphic-p)
+      (let ((family (face-attribute 'default :family nil t))
+            (height (face-attribute 'default :height nil t))
+            (weight (face-attribute 'default :weight nil t)))
+        (dolist (face '(speedbar-button-face
+                        speedbar-directory-face
+                        speedbar-file-face
+                        speedbar-highlight-face
+                        speedbar-selected-face
+                        speedbar-separator-face
+                        speedbar-tag-face))
+          (when (facep face)
+            (set-face-attribute face nil
+                                :family family
+                                :height height
+                                :weight weight))))))
+  (add-hook 'speedbar-mode-hook #'rk/speedbar-sync-font-with-ui)
   ;; Dock speedbar in the left side window instead of a separate frame
   (when (fboundp 'speedbar-window)
     (defun rk/speedbar-toggle ()

@@ -20,6 +20,11 @@
 
 (use-package marginalia
   :ensure t
+  :preface
+  ;; Compatibility shim for stale byte-compiled package combinations where
+  ;; Marginalia calls compat--seconds-to-string directly.
+  (unless (fboundp 'compat--seconds-to-string)
+    (defalias 'compat--seconds-to-string #'seconds-to-string))
   :hook (emacs-startup . marginalia-mode))
 
 (use-package consult
