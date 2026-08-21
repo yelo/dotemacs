@@ -14,55 +14,35 @@
 ;;   RIGHT (slot  0, 38%):  Help, Apropos, Info, Man, Eldoc, xref
 ;;   BOTTOM (slot 0, 25%):  Compilation, flymake, eshell, Messages, Warnings
 
-;; Dashboard always reuses its own window
-(add-to-list 'display-buffer-alist
-             '("\\*[Dd]ashboard\\*"
-               (display-buffer-same-window)))
-
-;; Right side: documentation and navigation
-(add-to-list 'display-buffer-alist
-             '("\\*\\(Help\\|Apropos\\|info\\|Man .*\\)\\*"
-               (display-buffer-in-side-window)
-               (side . right)
-               (slot . 0)
-               (window-width . 0.38)
-               (dedicated . t)))
-
-;; Right side: xref and eldoc
-(add-to-list 'display-buffer-alist
-             '("\\*\\(xref\\|eldoc\\)\\*"
-               (display-buffer-in-side-window)
-               (side . right)
-               (slot . 1)
-               (window-width . 0.38)
-               (dedicated . t)))
-
-;; Bottom: diagnostics, output, process buffers
-(add-to-list 'display-buffer-alist
-             '("\\*\\(Flymake\\|flymake\\|Warnings\\|Messages\\|Backtrace\\|Process List\\|Async Shell Command\\|Compile-Log\\)\\*"
-               (display-buffer-in-side-window)
-               (side . bottom)
-               (slot . 0)
-               (window-height . 0.25)
-               (dedicated . t)))
-
-;; Bottom: compilation
-(add-to-list 'display-buffer-alist
-             '("\\*[Cc]ompil"
-               (display-buffer-in-side-window)
-               (side . bottom)
-               (slot . 0)
-               (window-height . 0.25)
-               (dedicated . t)))
-
-;; Bottom: eshell / shell
-(add-to-list 'display-buffer-alist
-             '("\\*\\(e?shell\\|vterm\\|eat\\|term\\)\\*"
-               (display-buffer-in-side-window)
-               (side . bottom)
-               (slot . 1)
-               (window-height . 0.30)
-               (dedicated . t)))
+(setq display-buffer-alist
+      (append
+       '(("\\*[Dd]ashboard\\*"
+          (display-buffer-same-window))
+         ("\\*\\(Help\\|Apropos\\|info\\|Man .*\\)\\*"
+          (display-buffer-in-side-window)
+          (side . right)
+          (slot . 0)
+          (window-width . 0.38)
+          (dedicated . t))
+         ("\\*\\(xref\\|eldoc\\)\\*"
+          (display-buffer-in-side-window)
+          (side . right)
+          (slot . 1)
+          (window-width . 0.38)
+          (dedicated . t))
+         ("\\(\\*[Cc]ompil\\|\\*\\(Flymake\\|flymake\\|Warnings\\|Messages\\|Backtrace\\|Process List\\|Async Shell Command\\|Compile-Log\\)\\*\\)"
+          (display-buffer-in-side-window)
+          (side . bottom)
+          (slot . 0)
+          (window-height . 0.25)
+          (dedicated . t))
+         ("\\*\\(e?shell\\|vterm\\|eat\\|term\\)\\*"
+          (display-buffer-in-side-window)
+          (side . bottom)
+          (slot . 1)
+          (window-height . 0.30)
+          (dedicated . t)))
+       display-buffer-alist))
 
 ;; ── Speedbar as a side window (Emacs 31) ──
 
@@ -106,31 +86,11 @@
 
   (add-hook 'speedbar-mode-hook #'rk/speedbar-mode-setup)
 
-  (defun rk/speedbar--main-window ()
-    "Return the MRU non-speedbar, non-dedicated editing window."
-    (let ((wins (sort (window-list nil 'no-minibuf)
-                      (lambda (a b)
-                        (> (window-use-time a) (window-use-time b))))))
-      (seq-find (lambda (w)
-                  (and (not (window-dedicated-p w))
-                       (not (eq (window-buffer w)
-                                (get-buffer speedbar-buffer)))))
-                wins)))
-
-  (defun rk/speedbar--select-main-window (&rest _)
-    "Select the main editing window before speedbar opens something."
-    (when-let* ((w (rk/speedbar--main-window)))
-      (select-window w)))
-
-  (advice-add 'speedbar-find-file-in-frame :before #'rk/speedbar--select-main-window)
-  (advice-add 'speedbar-buffer-click       :before #'rk/speedbar--select-main-window)
-
-  ;; Dock speedbar in the left side window instead of a separate frame
-  (when (fboundp 'speedbar-window)
-    (defun rk/speedbar-toggle ()
-      "Toggle speedbar in a left side window."
-      (interactive)
-      (speedbar-window))))
+  ;; Dock speedbar in the left side window instead of a separate frame.
+  (defun rk/speedbar-toggle ()
+    "Toggle speedbar in a left side window."
+    (interactive)
+    (speedbar-window)))
 
 ;; ── Window layout helpers ──
 

@@ -14,25 +14,7 @@
       (setq insert-directory-program gls)
       (setq dired-listing-switches "-alh --group-directories-first"))))
 
-(use-package dirvish
-  :ensure t
-  :commands (dirvish dirvish-side)
-  :hook (dired-mode . dirvish-override-dired-mode)
-  :custom
-  (dirvish-mode-line-format nil)
-  (dirvish-mode-line-height 21)
-  (dirvish-attributes
-   '(subtree-state
-     nerd-icons
-     collapse
-     git-msg
-     file-time
-     file-size))
-  (dirvish-subtree-state-style 'nerd)
-  (dirvish-default-layout '(1 0.11 0.55))
-  (dirvish-hide-details t))
-
-;; dirvish-side removed in favour of speedbar-window (Emacs 31).
+;; Keep file management simple: built-in dired + speedbar side window.
 ;; Speedbar is configured in core-windows.el and toggled via SPC f t.
 
 (use-package autorevert

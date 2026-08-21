@@ -12,27 +12,6 @@
             (lambda ()
               (run-with-idle-timer 0.3 nil #'dashboard-open)))
   :config
-  (defun rk/dashboard-open-in-main-window ()
-    "Ensure dashboard opens in a normal main window on startup."
-    (when (get-buffer dashboard-buffer-name)
-      (let ((main-win (window-main-window)))
-        (when (window-live-p main-win)
-          (select-window main-win)))
-      (switch-to-buffer dashboard-buffer-name)
-      (delete-other-windows)))
-  (defun rk/dashboard-normalize-window ()
-    "Move dashboard out of side windows if another rule displayed it there."
-    (let ((win (get-buffer-window (current-buffer) t)))
-      (when (and (window-live-p win)
-                 (window-parameter win 'window-side))
-        (let ((main-win (window-main-window win)))
-          (when (window-live-p main-win)
-            (select-window main-win)
-            (switch-to-buffer (current-buffer))
-            (delete-other-windows))))))
-  (advice-add 'dashboard-open :after (lambda (&rest _) (rk/dashboard-open-in-main-window)))
-  (add-hook 'dashboard-mode-hook #'rk/dashboard-normalize-window)
-
   ;; ---- Banner ----
   (setq dashboard-startup-banner
         '(logo-ansi-256color logo-braille))
