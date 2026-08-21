@@ -18,6 +18,8 @@
   (eshell-scroll-to-bottom-on-output 'all))
 
 ;; eat — fast terminal emulator; integrates with eshell for visual commands
+;; Note: in Emacs 31, `term` redraws correctly (cursor/line-swallowing bug fixed),
+;; but eat remains the preferred terminal due to better eshell integration.
 (use-package eat
   :ensure t
   :commands (eat)
@@ -35,4 +37,16 @@
   ;; Forward all keypresses straight to the shell.
   (eat-exec . eat-char-mode)
   ;; Terminal buffers don't benefit from line numbers.
-  (eat-mode . (lambda () (display-line-numbers-mode -1))))
+  (eat-mode . (lambda () (display-line-numbers-mode -1)))
+  :config
+  ;; Route eshell visual commands (ssh, htop, …) through eat instead of term.
+  (eat-eshell-mode 1)
+  ;; Keep the cursor style in sync with the running program.
+  (eat-eshell-visual-command-mode 1))
+
+;; Emacs 31: persist IELM input history across sessions.
+(setq ielm-history-file-name
+      (expand-file-name "ielm-history" user-emacs-directory))
+
+(provide 'core-shell)
+;;; core-shell.el ends here

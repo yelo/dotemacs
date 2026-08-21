@@ -1,8 +1,7 @@
 ;;; lang-python.el --- Python bindings -*- lexical-binding: t; -*-
 
 ;; Only use pylsp from the project's .venv.
-;; ruff handles formatting (ruff-format) and diagnostics (flycheck python-ruff)
-;; already; no need for the ruff LSP server on top of that.
+;; ruff handles formatting (ruff-format) and diagnostics via flymake.
 ;; Install per project: pip install "python-lsp-server[all]"
 ;; (or: uv add --dev python-lsp-server)
 (defun rk/python-lsp-setup ()

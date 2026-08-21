@@ -108,7 +108,7 @@ Equivalent to Doom's <leader> m behavior."
 
    ;; files
    "f"    '(:ignore t :wk "files")
-   "ft"   '(dirvish-side               :wk "toggle file tree")
+   "ft"   '(rk/speedbar-toggle         :wk "toggle file tree")
    "ff"   '(find-file                  :wk "find file")
    "fr"   '(consult-recent-file        :wk "recent files")
 
@@ -135,14 +135,14 @@ Equivalent to Doom's <leader> m behavior."
    "wn"   '(windmove-down              :wk "down")
    "ws"   '(windmove-right             :wk "right")
    ;; layouts
-   "wl"   '(rk/2-column-layout         :wk "2 columns")
-   "wL"   '(rk/3-column-layout         :wk "3 columns")
-   "wr"   '(rk/2-row-layout            :wk "2 rows")
-   "wd"   '(rk/toggle-window-split     :wk "toggle split")
    "wz"   '(rk/zoom-toggle             :wk "zoom toggle")
    ;; window history (winner-mode)
    "wu"   '(winner-undo              :wk "undo layout")
    "wU"   '(winner-redo              :wk "redo layout")
+   ;; Emacs 31: layout transforms
+   "wR"   '(window-layout-rotate-clockwise      :wk "rotate clockwise")
+   "wF"   '(window-layout-flip-leftright        :wk "flip left/right")
+   "wT"   '(window-layout-transpose             :wk "transpose")
    ;; actions
    "ww"   '(other-window               :wk "cycle")
    "w|"   '(split-window-right         :wk "split right")
