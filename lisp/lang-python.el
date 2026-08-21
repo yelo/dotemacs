@@ -1,18 +1,12 @@
 ;;; lang-python.el --- Python bindings -*- lexical-binding: t; -*-
 
-;; Only use pylsp from the project's .venv.
+;; Eglot uses pylsp from the active environment.
 ;; ruff handles formatting (ruff-format) and diagnostics via flymake.
 ;; Install per project: pip install "python-lsp-server[all]"
 ;; (or: uv add --dev python-lsp-server)
-(defun rk/python-lsp-setup ()
-  (setq-local lsp-enabled-clients '(pylsp)))
-
-(add-hook 'python-mode-hook    #'rk/python-lsp-setup)
-(add-hook 'python-ts-mode-hook #'rk/python-lsp-setup)
-
-;; Append so lsp starts after pyvenv has activated the .venv and updated exec-path.
-(add-hook 'python-mode-hook    #'lsp-deferred t)
-(add-hook 'python-ts-mode-hook #'lsp-deferred t)
+;; Append so eglot starts after pyvenv has activated the .venv and updated exec-path.
+(add-hook 'python-mode-hook    #'eglot-ensure t)
+(add-hook 'python-ts-mode-hook #'eglot-ensure t)
 
 ;; ── ruff-format: format on save ──
 (use-package ruff-format
@@ -71,10 +65,10 @@
   "b" '(python-shell-send-buffer :which-key "send buffer")
   "f" '(python-shell-send-file :which-key "send file")
   "'" '(run-python :which-key "REPL")
-  "d" '(lsp-find-definition :which-key "go to definition")
-  "D" '(lsp-find-references :which-key "find references")
-  "R" '(lsp-rename :which-key "rename")
-  "a" '(lsp-execute-code-action :which-key "code action")
+  "d" '(xref-find-definitions :which-key "go to definition")
+  "D" '(xref-find-references :which-key "find references")
+  "R" '(eglot-rename :which-key "rename")
+  "a" '(eglot-code-actions :which-key "code action")
   "v" '(pyvenv-activate :which-key "activate venv")
   "V" '(pyvenv-deactivate :which-key "deactivate venv")
   "T" '(rk/pytest-all :which-key "run all tests")

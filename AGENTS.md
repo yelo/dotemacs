@@ -11,7 +11,7 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
 - `lisp/` contains configuration modules by concern:
   - Core modules loaded in fixed order: `core-settings`, `core-ui`,
     `core-dashboard`, `core-files`, `core-editing`, `core-windows`,
-    `core-keybindings`, `core-completion`, `core-lsp`, `core-flymake`,
+    `core-keybindings`, `core-completion`, `core-eglot`, `core-flymake`,
     `core-treesit`, `core-vc`, `core-shell`, `core-markdown`.
   - OS-specific module: `os-macos` (loaded on Darwin only).
   - Auto-discovered module families: `lang-*.el` and `ai-*.el`.

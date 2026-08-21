@@ -176,7 +176,7 @@ Equivalent to Doom's <leader> m behavior."
    "gl"   '(magit-log-current          :wk "log current")
    "gc"   '(magit-commit-create        :wk "commit")
    "gB"   '(blamer-mode                :wk "toggle inline blame")
-   "gL"   '(lsp-lens-mode              :wk "toggle code lens")
+   "gL"   '(eglot-inlay-hints-mode     :wk "toggle inlay hints")
 
    ;; help
    "h"    '(:ignore t :wk "help")

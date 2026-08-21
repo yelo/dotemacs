@@ -35,7 +35,7 @@
                 "core-windows"
                 "core-keybindings"
                 "core-completion"
-                "core-lsp"
+                "core-eglot"
                 "core-flymake"
                 "core-treesit"
                 "core-vc"

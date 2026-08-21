@@ -28,7 +28,7 @@ families until right after startup (or first file open):
 | Window management     | `core-windows`                    |
 | Keybindings           | `core-keybindings`                |
 | Completion            | `core-completion`                 |
-| LSP                   | `core-lsp`                        |
+| LSP                   | `core-eglot`                      |
 | Syntax checking       | `core-flymake`                    |
 | Tree-sitter           | `core-treesit`                    |
 | Version control       | `core-vc`                         |
@@ -97,13 +97,13 @@ The stack follows the modern Emacs completion paradigm:
 
 ### LSP & syntax checking
 
-**[lsp-mode](https://github.com/emacs-lsp/lsp-mode)** provides IDE features (diagnostics, refactoring, code actions).
-Language modules hook `lsp-deferred` in and expose cargo / python-shell / eval
-commands under `SPC m`. LSP diagnostics are routed through **flymake** via
-`lsp-diagnostics-provider :flymake`.
+**eglot** (built-in, Emacs 31) provides IDE features (diagnostics, refactoring,
+code actions) without external client packages. Language modules hook
+`eglot-ensure` in and expose cargo / python-shell / eval commands under
+`SPC m`.
 
-**lsp-lens-mode** (built into lsp-mode) provides Code Vision–style inline
-annotations above function definitions. Toggle per-buffer with `SPC g L`.
+**eglot-inlay-hints-mode** provides inline type/parameter hints where supported
+by the language server. Toggle per-buffer with `SPC g L`.
 
 **flymake** (built-in) is the global syntax-checking layer, replacing the
 `flycheck` package. Error navigation and checker management live under the
@@ -123,9 +123,9 @@ to 4 for maximum syntax-highlight detail.
 | Language | Package / mode | Notable commands               |
 | -------- | -------------- | ------------------------------ |
 | Elisp    | built-in       | eval-last-sexp, ielm, find-fn  |
-| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point (`python -m pytest`), REPL, send region/buffer/file; LSP uses `pylsp` for completions/hover/go-to-def — install per project: `pip install "python-lsp-server[all]"` (or `uv add --dev python-lsp-server`). |
+| Python   | built-in (`python-ts-mode`) + **ruff-format**, **pyvenv** | format on save (ruff), virtualenv activate/deactivate, run all tests / test at point (`python -m pytest`), REPL, send region/buffer/file; eglot uses `pylsp` for completions/hover/go-to-def — install per project: `pip install "python-lsp-server[all]"` (or `uv add --dev python-lsp-server`). |
 | Rust     | **rustic** | cargo build/check/run/test/fmt/clippy; diagnostics via flymake |
-| C# / .NET | built-in (`csharp-ts-mode`) + **lsp-csharp** (OmniSharp, auto-downloads), **dap-mode** + netcoredbg (auto-downloads), **reformatter** + csharpier (optional) | dotnet build/run/test, DAP debugging, csharpier format-on-save; only `.NET SDK` on `$PATH` is required — OmniSharp Roslyn downloads via `M-x lsp-install-server`, netcoredbg downloads on first `M-x dap-debug`. Optional: `dotnet tool install -g csharpier` for format-on-save. |
+| C# / .NET | built-in (`csharp-ts-mode`) + **reformatter** + csharpier (optional) | dotnet build/run/test, csharpier format-on-save; install `csharp-ls` for eglot (`dotnet tool install -g csharp-ls`) and ensure `.NET SDK` is on `$PATH`. Optional: `dotnet tool install -g csharpier` for format-on-save. |
 
 ### Markdown
 

@@ -1,16 +1,11 @@
 ;;; lang-csharp.el --- C# / .NET bindings -*- lexical-binding: t; -*-
 
 ;; Requires: .NET SDK on $PATH.
-;; OmniSharp Roslyn: auto-downloads via M-x lsp-install-server RET cs RET
-;; netcoredbg:       auto-downloads on first M-x dap-debug (needs libxml2 Emacs)
+;; LSP server: csharp-ls on $PATH (for example: dotnet tool install --global csharp-ls)
 ;; csharpier:        optional format-on-save — dotnet tool install -g csharpier
 
-;; ── LSP: OmniSharp Roslyn via lsp-mode ──
-(with-eval-after-load 'lsp-mode
-  ;; lsp-csharp is bundled with lsp-mode; enable it for csharp-ts-mode.
-  (require 'lsp-csharp))
-
-(add-hook 'csharp-ts-mode-hook #'lsp-deferred)
+;; ── LSP: eglot ──
+(add-hook 'csharp-ts-mode-hook #'eglot-ensure)
 
 ;; ── Formatting: csharpier (optional) ──
 (use-package reformatter
@@ -27,15 +22,6 @@
     (csharpier-format-on-save-mode 1)))
 
 (add-hook 'csharp-ts-mode-hook #'rk/csharpier-format-on-save-if-available)
-
-;; ── Debugging: dap-mode + netcoredbg (auto-downloads on first use) ──
-(use-package dap-mode
-  :ensure t
-  :after lsp-mode
-  :commands (dap-debug dap-breakpoint-toggle)
-  :config
-  (require 'dap-netcore)
-  (dap-auto-configure-mode 1))
 
 ;; ── dotnet build/run/test helpers ──
 (defun rk/dotnet--project-root ()
@@ -71,9 +57,7 @@
   "r" '(rk/dotnet-run                :which-key "dotnet run")
   "t" '(rk/dotnet-test               :which-key "dotnet test")
   "f" '(csharpier-format-buffer       :which-key "csharpier format")
-  "d" '(dap-debug                    :which-key "dap debug")
-  "D" '(dap-breakpoint-toggle        :which-key "toggle breakpoint")
-  "a" '(lsp-execute-code-action      :which-key "code action")
-  "R" '(lsp-rename                   :which-key "rename")
-  "." '(lsp-find-definition          :which-key "go to definition")
-  "?" '(lsp-find-references          :which-key "find references"))
+  "a" '(eglot-code-actions           :which-key "code action")
+  "R" '(eglot-rename                 :which-key "rename")
+  "." '(xref-find-definitions        :which-key "go to definition")
+  "?" '(xref-find-references         :which-key "find references"))

@@ -2,9 +2,8 @@
 
 (use-package rustic
   :ensure t
-  :hook (rustic-mode . lsp-deferred)
+  :hook (rustic-mode . eglot-ensure)
   :init
-  (setq rustic-lsp-client 'lsp-mode)
   ;; Use flymake for diagnostics (replaces flycheck-rust)
   (setq rustic-flycheck-setup-mode-line-p nil)
   :config
@@ -15,8 +14,8 @@
     "t" '(rustic-cargo-test :which-key "cargo test")
     "f" '(rustic-cargo-fmt :which-key "cargo fmt")
     "l" '(rustic-cargo-clippy :which-key "cargo clippy")
-    "d" '(lsp-find-definition :which-key "go to definition")
-    "D" '(lsp-find-references :which-key "find references")
-    "R" '(lsp-rename :which-key "rename")
-    "a" '(lsp-execute-code-action :which-key "code action")
+    "d" '(xref-find-definitions :which-key "go to definition")
+    "D" '(xref-find-references :which-key "find references")
+    "R" '(eglot-rename :which-key "rename")
+    "a" '(eglot-code-actions :which-key "code action")
     "=" '(rustic-cargo-outdated :which-key "cargo outdated")))
