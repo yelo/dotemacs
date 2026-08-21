@@ -3,9 +3,7 @@
 ;; Requires: .NET SDK on $PATH.
 ;; LSP server: csharp-ls on $PATH (for example: dotnet tool install --global csharp-ls)
 ;; csharpier:        optional format-on-save — dotnet tool install -g csharpier
-
-;; ── LSP: eglot ──
-(add-hook 'csharp-ts-mode-hook #'eglot-ensure)
+;; Note: eglot-ensure for csharp-mode and csharp-ts-mode is hooked in core-eglot.el.
 
 ;; ── Formatting: csharpier (optional) ──
 (use-package reformatter

@@ -1,10 +1,11 @@
 ;;; lang-python.el --- Python bindings -*- lexical-binding: t; -*-
 
-;; Eglot uses pylsp from the active environment.
+;; Eglot uses pylsp from the active environment (managed via pyvenv below).
 ;; ruff handles formatting (ruff-format) and diagnostics via flymake.
 ;; Install per project: pip install "python-lsp-server[all]"
 ;; (or: uv add --dev python-lsp-server)
-;; Append so eglot starts after pyvenv has activated the .venv and updated exec-path.
+;; Appended (:append t) so eglot-ensure runs after pyvenv activates the .venv
+;; and updates exec-path, ensuring pylsp is found in the project virtualenv.
 (add-hook 'python-mode-hook    #'eglot-ensure t)
 (add-hook 'python-ts-mode-hook #'eglot-ensure t)
 

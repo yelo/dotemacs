@@ -3,6 +3,11 @@
 (use-package eglot
   :ensure nil
   :commands (eglot eglot-ensure eglot-rename eglot-code-actions)
+  :hook
+  ;; Auto-start eglot for supported language modes.
+  ;; Python is handled in lang-python.el (appended after pyvenv activates .venv).
+  ;; Rust is handled in lang-rust.el (rustic :hook).
+  ((csharp-mode csharp-ts-mode) . eglot-ensure)
   :config
   ;; Use markdown-ts-mode to render hover documentation.
   (setq eglot-doc-markdown-mode 'markdown-ts-view-mode)
