@@ -13,6 +13,8 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
     `core-windows`, `core-keybindings`, `core-completion`, `core-eglot`,
     `core-flymake`, `core-treesit`, `core-vc`, `core-shell`, `core-markdown`,
     `core-tabs`.
+  - TTY-only module: `core-tty` (loaded only when Emacs has no window
+    system, i.e. `(display-graphic-p)` is nil).
   - OS-specific modules: `os-macos`, `os-linux`, `os-windows`.
   - Auto-discovered optional family: `lang-*.el`.
     Current language modules: `lang-elisp`, `lang-python`, `lang-rust`, `lang-csharp`.
@@ -43,6 +45,9 @@ Commit messages must follow [Conventional Commits](https://www.conventionalcommi
 ```
 
 Types: `feat`, `fix`, `chore`, `docs`, `style`, `refactor`, `perf`, `test`, `ci`, `revert`.
+
+Do not add a `Co-authored-by` trailer (or any other AI-attribution trailer)
+to commit messages in this repository.
 
 ## README Maintenance
 
