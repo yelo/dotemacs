@@ -22,7 +22,6 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
 
 - `lisp/` — first-party config modules (main customization surface).
 - `site-lisp/` — manually installed Lisp code (if present).
-- `elpa/` — optional `package.el` installation directory (not used by default in this branch).
 
 Keep behavior changes in modules under `lisp/` and keep bootstrap concerns in
 `early-init.el`/`init.el`.

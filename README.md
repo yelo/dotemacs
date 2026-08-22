@@ -34,7 +34,8 @@ no external packages required or loaded.
 - **VC:** built-in `vc` / `vc-dir` with Emacs 31 VC improvements.
 - **Shell:** `eshell`, `shell`, `term` (no third-party terminal packages).
 - **Windows/popups:** `display-buffer-alist`, `winner-mode`, `speedbar-window`.
-- **Markdown:** built-in `markdown-ts-mode` when available.
+- **Markdown:** built-in `markdown-ts-mode` enabled by default for markdown files.
+- **Startup launcher:** custom built-in startup buffer with quick actions + daily rotating tip/quote.
 
 ## Keybindings
 
@@ -48,6 +49,22 @@ minimal prefixes:
 - `C-c b`: `switch-to-buffer`
 - `C-c r`: `recentf-open-files`
 - `C-c !`: flymake shortcuts (`l` list, `n/p` next/prev, `s` start)
+- `C-c S`: reopen startup launcher buffer
+
+## Startup launcher
+
+On startup, Emacs opens a minimal built-in launcher buffer with:
+- a daily rotating tip/quote,
+- quick actions for file/project/config entry points,
+- optional fun built-ins (`tetris`, `snake`, `zone`).
+
+In the startup buffer, use:
+- `f` find file
+- `r` recent files
+- `p` switch project
+- `i` open `init.el`
+- `t` tetris, `s` snake, `z` zone
+- `q` close launcher window
 
 ## Language modules
 
