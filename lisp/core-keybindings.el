@@ -20,6 +20,11 @@
 (define-key rk/window-map (kbd "1") #'delete-other-windows)
 (define-key rk/window-map (kbd "=") #'balance-windows)
 (define-key rk/window-map (kbd "z") #'rk/zoom-toggle)
+(define-key rk/window-map (kbd "t") #'window-layout-transpose)
+(define-key rk/window-map (kbd "r") #'window-layout-rotate-clockwise)
+(define-key rk/window-map (kbd "R") #'window-layout-rotate-anticlockwise)
+(define-key rk/window-map (kbd "f") #'window-layout-flip-leftright)
+(define-key rk/window-map (kbd "F") #'window-layout-flip-topdown)
 
 (defvar rk/vc-map (make-sparse-keymap)
   "Version-control shortcuts under C-c v.")

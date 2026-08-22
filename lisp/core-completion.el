@@ -13,6 +13,11 @@
       completion-category-defaults nil
       completion-category-overrides '((file (styles basic partial-completion))))
 
+;; Emacs 31: refresh and show completions eagerly while typing.
+(setq completion-eager-update t
+      completion-eager-display t
+      minibuffer-visible-completions 'up-down)
+
 ;; File and buffer candidates for built-in completion commands.
 (recentf-mode 1)
 (setq recentf-max-saved-items 500)

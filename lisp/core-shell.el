@@ -1,9 +1,5 @@
 ;;; core-shell.el --- Shell and terminal configuration -*- lexical-binding: t; -*-
 
-(let ((fish "/opt/homebrew/bin/fish"))
-  (when (file-executable-p fish)
-    (setq explicit-shell-file-name fish)))
-
 ;; eshell — Emacs's built-in shell.
 (setq eshell-prefer-lisp-functions nil
       eshell-destroy-buffer-when-process-dies t

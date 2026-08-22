@@ -25,14 +25,18 @@ features only, with no external packages required or loaded.
 ## Built-in-only feature set
 
 - **Completion:** `fido-vertical-mode`, built-in completion styles, `savehist`,
-  `recentf`, `completion-preview-mode`.
+  `recentf`, `completion-preview-mode`, eager completion updates/display
+  (`completion-eager-update`, `completion-eager-display`), and up/down
+  minibuffer candidate navigation (`minibuffer-visible-completions`).
 - **Editing:** stock Emacs key model, electric-pair, show-paren, repeat-mode,
+  `kill-region-dwim` (`C-w` kills backward word when no region is active),
   long-line handling via `global-so-long-mode`.
 - **Projects & search:** `project.el`, `project-find-regexp`.
 - **LSP/diagnostics:** `eglot` + `flymake`.
 - **Tree-sitter:** `treesit-enabled-modes`, `treesit-auto-install-grammar`.
 - **VC:** built-in `vc` / `vc-dir` with Emacs 31 VC improvements.
-- **Shell:** `eshell`, `shell`, `term` (no third-party terminal packages).
+- **Shell:** `eshell`, `shell`, `term` (uses your default shell; no third-party
+  terminal packages).
 - **Windows/popups:** `display-buffer-alist`, `winner-mode`, `speedbar-window`,
   `windmove` (Shift+arrows), `help-window-select`, `compilation-scroll-output`.
 - **Session/position restore:** `desktop-save-mode` restores session/frame
@@ -60,7 +64,7 @@ prefixes:
 - `C-c p`: project commands (`f` find-file, `p` switch-project, `d` dired,
   `s` search, `t` open project in a new tab, named after the project)
 - `C-c w`: window commands (`2/3` split, `0/1` delete, `o` other, `=` balance,
-  `z` zoom/restore)
+  `z` zoom/restore, `t` transpose layout, `r/R` rotate layout, `f/F` flip layout)
 - `C-c v`: VC commands (`d` vc-dir, `=` vc-diff, `l` vc-log)
 - `C-c f`: `find-file`
 - `C-c b`: `switch-to-buffer`
