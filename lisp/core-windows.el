@@ -36,7 +36,7 @@
           (slot . 0)
           (window-height . 0.25)
           (dedicated . t))
-         ("\\*\\(e?shell\\|vterm\\|eat\\|term\\)\\*"
+         ("\\*\\(e?shell\\|term\\)\\*"
           (display-buffer-in-side-window)
           (side . bottom)
           (slot . 1)
@@ -46,51 +46,51 @@
 
 ;; ── Speedbar as a side window (Emacs 31) ──
 
-(use-package speedbar
-  :ensure nil
-  :custom
-  (speedbar-use-images nil)
-  (speedbar-show-unknown-files t)
-  (speedbar-indentation-width 2)
-  (speedbar-update-flag t)
-  :config
-  (defun rk/speedbar-open-with-mouse (_event)
-    "Open or follow the item clicked in speedbar."
-    (interactive "e")
-    (mouse-set-point last-input-event)
-    (speedbar-edit-line))
+(require 'speedbar)
 
-  (defun rk/speedbar-sync-font-with-ui ()
-    "Match speedbar faces to the current default UI font."
-    (when (display-graphic-p)
-      (let ((family (face-attribute 'default :family nil t))
-            (height (face-attribute 'default :height nil t))
-            (weight (face-attribute 'default :weight nil t)))
-        (dolist (face '(speedbar-face
-                        speedbar-button-face
-                        speedbar-directory-face
-                        speedbar-file-face
-                        speedbar-highlight-face
-                        speedbar-selected-face
-                        speedbar-separator-face
-                        speedbar-tag-face))
-          (when (facep face)
-            (set-face-attribute face nil
-                                :family family
-                                :height height
-                                :weight weight))))))
-  (defun rk/speedbar-mode-setup ()
-    "Apply local speedbar behavior customizations."
-    (rk/speedbar-sync-font-with-ui)
-    (local-set-key [mouse-1] #'rk/speedbar-open-with-mouse))
+(setq speedbar-use-images nil
+      speedbar-show-unknown-files t
+      speedbar-indentation-width 2
+      speedbar-update-flag t)
 
-  (add-hook 'speedbar-mode-hook #'rk/speedbar-mode-setup)
+(defun rk/speedbar-open-with-mouse (_event)
+  "Open or follow the item clicked in speedbar."
+  (interactive "e")
+  (mouse-set-point last-input-event)
+  (speedbar-edit-line))
 
-  ;; Dock speedbar in the left side window instead of a separate frame.
-  (defun rk/speedbar-toggle ()
-    "Toggle speedbar in a left side window."
-    (interactive)
-    (speedbar-window)))
+(defun rk/speedbar-sync-font-with-ui ()
+  "Match speedbar faces to the current default UI font."
+  (when (display-graphic-p)
+    (let ((family (face-attribute 'default :family nil t))
+          (height (face-attribute 'default :height nil t))
+          (weight (face-attribute 'default :weight nil t)))
+      (dolist (face '(speedbar-face
+                      speedbar-button-face
+                      speedbar-directory-face
+                      speedbar-file-face
+                      speedbar-highlight-face
+                      speedbar-selected-face
+                      speedbar-separator-face
+                      speedbar-tag-face))
+        (when (facep face)
+          (set-face-attribute face nil
+                              :family family
+                              :height height
+                              :weight weight))))))
+
+(defun rk/speedbar-mode-setup ()
+  "Apply local speedbar behavior customizations."
+  (rk/speedbar-sync-font-with-ui)
+  (local-set-key [mouse-1] #'rk/speedbar-open-with-mouse))
+
+(add-hook 'speedbar-mode-hook #'rk/speedbar-mode-setup)
+
+;; Dock speedbar in the left side window instead of a separate frame.
+(defun rk/speedbar-toggle ()
+  "Toggle speedbar in a left side window."
+  (interactive)
+  (speedbar-window))
 
 ;; ── Window layout helpers ──
 

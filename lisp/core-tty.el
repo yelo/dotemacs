@@ -11,11 +11,6 @@
 (global-set-key [mouse-4] (lambda () (interactive) (scroll-down 3)))
 (global-set-key [mouse-5] (lambda () (interactive) (scroll-up 3)))
 
-;;; Clipboard / kill-ring integration via xclip or xsel or pbcopy
-(use-package clipetty
-  :ensure t
-  :hook (after-init . global-clipetty-mode))
-
 ;;; Avoid garbled display: don't blink the cursor (terminal cursors vary)
 (blink-cursor-mode -1)
 

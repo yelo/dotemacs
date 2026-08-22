@@ -1,14 +1,12 @@
 ;;; lang-elisp.el --- Emacs Lisp bindings -*- lexical-binding: t; -*-
 
-(rk/lang 'elisp-mode 'emacs-lisp-mode-map
-  "e" '(eval-last-sexp :which-key "eval expression")
-  "b" '(eval-buffer :which-key "eval buffer")
-  "r" '(eval-region :which-key "eval region")
-  "d" '(eval-defun :which-key "eval defun")
-  "f" '(find-function :which-key "find function")
-  "v" '(find-variable :which-key "find variable")
-  "h" '(describe-function :which-key "describe function")
-  "w" '(elisp-index-search :which-key "search manual")
-  "C" '(check-parens :which-key "check parens")
-  "i" '(ielm :which-key "ielm REPL")
-  "m" '(macroexpand-last-sexp :which-key "macroexpand"))
+(with-eval-after-load 'elisp-mode
+  (define-key emacs-lisp-mode-map (kbd "C-c C-z") #'ielm)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-b") #'eval-buffer)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-r") #'eval-region)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-d") #'eval-defun)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-f") #'find-function)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-v") #'find-variable))
+
+(provide 'lang-elisp)
+;;; lang-elisp.el ends here

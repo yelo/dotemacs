@@ -1,8 +1,6 @@
 ;;; core-files.el --- File management -*- lexical-binding: t; -*-
 
-(use-package dired
-  :ensure nil
-  :config
+(with-eval-after-load 'dired
   (setq dired-listing-switches "-alh")
   (setq dired-dwim-target t)
   (setq dired-recursive-copies 'always)
@@ -15,13 +13,9 @@
       (setq dired-listing-switches "-alh --group-directories-first"))))
 
 ;; Keep file management simple: built-in dired + speedbar side window.
-;; Speedbar is configured in core-windows.el and toggled via SPC f t.
 
-(use-package autorevert
-  :ensure nil
-  :custom
-  (auto-revert-verbose nil)
-  :hook (emacs-startup . global-auto-revert-mode))
+(setq auto-revert-verbose nil)
+(add-hook 'emacs-startup-hook #'global-auto-revert-mode)
 
 (provide 'core-files)
 ;;; core-files.el ends here
