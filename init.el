@@ -19,6 +19,7 @@
 ;; Core modules (order matters for dependencies)
 (dolist (core '("core-settings"
                 "core-ui"
+                "core-modeline"
                 "core-dashboard"
                 "core-files"
                 "core-editing"

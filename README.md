@@ -11,7 +11,7 @@ features only, with no external packages required or loaded.
   `package-enable-at-startup` disabled).
 - `init.el`: loads `custom.el`, then loads modules from `lisp/`.
 - `lisp/` core modules (fixed order):
-  - `core-settings`, `core-ui`, `core-dashboard`, `core-files`,
+  - `core-settings`, `core-ui`, `core-modeline`, `core-dashboard`, `core-files`,
     `core-editing`, `core-windows`, `core-keybindings`, `core-completion`,
     `core-eglot`, `core-flymake`, `core-treesit`, `core-vc`, `core-shell`,
     `core-markdown`, `core-tabs`
@@ -39,6 +39,10 @@ features only, with no external packages required or loaded.
   state; `save-place-mode` restores point position per file.
 - **Workspaces:** `core-tabs` — `tab-bar-mode` used as a project-per-tab
   workspace switcher (see Keybindings below).
+- **Mode-line:** `core-modeline` — segmented, right-aligned mode-line
+  (status icon, buffer name, VC branch, mode name, position) tuned for the
+  `wombat` theme, with Nerd Font glyphs in GUI frames and plain-text
+  fallbacks in terminals.
 - **Markdown:** built-in `markdown-ts-mode` enabled by default for markdown files.
 - **Startup launcher:** custom built-in startup buffer with a startup status line and quick actions.
 - **Editing ergonomics:** `hs-minor-mode` (code folding indicators),
