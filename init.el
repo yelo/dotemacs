@@ -30,7 +30,8 @@
                 "core-treesit"
                 "core-vc"
                 "core-shell"
-                "core-markdown"))
+                "core-markdown"
+                "core-tabs"))
   (load (expand-file-name core (expand-file-name "lisp/" user-emacs-directory))))
 
 ;; TTY / terminal-mode enhancements (only when running without a window system)

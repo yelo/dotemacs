@@ -11,7 +11,7 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
   - Core modules loaded in fixed order: `core-settings`, `core-ui`,
     `core-dashboard`, `core-files`, `core-editing`, `core-windows`,
     `core-keybindings`, `core-completion`, `core-eglot`, `core-flymake`,
-    `core-treesit`, `core-vc`, `core-shell`, `core-markdown`.
+    `core-treesit`, `core-vc`, `core-shell`, `core-markdown`, `core-tabs`.
   - OS-specific modules: `os-macos`, `os-linux`, `os-windows`.
   - Auto-discovered optional family: `lang-*.el`.
     Current language modules: `lang-elisp`, `lang-python`, `lang-rust`, `lang-csharp`.

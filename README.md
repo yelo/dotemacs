@@ -14,7 +14,7 @@ features only, with no external packages required or loaded.
   - `core-settings`, `core-ui`, `core-dashboard`, `core-files`,
     `core-editing`, `core-windows`, `core-keybindings`, `core-completion`,
     `core-eglot`, `core-flymake`, `core-treesit`, `core-vc`, `core-shell`,
-    `core-markdown`
+    `core-markdown`, `core-tabs`
 - Optional module families:
   - `lang-*.el` (auto-discovered and loaded once after startup / first file)
 - OS modules:
@@ -37,6 +37,8 @@ features only, with no external packages required or loaded.
   `windmove` (Shift+arrows), `help-window-select`, `compilation-scroll-output`.
 - **Session/position restore:** `desktop-save-mode` restores session/frame
   state; `save-place-mode` restores point position per file.
+- **Workspaces:** `core-tabs` — `tab-bar-mode` used as a project-per-tab
+  workspace switcher (see Keybindings below).
 - **Markdown:** built-in `markdown-ts-mode` enabled by default for markdown files.
 - **Startup launcher:** custom built-in startup buffer with a startup status line and quick actions.
 - **Editing ergonomics:** `hs-minor-mode` (code folding indicators),
@@ -52,7 +54,7 @@ This configuration stays close to stock Emacs bindings and adds a few minimal
 prefixes:
 
 - `C-c p`: project commands (`f` find-file, `p` switch-project, `d` dired,
-  `s` search)
+  `s` search, `t` open project in a new tab, named after the project)
 - `C-c w`: window commands (`2/3` split, `0/1` delete, `o` other, `=` balance)
 - `C-c v`: VC commands (`d` vc-dir, `=` vc-diff, `l` vc-log)
 - `C-c f`: `find-file`
@@ -63,6 +65,7 @@ prefixes:
 - `C-c S`: reopen startup launcher buffer
 - `Shift+←/→/↑/↓`: move between windows (`windmove`)
 - `C-x C-j`: jump to the current file's directory in dired (`dired-x`)
+- `C-x t`: built-in `tab-bar-mode` prefix (new/close/switch tabs)
 
 ## Startup launcher
 
