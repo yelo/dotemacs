@@ -5,21 +5,11 @@
 (setq inhibit-startup-screen t
       initial-scratch-message "")
 
-(defconst rk/startup-quotes
-  '("Keep it simple. Keep it built-in."
-    "Small keymaps, big focus."
-    "Refactor fearlessly; validate relentlessly."
-    "Treat warnings as invitations to improve."
-    "Today’s shortcut is tomorrow’s muscle memory."
-    "Edit with intent, ship with confidence.")
-  "Short rotating startup tips/quotes.")
-
-(defun rk/startup-quote-of-day ()
-  "Return a deterministic quote for the current day."
-  (let* ((day (1- (string-to-number (format-time-string "%j"))))
-         (year (string-to-number (format-time-string "%Y")))
-         (idx (mod (+ day year) (length rk/startup-quotes))))
-    (nth idx rk/startup-quotes)))
+(defun rk/startup-status-line ()
+  "Return combined startup status line."
+  (format "Emacs 31 • Started in %s • %d garbage collections"
+          (emacs-init-time "%0.2f seconds")
+          gcs-done))
 
 (defun rk/startup-open-recent-files ()
   "Open the recent files menu."
@@ -53,29 +43,19 @@
   (local-set-key (kbd "r") #'rk/startup-open-recent-files)
   (local-set-key (kbd "p") #'project-switch-project)
   (local-set-key (kbd "i") #'rk/open-init-file)
-  (local-set-key (kbd "q") #'quit-window)
-  (local-set-key (kbd "t") #'tetris)
-  (local-set-key (kbd "z") #'zone)
-  (local-set-key (kbd "s") #'snake)
   (run-mode-hooks 'special-mode-hook))
 
 (defun rk/startup-buffer-refresh ()
   "Render startup buffer content."
   (let ((inhibit-read-only t))
     (erase-buffer)
-    (insert "Vanilla Emacs 31\n")
-    (insert "Built-in only • minimal interactive launcher\n\n")
-    (insert (format "Tip of the day: %s\n\n" (rk/startup-quote-of-day)))
+    (insert (rk/startup-status-line))
+    (insert "\n\n")
     (insert "Actions\n")
     (rk/startup--insert-action "f" "Find file" #'find-file)
     (rk/startup--insert-action "r" "Recent files" #'rk/startup-open-recent-files)
     (rk/startup--insert-action "p" "Switch project" #'project-switch-project)
     (rk/startup--insert-action "i" "Open init.el" #'rk/open-init-file)
-    (insert "\nFun (built-ins)\n")
-    (rk/startup--insert-action "t" "Tetris" #'tetris)
-    (rk/startup--insert-action "s" "Snake" #'snake)
-    (rk/startup--insert-action "z" "Zone out" #'zone)
-    (insert "\nPress q to close this window.\n")
     (goto-char (point-min))))
 
 (defun rk/startup-buffer ()

@@ -34,8 +34,9 @@ features only, with no external packages required or loaded.
 - **VC:** built-in `vc` / `vc-dir` with Emacs 31 VC improvements.
 - **Shell:** `eshell`, `shell`, `term` (no third-party terminal packages).
 - **Windows/popups:** `display-buffer-alist`, `winner-mode`, `speedbar-window`.
+- **Session restore:** `desktop-save-mode` restores session/frame state across restarts.
 - **Markdown:** built-in `markdown-ts-mode` enabled by default for markdown files.
-- **Startup launcher:** custom built-in startup buffer with quick actions + daily rotating tip/quote.
+- **Startup launcher:** custom built-in startup buffer with a startup status line and quick actions.
 
 ## Keybindings
 
@@ -54,17 +55,14 @@ prefixes:
 ## Startup launcher
 
 On startup, Emacs opens a minimal built-in launcher buffer with:
-- a daily rotating tip/quote,
-- quick actions for file/project/config entry points,
-- optional fun built-ins (`tetris`, `snake`, `zone`).
+- a combined Emacs/version + startup timing + GC status line,
+- quick actions for file/project/config entry points.
 
 In the startup buffer, use:
 - `f` find file
 - `r` recent files
 - `p` switch project
 - `i` open `init.el`
-- `t` tetris, `s` snake, `z` zone
-- `q` close launcher window
 
 ## Language modules
 
