@@ -33,24 +33,36 @@ features only, with no external packages required or loaded.
 - **Tree-sitter:** `treesit-enabled-modes`, `treesit-auto-install-grammar`.
 - **VC:** built-in `vc` / `vc-dir` with Emacs 31 VC improvements.
 - **Shell:** `eshell`, `shell`, `term` (no third-party terminal packages).
-- **Windows/popups:** `display-buffer-alist`, `winner-mode`, `speedbar-window`.
-- **Session restore:** `desktop-save-mode` restores session/frame state across restarts.
+- **Windows/popups:** `display-buffer-alist`, `winner-mode`, `speedbar-window`,
+  `windmove` (Shift+arrows), `help-window-select`, `compilation-scroll-output`.
+- **Session/position restore:** `desktop-save-mode` restores session/frame
+  state; `save-place-mode` restores point position per file.
 - **Markdown:** built-in `markdown-ts-mode` enabled by default for markdown files.
 - **Startup launcher:** custom built-in startup buffer with a startup status line and quick actions.
+- **Editing ergonomics:** `hs-minor-mode` (code folding indicators),
+  `global-subword-mode` (camelCase-aware motion), `isearch-lazy-count`
+  (match position), `which-function-mode` (current function in mode line),
+  `uniquify` (clear same-named buffer names), extra `savehist` variables
+  (kill-ring/search history).
+- **Files:** `dired-x` (`C-x C-j` dired-jump, `dired-omit-mode`).
 
 ## Keybindings
 
 This configuration stays close to stock Emacs bindings and adds a few minimal
 prefixes:
 
-- `C-c p`: project commands (`f` find-file, `p` switch-project, `d` dired, `s` search)
+- `C-c p`: project commands (`f` find-file, `p` switch-project, `d` dired,
+  `s` search)
 - `C-c w`: window commands (`2/3` split, `0/1` delete, `o` other, `=` balance)
 - `C-c v`: VC commands (`d` vc-dir, `=` vc-diff, `l` vc-log)
 - `C-c f`: `find-file`
 - `C-c b`: `switch-to-buffer`
 - `C-c r`: `recentf-open-files`
+- `C-c i`: `imenu`
 - `C-c !`: flymake shortcuts (`l` list, `n/p` next/prev, `s` start)
 - `C-c S`: reopen startup launcher buffer
+- `Shift+←/→/↑/↓`: move between windows (`windmove`)
+- `C-x C-j`: jump to the current file's directory in dired (`dired-x`)
 
 ## Startup launcher
 
