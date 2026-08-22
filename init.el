@@ -1,23 +1,13 @@
 ;;; init.el --- Main configuration entry point -*- lexical-binding: t; -*-
 
-;;; Bootstrap package.el
-(require 'package)
-(setq package-quickstart t)
-;; package-quickstart.el is auto-generated; run M-x package-quickstart-refresh
-;; after installing packages to rebuild it (absent file → full scan, works fine).
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-(unless package--initialized (package-initialize))
-
-;;; use-package is built-in since Emacs 29
-(require 'use-package)
-(setq use-package-always-ensure t)
-
 ;;; Custom file — keep auto-generated settings out of init.el
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))
 (load custom-file nil t)
+
+;; Avoid loading stale byte-compiled files when source is newer.
+(setq load-prefer-newer t)
 
 (setq byte-compile-warnings '(not cl-functions))
 (require 'cl-lib)
@@ -57,7 +47,7 @@
    (load (expand-file-name "os-windows" (expand-file-name "lisp/" user-emacs-directory)) nil t)))
 
 (defvar rk/extra-modules-loaded nil
-  "Non-nil once optional language and AI modules have been loaded.")
+  "Non-nil once optional language modules have been loaded.")
 
 (defun rk/load-module-family (prefix)
   "Load all optional modules from lisp/ that start with PREFIX."
@@ -67,11 +57,10 @@
     (load file nil t)))
 
 (defun rk/load-extra-modules ()
-  "Load optional language and AI modules once."
+  "Load optional language modules once."
   (unless rk/extra-modules-loaded
     (setq rk/extra-modules-loaded t)
-    (rk/load-module-family "lang")
-    (rk/load-module-family "ai")))
+    (rk/load-module-family "lang")))
 
 ;; Keep startup critical path minimal; load optional modules right after startup
 ;; or immediately when the first file is opened.

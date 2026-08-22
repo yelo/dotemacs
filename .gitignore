@@ -13,5 +13,7 @@ projectile-frecency.eld
 projects
 recentf
 history
+desktop
+.emacs.desktop.lock
 *.elc
 *~

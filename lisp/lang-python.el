@@ -6,27 +6,9 @@
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pylsp"))))
 
-;; Appended (:append t) so eglot-ensure runs after pyvenv activates the .venv
-;; and updates exec-path, ensuring pylsp is found in the project virtualenv.
+;; Appended (:append t) so project-local settings are applied first.
 (add-hook 'python-mode-hook    #'eglot-ensure t)
 (add-hook 'python-ts-mode-hook #'eglot-ensure t)
-
-;; ── ruff-format: format on save ──
-(use-package ruff-format
-  :ensure t
-  :hook ((python-mode python-ts-mode) . ruff-format-on-save-mode))
-
-;; ── pyvenv: virtual environment management ──
-(use-package pyvenv
-  :ensure t
-  :hook ((python-mode python-ts-mode) . pyvenv-mode)
-  :init
-  (defun rk/pyvenv-auto-activate ()
-    (let ((venv (locate-dominating-file default-directory ".venv")))
-      (when venv
-        (pyvenv-activate (expand-file-name ".venv" venv)))))
-  (add-hook 'python-mode-hook    #'rk/pyvenv-auto-activate)
-  (add-hook 'python-ts-mode-hook #'rk/pyvenv-auto-activate))
 
 ;; ── pytest commands (project.el-based; no projectile dependency) ──
 (defun rk/python-project-root ()
@@ -61,18 +43,12 @@
            rel)))
     (user-error "Current buffer is not visiting a file")))
 
-;; ── keybindings ──
-(rk/lang 'python '(python-mode-map python-ts-mode-map)
-  "e" '(python-shell-send-statement :which-key "send statement")
-  "r" '(python-shell-send-region :which-key "send region")
-  "b" '(python-shell-send-buffer :which-key "send buffer")
-  "f" '(python-shell-send-file :which-key "send file")
-  "'" '(run-python :which-key "REPL")
-  "d" '(xref-find-definitions :which-key "go to definition")
-  "D" '(xref-find-references :which-key "find references")
-  "R" '(eglot-rename :which-key "rename")
-  "a" '(eglot-code-actions :which-key "code action")
-  "v" '(pyvenv-activate :which-key "activate venv")
-  "V" '(pyvenv-deactivate :which-key "deactivate venv")
-  "T" '(rk/pytest-all :which-key "run all tests")
-  "t" '(rk/pytest-one :which-key "run test at point"))
+(with-eval-after-load 'python
+  (define-key python-mode-map (kbd "C-c t a") #'rk/pytest-all)
+  (define-key python-mode-map (kbd "C-c t t") #'rk/pytest-one)
+  (when (boundp 'python-ts-mode-map)
+    (define-key python-ts-mode-map (kbd "C-c t a") #'rk/pytest-all)
+    (define-key python-ts-mode-map (kbd "C-c t t") #'rk/pytest-one)))
+
+(provide 'lang-python)
+;;; lang-python.el ends here

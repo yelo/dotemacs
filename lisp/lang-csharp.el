@@ -10,22 +10,6 @@
 (add-hook 'csharp-mode-hook    #'eglot-ensure)
 (add-hook 'csharp-ts-mode-hook #'eglot-ensure)
 
-;; ── Formatting: csharpier (optional) ──
-(use-package reformatter
-  :ensure t
-  :config
-  (reformatter-define csharpier-format
-    :program "dotnet-csharpier"
-    :args '("--write-stdout")
-    :lighter " CSF"))
-
-(defun rk/csharpier-format-on-save-if-available ()
-  "Enable csharpier format-on-save only when dotnet-csharpier is on PATH."
-  (when (executable-find "dotnet-csharpier")
-    (csharpier-format-on-save-mode 1)))
-
-(add-hook 'csharp-ts-mode-hook #'rk/csharpier-format-on-save-if-available)
-
 ;; ── dotnet build/run/test helpers ──
 (defun rk/dotnet--project-root ()
   "Return the project root (nearest .sln or .csproj ancestor, else project.el root)."
@@ -54,13 +38,15 @@
   (let ((default-directory (rk/dotnet--project-root)))
     (compile "dotnet test")))
 
-;; ── SPC m keybindings ──
-(rk/lang 'csharp-ts-mode '(csharp-ts-mode-map)
-  "b" '(rk/dotnet-build              :which-key "dotnet build")
-  "r" '(rk/dotnet-run                :which-key "dotnet run")
-  "t" '(rk/dotnet-test               :which-key "dotnet test")
-  "f" '(csharpier-format-buffer       :which-key "csharpier format")
-  "a" '(eglot-code-actions           :which-key "code action")
-  "R" '(eglot-rename                 :which-key "rename")
-  "." '(xref-find-definitions        :which-key "go to definition")
-  "?" '(xref-find-references         :which-key "find references"))
+(with-eval-after-load 'csharp-mode
+  (when (boundp 'csharp-mode-map)
+    (define-key csharp-mode-map (kbd "C-c b") #'rk/dotnet-build)
+    (define-key csharp-mode-map (kbd "C-c r") #'rk/dotnet-run)
+    (define-key csharp-mode-map (kbd "C-c t") #'rk/dotnet-test))
+  (when (boundp 'csharp-ts-mode-map)
+    (define-key csharp-ts-mode-map (kbd "C-c b") #'rk/dotnet-build)
+    (define-key csharp-ts-mode-map (kbd "C-c r") #'rk/dotnet-run)
+    (define-key csharp-ts-mode-map (kbd "C-c t") #'rk/dotnet-test)))
+
+(provide 'lang-csharp)
+;;; lang-csharp.el ends here

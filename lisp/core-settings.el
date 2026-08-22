@@ -28,8 +28,15 @@
 ;;; Global font and startup frame behavior
 (add-to-list 'default-frame-alist '(font . "Iosevka NFM-14"))
 (add-to-list 'initial-frame-alist '(font . "Iosevka NFM-14"))
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;;; Restore previous session state (including frame/window state when available)
+(setq desktop-dirname user-emacs-directory
+      desktop-path (list user-emacs-directory)
+      desktop-base-file-name "desktop"
+      desktop-save t
+      desktop-load-locked-desktop t
+      desktop-restore-eager 5)
+(desktop-save-mode 1)
 
 ;;; Emacs 29/30 built-in quality-of-life defaults
 (setq scroll-margin 0

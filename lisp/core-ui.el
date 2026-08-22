@@ -1,4 +1,4 @@
-;;; core-ui.el --- UI packages -*- lexical-binding: t; -*-
+;;; core-ui.el --- UI defaults -*- lexical-binding: t; -*-
 
 ;; ---- Fonts ----
 ;; Only "Iosevka Nerd Font" is installed; plain Iosevka is not available.
@@ -12,26 +12,27 @@
                       :height 135
                       :weight 'regular))
 
-(use-package which-key
-  :ensure nil  ; built-in since Emacs 30
-  :hook (emacs-startup . which-key-mode))
-
-(use-package mood-line
-  :ensure t
-  :hook (emacs-startup . mood-line-mode)
-  :custom
-  (mood-line-format mood-line-format-default-extended)
-  (mood-line-glyph-alist mood-line-glyphs-ascii))
-
-;; Emacs 31: collapse minor mode lighters into a single button, replacing minions.
+;; Emacs 31: collapse minor mode lighters into a single button.
 (setq mode-line-collapse-minor-modes t)
 
-(use-package solarized-theme
-  :ensure t
-  :init
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (load-theme 'solarized-gruvbox-dark t))))
+(defun rk/apply-ui-face-tweaks ()
+  "Apply small readability tweaks after theme load."
+  (require 'hl-line)
+  (when (facep 'hl-line)
+    (set-face-attribute 'hl-line nil
+                        :inherit nil
+                        :foreground 'unspecified
+                        :background "#3a3a3a"
+                        :underline nil
+                        :overline nil
+                        :box nil
+                        :extend t)))
+
+;; Built-in theme only.
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (load-theme 'wombat t)
+            (rk/apply-ui-face-tweaks)))
 
 (provide 'core-ui)
 ;;; core-ui.el ends here

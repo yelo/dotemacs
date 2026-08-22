@@ -2,10 +2,7 @@
 
 ;; Global eglot settings only. Per-language server programs and eglot-ensure
 ;; hooks live in the respective lang-*.el modules.
-(use-package eglot
-  :ensure nil
-  :commands (eglot eglot-ensure eglot-rename eglot-code-actions)
-  :config
+(with-eval-after-load 'eglot
   ;; Use markdown-ts-mode to render hover documentation.
   (setq eglot-doc-markdown-mode 'markdown-ts-view-mode)
   ;; Inline code-action hints can be noisy with some language servers.
