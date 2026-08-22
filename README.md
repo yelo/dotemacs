@@ -2,8 +2,8 @@
 
 > **Requires Emacs 31+**
 
-This branch is a **vanilla Emacs 31** configuration: built-in features only,
-no external packages required or loaded.
+This repository contains a **vanilla Emacs 31** configuration: built-in
+features only, with no external packages required or loaded.
 
 ## Architecture
 
@@ -39,8 +39,8 @@ no external packages required or loaded.
 
 ## Keybindings
 
-This branch intentionally stays close to stock Emacs bindings and adds a few
-minimal prefixes:
+This configuration stays close to stock Emacs bindings and adds a few minimal
+prefixes:
 
 - `C-c p`: project commands (`f` find-file, `p` switch-project, `d` dired, `s` search)
 - `C-c w`: window commands (`2/3` split, `0/1` delete, `o` other, `=` balance)
