@@ -17,9 +17,6 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 500)
 
-;; Keep stock keybindings; only add one convenience project search binding.
-(keymap-global-set "C-c k" #'project-find-regexp)
-
 ;; Completion at point remains the built-in CAPF stack.
 (setq tab-always-indent 'complete)
 

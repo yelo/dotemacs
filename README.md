@@ -59,7 +59,8 @@ prefixes:
 
 - `C-c p`: project commands (`f` find-file, `p` switch-project, `d` dired,
   `s` search, `t` open project in a new tab, named after the project)
-- `C-c w`: window commands (`2/3` split, `0/1` delete, `o` other, `=` balance)
+- `C-c w`: window commands (`2/3` split, `0/1` delete, `o` other, `=` balance,
+  `z` zoom/restore)
 - `C-c v`: VC commands (`d` vc-dir, `=` vc-diff, `l` vc-log)
 - `C-c f`: `find-file`
 - `C-c b`: `switch-to-buffer`

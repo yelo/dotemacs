@@ -95,12 +95,6 @@
 
 (add-hook 'speedbar-mode-hook #'rk/speedbar-mode-setup)
 
-;; Dock speedbar in the left side window instead of a separate frame.
-(defun rk/speedbar-toggle ()
-  "Toggle speedbar in a left side window."
-  (interactive)
-  (speedbar-window))
-
 ;; ── Window layout helpers ──
 
 (defvar rk/zoom--saved-config nil

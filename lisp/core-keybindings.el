@@ -19,6 +19,7 @@
 (define-key rk/window-map (kbd "0") #'delete-window)
 (define-key rk/window-map (kbd "1") #'delete-other-windows)
 (define-key rk/window-map (kbd "=") #'balance-windows)
+(define-key rk/window-map (kbd "z") #'rk/zoom-toggle)
 
 (defvar rk/vc-map (make-sparse-keymap)
   "Version-control shortcuts under C-c v.")

@@ -12,9 +12,6 @@
                       :height 135
                       :weight 'regular))
 
-;; Emacs 31: collapse minor mode lighters into a single button.
-(setq mode-line-collapse-minor-modes t)
-
 (defun rk/apply-ui-face-tweaks ()
   "Apply small readability tweaks after theme load."
   (require 'hl-line)
