@@ -29,8 +29,8 @@ Keep behavior changes in modules under `lisp/` and keep bootstrap concerns in
 
 ## Emacs 31 target
 
-This branch is intentionally **built-in only**: no external package dependency
-is required for normal startup and workflows.
+This configuration is intentionally **built-in only**: no external package
+dependency is required for normal startup and workflows.
 
 ## Commit Conventions
 

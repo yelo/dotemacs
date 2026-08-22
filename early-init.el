@@ -5,7 +5,9 @@
       gc-cons-percentage 0.6)
 (setq read-process-output-max (* 1024 1024))
 
-;; Must be set here — init.el is loaded after package initialization.
+;; This config is built-in only (no elpa/ packages), so skip package.el's
+;; startup activation entirely. Must be set here — init.el is loaded after
+;; package initialization, so setting it there would be too late.
 (setq package-enable-at-startup nil)
 
 ;; Temporarily disable expensive file-name handlers during startup.
