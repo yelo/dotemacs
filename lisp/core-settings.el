@@ -59,6 +59,10 @@
 ;;; Emacs 31 settings
 ;; No surprise fan spin-up from background native compilation on battery.
 (setq native-comp-async-on-battery-power nil)
+;; Don't pop up a warnings buffer for routine native-comp warnings.
+(setq native-comp-async-report-warnings-errors 'silent)
+;; Keyboard-only prompts: no GUI dialog boxes for save/kill confirmations.
+(setq use-dialog-box nil)
 ;; Live lossage view — useful when screen-sharing or teaching.
 (setq view-lossage-auto-refresh t)
 ;; Show help-at-point documentation via ElDoc.

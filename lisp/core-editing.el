@@ -30,6 +30,16 @@
 ;; Emacs 31: show fold indicators and line counts in the fringe.
 (setq hs-show-indicators t)
 (setq hs-display-lines-hidden t)
+(add-hook 'prog-mode-hook #'hs-minor-mode) ; hs-show-indicators needs this to do anything
+
+;; Stop at camelCase/snake_case boundaries when moving/killing words.
+(global-subword-mode 1)
+
+;; Show "N/M" match position while isearching (Emacs 27+).
+(setq isearch-lazy-count t)
+
+;; Show the current function/method name in the mode line.
+(add-hook 'prog-mode-hook #'which-function-mode)
 
 (provide 'core-editing)
 ;;; core-editing.el ends here

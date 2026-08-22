@@ -4,7 +4,8 @@
 (fido-vertical-mode 1)
 (setq enable-recursive-minibuffers t)
 
-;; Persist minibuffer history.
+;; Persist minibuffer history, plus kill-ring and search history.
+(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
 (savehist-mode 1)
 
 ;; Built-in completion styles only.

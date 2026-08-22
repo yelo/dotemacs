@@ -31,6 +31,7 @@
 (keymap-global-set "C-c b" #'switch-to-buffer)
 (keymap-global-set "C-c r" #'recentf-open-files)
 (keymap-global-set "C-c S" #'rk/startup-buffer)
+(keymap-global-set "C-c i" #'imenu)
 
 (provide 'core-keybindings)
 ;;; core-keybindings.el ends here

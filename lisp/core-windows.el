@@ -7,6 +7,15 @@
 ;; ── Prefer not to switch to another buffer when closing a popup window ──
 (setq quit-restore-window-no-switch t)
 
+;; ── Fast window navigation with Shift+arrow keys ──
+(windmove-default-keybindings 'shift)
+
+;; ── Auto-focus docked *Help* windows instead of requiring C-x o ──
+(setq help-window-select t)
+
+;; ── Auto-scroll compile/flymake output, stopping at the first error ──
+(setq compilation-scroll-output 'first-error)
+
 ;; ── display-buffer-alist: single source of truth for window placement ──
 ;;
 ;; Layout:
