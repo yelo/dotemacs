@@ -49,10 +49,33 @@ Types: `feat`, `fix`, `chore`, `docs`, `style`, `refactor`, `perf`, `test`, `ci`
 Do not add a `Co-authored-by` trailer (or any other AI-attribution trailer)
 to commit messages in this repository.
 
-## README Maintenance
+## Documentation Maintenance
 
+### README.md
 Keep `README.md` updated when adding, removing, or substantially reconfiguring
 modules or workflows so architecture and user-facing behavior stay accurate.
 
+### AGENTS.md
 Keep `AGENTS.md` updated when the module list in `lisp/` changes (new modules
 added, modules renamed, or the Emacs version target changes).
+
+### HOWTO.md
+Keep `HOWTO.md` up-to-date whenever configuration changes may impact end-user
+workflows. Trigger points include:
+
+- **Keybindings changed or added** in `core-keybindings.el` or language modules
+  (e.g., `C-c p`, `C-c w`, `C-c v`, `C-c !`, language-specific helpers like
+  `C-c t a` for Python).
+- **Window/popup routing modified** in `core-windows.el`'s `display-buffer-alist`
+  (e.g., which side Help/compilation/shell windows appear on).
+- **Language modules added/removed** in `lisp/lang-*.el` (affects §10 "LSP &
+  diagnostics" and §13 "Daily workflows" pattern descriptions).
+- **LSP servers changed** for any language (affects server names mentioned in
+  language module documentation).
+- **New major features enabled** in core modules (e.g., new completion style,
+  new session restore behavior, new shell/term handling).
+- **Startup launcher or essential workflows modified** (affects §12 and §13).
+
+When in doubt: if an end-user workflow or keybinding changes, `HOWTO.md` likely
+needs a corresponding update. Verify with `HOWTO.md` by tracing the section that
+documents the feature (use section references like §10, §13, etc.).
