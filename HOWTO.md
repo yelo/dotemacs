@@ -167,14 +167,19 @@ To start fresh without a restored session, run
 ## 8. Completion & the minibuffer (`core-completion.el`)
 
 - **`fido-vertical-mode`** gives you a vertical completion UI in the
-  minibuffer: type, use `↑`/`↓` to move, `RET` to accept, `C-g` to abort.
-- **Completion styles** are `basic`, `partial-completion`, `initials`,
-  `substring` — so `M-x` and `C-x b` match abbreviations and substrings
+  minibuffer; `*Completions*` is shown/updated eagerly and rendered as a
+  one-column list with bounded height.
+- **Completion styles** are `basic`, `partial-completion`, `flex`, `initials`,
+  `substring` — so `M-x` and `C-x b` match abbreviations, substrings, and
+  fuzzy in-order patterns
   (e.g. `M-x rvb` → `revert-buffer`; `C-x b p t` → `project-todos`).
+- **Minibuffer list navigation** supports `↑`/`↓` plus `C-n`/`C-p`; `RET`
+  accepts the highlighted completion candidate.
 - **`completion-preview-mode`** shows inline completion previews in code
   buffers; press `TAB` to accept.
 - **`tab-always-indent`** is `complete`, so `TAB` completes at point.
-- Minibuffer candidates update eagerly while you type (`completion-eager-*`).
+- **Eglot completion** uses `rk/flex-noinsert`: flex-ranked candidates are kept,
+  but ambiguous `TAB` no longer inserts merged fuzzy guesses before selection.
 
 ---
 

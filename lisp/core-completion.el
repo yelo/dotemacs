@@ -1,5 +1,36 @@
 ;;; core-completion.el --- Completion framework -*- lexical-binding: t; -*-
 
+;; Keep flex ordering from completion backends.
+(defun rk/completion-preserve-order (completions)
+  "Return COMPLETIONS unchanged."
+  completions)
+
+(defun rk/completion-flex-noinsert-metadata (metadata)
+  "Prefer backend-provided ordering for METADATA."
+  (let ((meta (if (and (consp metadata) (eq (car metadata) 'metadata))
+                  (cdr metadata)
+                metadata)))
+    `(metadata
+      (display-sort-function . rk/completion-preserve-order)
+      (cycle-sort-function . rk/completion-preserve-order)
+      ,@meta)))
+
+(defun rk/completion-flex-try-noinsert (string table pred point)
+  "Try flex completion while avoiding ambiguous insertion."
+  (let ((result (completion-flex-try-completion string table pred point)))
+    (if (and (consp result)
+             (> (cdr result) point)
+             (> (length (completion-flex-all-completions string table pred point)) 1))
+        (cons string point)
+      result)))
+
+(add-to-list 'completion-styles-alist
+             '(rk/flex-noinsert
+               rk/completion-flex-try-noinsert
+               completion-flex-all-completions
+               "Flex completion without inserting ambiguous merged candidates."
+               (completion--adjust-metadata . rk/completion-flex-noinsert-metadata)))
+
 ;; Built-in minibuffer completion UI.
 (fido-vertical-mode 1)
 (setq enable-recursive-minibuffers t)
@@ -9,14 +40,27 @@
 (savehist-mode 1)
 
 ;; Built-in completion styles only.
-(setq completion-styles '(basic partial-completion initials substring)
+(setq completion-styles '(basic partial-completion flex initials substring)
       completion-category-defaults nil
-      completion-category-overrides '((file (styles basic partial-completion))))
+      completion-category-overrides
+      '((file (styles basic partial-completion))
+        (eglot-capf (styles rk/flex-noinsert basic initials substring))))
 
 ;; Emacs 31: refresh and show completions eagerly while typing.
 (setq completion-eager-update t
       completion-eager-display t
+      completion-auto-select t
+      completion-show-help nil
+      completions-format 'one-column
+      completions-max-height 10
+      completions-sort 'historical
       minibuffer-visible-completions 'up-down)
+
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-visible-completions-up-down-map (kbd "C-n")
+              #'minibuffer-next-completion)
+  (define-key minibuffer-visible-completions-up-down-map (kbd "C-p")
+              #'minibuffer-previous-completion))
 
 ;; File and buffer candidates for built-in completion commands.
 (recentf-mode 1)

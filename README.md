@@ -24,10 +24,13 @@ features only, with no external packages required or loaded.
 
 ## Built-in-only feature set
 
-- **Completion:** `fido-vertical-mode`, built-in completion styles, `savehist`,
-  `recentf`, `completion-preview-mode`, eager completion updates/display
-  (`completion-eager-update`, `completion-eager-display`), and up/down
-  minibuffer candidate navigation (`minibuffer-visible-completions`).
+- **Completion:** `fido-vertical-mode`, built-in completion styles (including
+  `flex`), eager `*Completions*` updates/display, one-column completions
+  layout (`completions-format`, `completions-max-height`), auto-selection of
+  completions, `savehist`, `recentf`, `completion-preview-mode`, up/down
+  minibuffer candidate navigation (`minibuffer-visible-completions`) with
+  `C-n`/`C-p`, and Eglot-scoped `rk/flex-noinsert` to avoid ambiguous TAB
+  insertion while keeping flex-style ranking.
 - **Editing:** stock Emacs key model, electric-pair, show-paren, repeat-mode,
   `kill-region-dwim` (`C-w` kills backward word when no region is active),
   long-line handling via `global-so-long-mode`.
