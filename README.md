@@ -19,17 +19,31 @@ emacs --init-directory ~/.config/emacs
 
 ## Architecture
 
-This config is organized as a **modular system**: a bootstrap layer (`init.el`,
-`early-init.el`), a set of **core modules** handling UI, editing, completion,
-and LSP, optional **language-specific modules** for Python, Rust, C#, and Elisp,
-and OS-specific tweaks for macOS, Linux, and Windows. Each module is
-independent; features and keybindings are self-contained and easy to customize.
+This config is organized as a **modular system**. At its core are two bootstrap
+files: `init.el` and `early-init.el`, which handle loading and initial setup.
+
+The **core modules** in `lisp/` provide essential functionality: UI rendering,
+editing, completion, and LSP integration. These form the foundation of the
+configuration and are loaded in a fixed order to ensure proper initialization.
+
+**Language-specific modules** (`lang-python.el`, `lang-rust.el`, etc.) extend
+support for particular programming languages. **OS-specific modules** adapt
+the configuration for macOS, Linux, and Windows.
+
+Each module is independent; features and keybindings are self-contained and
+easy to customize or disable.
 
 ## Support & Navigation
 
-**Supported languages:** Python, Rust, C#, Elisp
-**For keybindings and workflows:** See [HOWTO.md](HOWTO.md)
-**For detailed feature breakdowns:** Read the module files in `lisp/`
+**Supported languages:**
+- Python
+- Rust
+- C#
+- Elisp
+
+**Documentation:**
+- Keybindings and workflows: [HOWTO.md](HOWTO.md)
+- Detailed feature breakdowns: See module files in `lisp/`
 
 ## Startup profiling
 
