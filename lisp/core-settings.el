@@ -11,17 +11,84 @@
 (setq auto-revert-use-notify t)   ; use OS filesystem notifications instead of polling
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;;; Backup and autosave — redirect to system tmp
-(defconst rk/emacs-tmp-dir
-  (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
+;;; Centralized writable-state paths (persistent or ephemeral)
+(defconst rk/emacs-ephemeral-cache-dir
+  (expand-file-name (format "emacs%d-cache/" (user-uid)) temporary-file-directory)
+  "Ephemeral cache directory for this user.")
+
+(defcustom rk/cache-directory
+  (expand-file-name "cache/" user-emacs-directory)
+  "Root directory for Emacs writable state files."
+  :type `(choice
+          (const :tag "Persistent cache under user-emacs-directory"
+                 ,(expand-file-name "cache/" user-emacs-directory))
+          (const :tag "Ephemeral cache under temporary-file-directory"
+                 ,rk/emacs-ephemeral-cache-dir)
+          (directory :tag "Custom cache directory"))
+  :group 'convenience)
+
+(when (and (stringp custom-file)
+           (file-readable-p custom-file))
+  (load custom-file 'noerror 'nomessage))
+
+(defconst rk/cache-paths
+  '((backup-directory . "backup/")
+    (auto-save-directory . "auto-save/files/")
+    (auto-save-list-directory . "auto-save/sessions/")
+    (desktop-directory . "desktop/")
+    (savehist-file . "history/savehist")
+    (recentf-save-file . "history/recentf")
+    (save-place-file . "history/save-place")
+    (bookmark-default-file . "bookmarks")
+    (project-list-file . "project/list")
+    (ielm-history-file-name . "history/ielm")
+    (url-history-file . "network/url/history")
+    (nsm-settings-file . "network/security.data")
+    (eshell-directory-name . "eshell/")
+    (eshell-history-file-name . "eshell/history")
+    (tramp-persistency-file-name . "tramp/persistency"))
+  "Mapping of writable state keys to relative paths under `rk/cache-directory'.")
+
+(defun rk/cache-path (key)
+  "Return absolute cache path associated with KEY."
+  (let ((rel (alist-get key rk/cache-paths)))
+    (unless rel
+      (error "Unknown cache path key: %s" key))
+    (expand-file-name rel rk/cache-directory)))
+
+(defun rk/cache-ensure-directories ()
+  "Create `rk/cache-directory' and all mapped directories."
+  (make-directory rk/cache-directory t)
+  (dolist (entry rk/cache-paths)
+    (let* ((rel (cdr entry))
+           (path (rk/cache-path (car entry)))
+           (dir (if (directory-name-p rel)
+                    path
+                  (file-name-directory path))))
+      (when dir
+        (make-directory dir t)))))
+
+(rk/cache-ensure-directories)
+
 (setq backup-by-copying t
       delete-old-versions t
       kept-new-versions 6
       kept-old-versions 2
       version-control t
-      auto-save-list-file-prefix rk/emacs-tmp-dir
-      auto-save-file-name-transforms `((".*" ,rk/emacs-tmp-dir t))
-      backup-directory-alist `((".*" . ,rk/emacs-tmp-dir)))
+      auto-save-list-file-prefix
+      (expand-file-name ".saves-" (rk/cache-path 'auto-save-list-directory))
+      auto-save-file-name-transforms `((".*" ,(rk/cache-path 'auto-save-directory) t))
+      backup-directory-alist `((".*" . ,(rk/cache-path 'backup-directory)))
+      savehist-file (rk/cache-path 'savehist-file)
+      recentf-save-file (rk/cache-path 'recentf-save-file)
+      save-place-file (rk/cache-path 'save-place-file)
+      bookmark-default-file (rk/cache-path 'bookmark-default-file)
+      project-list-file (rk/cache-path 'project-list-file)
+      ielm-history-file-name (rk/cache-path 'ielm-history-file-name)
+      url-history-file (rk/cache-path 'url-history-file)
+      nsm-settings-file (rk/cache-path 'nsm-settings-file)
+      eshell-directory-name (rk/cache-path 'eshell-directory-name)
+      eshell-history-file-name (rk/cache-path 'eshell-history-file-name))
 
 (setq create-lockfiles nil)
 
@@ -30,13 +97,17 @@
 (add-to-list 'initial-frame-alist '(font . "Iosevka NFM-14"))
 
 ;;; Restore previous session state (including frame/window state when available)
-(setq desktop-dirname user-emacs-directory
-      desktop-path (list user-emacs-directory)
+(setq desktop-dirname (rk/cache-path 'desktop-directory)
+      desktop-path (list desktop-dirname)
       desktop-base-file-name "desktop"
       desktop-save t
       desktop-load-locked-desktop t
       desktop-restore-eager 5)
 (desktop-save-mode 1)
+
+(with-eval-after-load 'tramp
+  (setopt tramp-persistency-file-name
+          (rk/cache-path 'tramp-persistency-file-name)))
 
 ;;; Emacs 29/30 built-in quality-of-life defaults
 (setq scroll-margin 0

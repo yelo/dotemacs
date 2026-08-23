@@ -43,7 +43,9 @@ features only, with no external packages required or loaded.
 - **Windows/popups:** `display-buffer-alist`, `winner-mode`, `speedbar-window`,
   `windmove` (Shift+arrows), `help-window-select`, `compilation-scroll-output`.
 - **Session/position restore:** `desktop-save-mode` restores session/frame
-  state; `save-place-mode` restores point position per file.
+  state; `save-place-mode` restores point position per file. Writable state is
+  centralized under `rk/cache-directory` (persistent by default, switchable to
+  an ephemeral tmp cache).
 - **Workspaces:** `core-tabs` — `tab-bar-mode` used as a project-per-tab
   workspace switcher (see Keybindings below).
 - **Mode-line:** `core-modeline` — segmented, right-aligned mode-line

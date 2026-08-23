@@ -18,9 +18,5 @@
 (add-hook 'shell-mode-hook (lambda () (display-line-numbers-mode -1)))
 (add-hook 'term-mode-hook (lambda () (display-line-numbers-mode -1)))
 
-;; Emacs 31: persist IELM input history across sessions.
-(setq ielm-history-file-name
-      (expand-file-name "ielm-history" user-emacs-directory))
-
 (provide 'core-shell)
 ;;; core-shell.el ends here

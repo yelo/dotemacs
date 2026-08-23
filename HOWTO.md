@@ -153,14 +153,18 @@ have more than one tab (`tab-bar-show 1`).
 ## 7. desktop-mode & session restore
 
 - **`desktop-save-mode`** (on by default, `core-settings.el`) saves your session
-  — buffers, window/frame layout — to `~/.config/emacs/desktop` and restores it
-  on startup. Use `M-x desktop-save` to save on demand.
+  — buffers, window/frame layout — to
+  `~/.config/emacs/cache/desktop/desktop` by default and restores it on startup.
+  Use `M-x desktop-save` to save on demand.
 - **`save-place-mode`** remembers point per file (§4).
 - **`savehist-mode`** persists minibuffer history, the kill ring, and search
   history across sessions.
 
 To start fresh without a restored session, run
-`M-x desktop-clear` or remove `desktop` in your config dir.
+`M-x desktop-clear` or remove the `desktop/` entry in your cache directory.
+All writable state paths are rooted at `rk/cache-directory` (`M-x
+customize-variable RET rk/cache-directory`), so you can switch between a
+persistent cache and a tmp-backed ephemeral cache.
 
 ---
 
@@ -226,8 +230,8 @@ Option = none (for composed/unicode chars).
 
 1. **Think in commands, not menus.** Type `M-x` + a few letters to discover.
 2. **`C-g` first.** Whenever something is wrong, escape out.
-3. **Save often** (`C-x C-s`); backups/autosaves go to a tmp dir, not your
-   working tree, so no `~`/`#` clutter.
+3. **Save often** (`C-x C-s`); backups/autosaves are redirected to
+   `rk/cache-directory`, not your working tree, so no `~`/`#` clutter.
 4. **Search to navigate** — `C-s`, `C-c p s`, and `C-c i` (imenu, jump to a
    function) are usually faster than scrolling.
 5. **Kill buffers, not windows.** Close a side-window's buffer with `C-x k`;
