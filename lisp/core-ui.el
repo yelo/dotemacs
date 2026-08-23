@@ -19,11 +19,33 @@
     (set-face-attribute 'hl-line nil
                         :inherit nil
                         :foreground 'unspecified
-                        :background "#3a3a3a"
+                        :background (face-attribute 'default :background)
                         :underline nil
                         :overline nil
                         :box nil
-                        :extend t)))
+                        :extend t
+                        :distant-foreground (face-attribute 'default :foreground))))
+
+;; ---- Theme toggle ----
+(defun rk/toggle-light-dark-theme ()
+  "Toggle between modus-operandi-tinted (light) and modus-vivendi-tinted (dark)."
+  (interactive)
+  (let ((current (car custom-enabled-themes)))
+    (cond
+     ((eq current 'modus-operandi-tinted)
+      (disable-theme 'modus-operandi-tinted)
+      (load-theme 'modus-vivendi-tinted t)
+      (rk/apply-ui-face-tweaks)
+      (message "Switched to dark mode"))
+     ((eq current 'modus-vivendi-tinted)
+      (disable-theme 'modus-vivendi-tinted)
+      (load-theme 'modus-operandi-tinted t)
+      (rk/apply-ui-face-tweaks)
+      (message "Switched to light mode"))
+     (t
+      (load-theme 'modus-operandi-tinted t)
+      (rk/apply-ui-face-tweaks)
+      (message "Loaded light mode")))))
 
 ;; Built-in theme only.
 (add-hook 'emacs-startup-hook

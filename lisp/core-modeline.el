@@ -1,11 +1,12 @@
 ;;; core-modeline.el --- Mode-line (statusbar) appearance -*- lexical-binding: t; -*-
 
 ;; A segmented, vanilla `mode-line-format' tuned to complement the built-in
-;; `modus-operandi-tinted' theme (see `core-ui.el'). No external packages: everything here
-;; is built from `format-mode-line', `propertize', and standard mode-line
-;; constructs. Nerd Font glyphs are used for icons in graphical frames only;
-;; terminal frames fall back to plain text/unicode so nothing looks broken
-;; without the font (see `core-tty.el' for the equivalent GUI/TTY split).
+;; `modus-operandi-tinted' (light) and `modus-vivendi-tinted' (dark) themes
+;; (see `core-ui.el'). No external packages: everything here is built from
+;; `format-mode-line', `propertize', and standard mode-line constructs.
+;; Nerd Font glyphs are used for icons in graphical frames only; terminal frames
+;; fall back to plain text/unicode so nothing looks broken without the font
+;; (see `core-tty.el' for the equivalent GUI/TTY split).
 
 (column-number-mode 1)
 (line-number-mode 1)

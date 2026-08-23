@@ -297,6 +297,22 @@ On startup Emacs shows a minimal launcher. From it:
 
 ---
 
+## 12a. Appearance & themes
+
+This config uses **modus-operandi-tinted** (light) and **modus-vivendi-tinted**
+(dark) themes, built into Emacs 31+. Both are WCAG AAA compliant and
+optimized for accessibility.
+
+| Keys | Action |
+|------|--------|
+| `C-c t` | Toggle between light and dark theme |
+
+The toggle disables the current theme and loads the other. The modeline and all
+UI elements adapt automatically. If you want to customize theme settings, edit
+`core-ui.el` (see `rk/toggle-light-dark-theme` and `rk/apply-ui-face-tweaks`).
+
+---
+
 ## 13. Daily workflows
 
 **Start work on a project**
