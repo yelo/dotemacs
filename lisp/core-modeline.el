@@ -1,7 +1,7 @@
 ;;; core-modeline.el --- Mode-line (statusbar) appearance -*- lexical-binding: t; -*-
 
 ;; A segmented, vanilla `mode-line-format' tuned to complement the built-in
-;; `modus-vivendi-deuteranopia' theme (see `core-ui.el'). No external packages: everything here
+;; `modus-operandi-tinted' theme (see `core-ui.el'). No external packages: everything here
 ;; is built from `format-mode-line', `propertize', and standard mode-line
 ;; constructs. Nerd Font glyphs are used for icons in graphical frames only;
 ;; terminal frames fall back to plain text/unicode so nothing looks broken

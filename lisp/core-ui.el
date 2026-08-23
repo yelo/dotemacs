@@ -28,7 +28,7 @@
 ;; Built-in theme only.
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (load-theme 'modus-vivendi-deuteranopia t)
+            (load-theme 'modus-operandi-tinted t)
             (rk/apply-ui-face-tweaks)))
 
 (provide 'core-ui)
