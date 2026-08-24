@@ -65,7 +65,12 @@
 (setq tab-always-indent 'complete)
 
 ;; Emacs 30: inline completion preview.
+;; Tab is reserved for tab-always-indent/complete; bind preview-insert to M-Tab.
 (setq completion-preview-minimum-symbol-length 2)
+(with-eval-after-load 'completion-preview
+  (keymap-unset completion-preview-active-mode-map "<tab>" t)
+  (keymap-unset completion-preview-active-mode-map "TAB" t)
+  (keymap-set completion-preview-active-mode-map "M-<tab>" #'completion-preview-insert))
 (add-hook 'prog-mode-hook #'completion-preview-mode)
 
 (provide 'core-completion)

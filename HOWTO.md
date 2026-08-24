@@ -187,8 +187,10 @@ persistent cache and a tmp-backed ephemeral cache.
 - **Minibuffer completion navigation** supports `↑`/`↓`; `RET` accepts the
   highlighted completion candidate.
 - **`completion-preview-mode`** shows inline completion previews in code
-  buffers; press `TAB` to accept.
-- **`tab-always-indent`** is `complete`, so `TAB` completes at point.
+  buffers; press `M-TAB` to accept the preview.
+- **`tab-always-indent`** is `complete`, so `TAB` indents or triggers
+  completion at point (CAPF/Eglot). `TAB` is intentionally *not* bound to
+  preview acceptance so it can always reach the completion popup.
 - **Eglot completion** uses `rk/flex-noinsert`: flex-ranked candidates are kept,
   but ambiguous `TAB` no longer inserts merged fuzzy guesses before selection.
 
