@@ -27,8 +27,9 @@ editing, completion, and LSP integration. These form the foundation of the
 configuration and are loaded in a fixed order to ensure proper initialization.
 
 **Language-specific modules** (`lang-python.el`, `lang-rust.el`, etc.) extend
-support for particular programming languages. **OS-specific modules** adapt
-the configuration for macOS, Linux, and Windows.
+support for particular programming languages.
+
+**OS-specific modules** adapt the configuration for macOS, Linux, and Windows.
 
 Each module is independent; features and keybindings are self-contained and
 easy to customize or disable.
