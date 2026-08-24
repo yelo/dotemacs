@@ -85,7 +85,7 @@ Version control lives under `C-c v`:
 | Keys | Action |
 |------|--------|
 | `C-c f` / `C-x C-f` | Find (open) a file |
-| `C-c b b` / `C-x b` | Switch buffer (fido vertical completion) |
+| `C-c b b` / `C-x b` | Switch buffer (completion via `*Completions*` buffer) |
 | `C-c b k` | Kill (close) the current buffer |
 | `C-c b r` | Revert buffer from disk |
 | `C-c b l` / `C-x C-b` | List all buffers |
@@ -178,18 +178,21 @@ persistent cache and a tmp-backed ephemeral cache.
 
 ## 8. Completion & the minibuffer (`core-completion.el`)
 
-- **`fido-vertical-mode`** gives you a vertical completion UI directly inside
-  the minibuffer. Candidates are shown there and only there — no separate
-  `*Completions*` pane is opened eagerly, avoiding duplicate candidate windows.
+- **`*Completions*` buffer** provides a unified vertical completion UI for both
+  the minibuffer (`M-x`, `C-x C-f`, `C-x b`, …) and in-buffer CAPF. The buffer
+  opens automatically as you type (`completion-eager-display`) and refreshes
+  live (`completion-eager-update`).
+- **Navigating candidates** while typing: `C-n` / `C-p` move through the
+  `*Completions*` window without leaving the minibuffer. `RET` accepts the
+  highlighted candidate.
 - **Completion styles** are `basic`, `partial-completion`, `flex`, `initials`,
   `substring` — so `M-x` and `C-x b` match abbreviations, substrings, and
   fuzzy in-order patterns
   (e.g. `M-x rvb` → `revert-buffer`; `C-x b p t` → `project-todos`).
-- **Minibuffer completion navigation** supports `↑`/`↓`; `RET` accepts the
-  highlighted completion candidate.
 - **`completion-preview-mode`** shows inline completion previews in code
   buffers; press `TAB` to accept.
-- **`tab-always-indent`** is `complete`, so `TAB` completes at point.
+- **`tab-always-indent`** is `complete`, so `TAB` indents then completes at
+  point; a second `TAB` opens `*Completions*` with point already inside it.
 - **Eglot completion** uses `rk/flex-noinsert`: flex-ranked candidates are kept,
   but ambiguous `TAB` no longer inserts merged fuzzy guesses before selection.
 
