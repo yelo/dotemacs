@@ -3,14 +3,15 @@
 ;; ---- Fonts ----
 ;; Only "Iosevka Nerd Font" is installed; plain Iosevka is not available.
 (when (display-graphic-p)
-  (set-face-attribute 'default nil
-                      :family "Iosevka Nerd Font"
-                      :height 135
-                      :weight 'regular)
-  (set-face-attribute 'fixed-pitch nil
-                      :family "Iosevka Nerd Font"
-                      :height 135
-                      :weight 'regular))
+  (defun rk/apply-font-settings (faces)
+    "Apply font settings to a list of FACES."
+    (dolist (face faces)
+      (set-face-attribute face nil
+                          :family "Iosevka Nerd Font"
+                          :height 135
+                          :weight 'regular)))
+
+  (rk/apply-font-settings '(default fixed-pitch)))
 
 (defun rk/apply-ui-face-tweaks ()
   "Apply small readability tweaks after theme load."

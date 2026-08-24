@@ -5,31 +5,13 @@
   "Return COMPLETIONS unchanged."
   completions)
 
-(defun rk/completion-flex-noinsert-metadata (metadata)
-  "Prefer backend-provided ordering for METADATA."
-  (let ((meta (if (and (consp metadata) (eq (car metadata) 'metadata))
-                  (cdr metadata)
-                metadata)))
-    `(metadata
-      (display-sort-function . rk/completion-preserve-order)
-      (cycle-sort-function . rk/completion-preserve-order)
-      ,@meta)))
-
-(defun rk/completion-flex-try-noinsert (string table pred point)
-  "Try flex completion while avoiding ambiguous insertion."
-  (let ((result (completion-flex-try-completion string table pred point)))
-    (if (and (consp result)
-             (> (cdr result) point)
-             (> (length (completion-flex-all-completions string table pred point)) 1))
-        (cons string point)
-      result)))
-
 (add-to-list 'completion-styles-alist
              '(rk/flex-noinsert
-               rk/completion-flex-try-noinsert
+               completion-flex-try-completion
                completion-flex-all-completions
                "Flex completion without inserting ambiguous merged candidates."
-               (completion--adjust-metadata . rk/completion-flex-noinsert-metadata)))
+               (display-sort-function . rk/completion-preserve-order)
+               (cycle-sort-function . rk/completion-preserve-order)))
 
 ;; Built-in minibuffer completion UI.
 (fido-vertical-mode 1)

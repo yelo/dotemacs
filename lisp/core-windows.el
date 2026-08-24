@@ -66,9 +66,10 @@
       speedbar-update-flag t)
 
 (defun rk/speedbar--editing-window-p (window &optional frame)
-  "Return non-nil if WINDOW is an eligible editing window in FRAME."
+  "Return non-nil if WINDOW is an eligible editing window (not a minibuffer, side, or dedicated window).
+If FRAME is provided, also check that WINDOW is in FRAME."
   (and (window-live-p window)
-       (eq (window-frame window) (or frame (window-frame window)))
+       (or (not frame) (eq (window-frame window) frame))
        (not (window-minibuffer-p window))
        (not (window-parameter window 'window-side))
        (not (window-dedicated-p window))))
@@ -81,16 +82,15 @@
       (set-frame-parameter target-frame 'rk/speedbar-last-edit-window window))))
 
 (defun rk/speedbar--target-editing-window (frame)
-  "Return the best deterministic Speedbar target window in FRAME."
+  "Return the best deterministic Speedbar target window in FRAME.
+
+Strategy: Use the last-remembered editing window if still valid, otherwise find
+the first available eligible editing window. This avoids jarring window switches."
   (let ((remembered (frame-parameter frame 'rk/speedbar-last-edit-window)))
     (if (rk/speedbar--editing-window-p remembered frame)
         remembered
-      (let ((fallback nil))
-        (dolist (window (window-list frame 'nomini frame))
-          (when (and (not fallback)
-                     (rk/speedbar--editing-window-p window frame))
-            (setq fallback window)))
-        fallback))))
+      (seq-find (lambda (w) (rk/speedbar--editing-window-p w frame))
+                (window-list frame 'nomini frame)))))
 
 (defun rk/speedbar-find-file-in-frame-deterministic (original file)
   "Open FILE in a deterministic editing window for the current Speedbar frame."

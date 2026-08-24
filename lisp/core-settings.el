@@ -70,6 +70,28 @@
 
 (rk/cache-ensure-directories)
 
+(defun rk/cache-setopt (&rest var-key-pairs)
+  "Set multiple variables from cache-paths alist.
+Each pair should be (SYMBOL CACHE-KEY) where SYMBOL is set to (rk/cache-path CACHE-KEY)."
+  (while var-key-pairs
+    (let ((var (pop var-key-pairs))
+          (key (pop var-key-pairs)))
+      (set var (rk/cache-path key)))))
+
+;; Direct cache-path variable mappings
+(rk/cache-setopt
+ 'savehist-file 'savehist-file
+ 'recentf-save-file 'recentf-save-file
+ 'save-place-file 'save-place-file
+ 'bookmark-default-file 'bookmark-default-file
+ 'project-list-file 'project-list-file
+ 'ielm-history-file-name 'ielm-history-file-name
+ 'url-history-file 'url-history-file
+ 'nsm-settings-file 'nsm-settings-file
+ 'eshell-directory-name 'eshell-directory-name
+ 'eshell-history-file-name 'eshell-history-file-name)
+
+;; Special cache-path configurations
 (setq backup-by-copying t
       delete-old-versions t
       kept-new-versions 6
@@ -78,17 +100,7 @@
       auto-save-list-file-prefix
       (expand-file-name ".saves-" (rk/cache-path 'auto-save-list-directory))
       auto-save-file-name-transforms `((".*" ,(rk/cache-path 'auto-save-directory) t))
-      backup-directory-alist `((".*" . ,(rk/cache-path 'backup-directory)))
-      savehist-file (rk/cache-path 'savehist-file)
-      recentf-save-file (rk/cache-path 'recentf-save-file)
-      save-place-file (rk/cache-path 'save-place-file)
-      bookmark-default-file (rk/cache-path 'bookmark-default-file)
-      project-list-file (rk/cache-path 'project-list-file)
-      ielm-history-file-name (rk/cache-path 'ielm-history-file-name)
-      url-history-file (rk/cache-path 'url-history-file)
-      nsm-settings-file (rk/cache-path 'nsm-settings-file)
-      eshell-directory-name (rk/cache-path 'eshell-directory-name)
-      eshell-history-file-name (rk/cache-path 'eshell-history-file-name))
+      backup-directory-alist `((".*" . ,(rk/cache-path 'backup-directory))))
 
 (setq create-lockfiles nil)
 
@@ -98,7 +110,7 @@
 
 ;;; Restore previous session state (including frame/window state when available)
 (setq desktop-dirname (rk/cache-path 'desktop-directory)
-      desktop-path (list desktop-dirname)
+      desktop-path (list desktop-dirname) ; list of directories to save/restore from
       desktop-base-file-name "desktop"
       desktop-save t
       desktop-load-locked-desktop t
@@ -144,14 +156,14 @@
 (defun reload-config ()
   "Reload init.el without restarting Emacs."
   (interactive)
-  (load-file (expand-file-name "init.el" user-emacs-directory)))
+  (load-file (expand-file-name "init.el" rk/emacs-dir)))
 
 (defun rk/startup-profile-recipe ()
   "Show terminal commands to benchmark and profile startup."
   (interactive)
   (message
    "Measure: emacs --init-directory %s --eval '(kill-emacs)'; Profile: RK_PROFILE_STARTUP=1 emacs --init-directory %s"
-   user-emacs-directory user-emacs-directory))
+   rk/emacs-dir rk/emacs-dir))
 
 (provide 'core-settings)
 ;;; core-settings.el ends here
