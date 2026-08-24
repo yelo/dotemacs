@@ -116,6 +116,7 @@ The `C-c w` prefix (see `core-windows.el`) manages window layouts:
 | `C-c w t` | Transpose the layout |
 | `C-c w r` / `R` | Rotate layout clockwise / counter-clockwise |
 | `C-c w f` / `F` | Flip layout left-right / top-bottom |
+| `C-c w s` | Toggle Speedbar in a side window (same frame) |
 | `Shift+←/→/↑/↓` | Move between windows (`windmove`) |
 | `C-c ←` / `C-c →` | Undo / redo window config (`winner-mode`) |
 
@@ -124,7 +125,10 @@ The `C-c w` prefix (see `core-windows.el`) manages window layouts:
 - `*Help*`, `*Apropos*`, `*info*`, `*Man*`, `*xref*`, `*eldoc*` → **right** side
 - `*Compilation*`, flymake, `*Messages*`, `*Warnings*`, `*Backtrace*` → **bottom**
 - `eshell`/`shell`/`term` → **bottom**
-- Speedbar (`M-x speedbar`) → **left**
+- Speedbar (`C-c w s` / `M-x rk/speedbar-toggle`) → **left** side window
+  in the current frame (not a separate frame)
+  - Opening files from Speedbar (`RET` / click) reuses the last non-side
+    editing window in that frame for consistent navigation.
 
 `*Help*` windows auto-focus (`help-window-select`), so no `C-x o` needed to read
 them.
@@ -173,12 +177,14 @@ persistent cache and a tmp-backed ephemeral cache.
 - **`fido-vertical-mode`** gives you a vertical completion UI in the
   minibuffer; `*Completions*` is shown/updated eagerly and rendered as a
   one-column list with bounded height.
+- Candidate display is intentionally single-surface: `*Completions*` is used,
+  with inline minibuffer candidate lists disabled to avoid duplicate panes.
 - **Completion styles** are `basic`, `partial-completion`, `flex`, `initials`,
   `substring` — so `M-x` and `C-x b` match abbreviations, substrings, and
   fuzzy in-order patterns
   (e.g. `M-x rvb` → `revert-buffer`; `C-x b p t` → `project-todos`).
-- **Minibuffer list navigation** supports `↑`/`↓` plus `C-n`/`C-p`; `RET`
-  accepts the highlighted completion candidate.
+- **Minibuffer completion navigation** supports `↑`/`↓`; `RET` accepts the
+  highlighted completion candidate.
 - **`completion-preview-mode`** shows inline completion previews in code
   buffers; press `TAB` to accept.
 - **`tab-always-indent`** is `complete`, so `TAB` completes at point.

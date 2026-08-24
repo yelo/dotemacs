@@ -25,6 +25,7 @@
 (define-key rk/window-map (kbd "R") #'window-layout-rotate-anticlockwise)
 (define-key rk/window-map (kbd "f") #'window-layout-flip-leftright)
 (define-key rk/window-map (kbd "F") #'window-layout-flip-topdown)
+(define-key rk/window-map (kbd "s") #'rk/speedbar-toggle)
 
 (defvar rk/vc-map (make-sparse-keymap)
   "Version-control shortcuts under C-c v.")

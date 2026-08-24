@@ -54,13 +54,70 @@
        display-buffer-alist))
 
 ;; ── Speedbar as a side window (Emacs 31) ──
+;; File opens from Speedbar are routed to the last non-side editing window
+;; in the same frame to avoid jarring target-window changes.
 
 (require 'speedbar)
 
 (setq speedbar-use-images nil
+      speedbar-prefer-window t
       speedbar-show-unknown-files t
       speedbar-indentation-width 2
       speedbar-update-flag t)
+
+(defun rk/speedbar--editing-window-p (window &optional frame)
+  "Return non-nil if WINDOW is an eligible editing window in FRAME."
+  (and (window-live-p window)
+       (eq (window-frame window) (or frame (window-frame window)))
+       (not (window-minibuffer-p window))
+       (not (window-parameter window 'window-side))
+       (not (window-dedicated-p window))))
+
+(defun rk/speedbar--remember-editing-window (&optional frame)
+  "Remember the selected eligible editing window for FRAME."
+  (let* ((target-frame (or frame (selected-frame)))
+         (window (frame-selected-window target-frame)))
+    (when (rk/speedbar--editing-window-p window target-frame)
+      (set-frame-parameter target-frame 'rk/speedbar-last-edit-window window))))
+
+(defun rk/speedbar--target-editing-window (frame)
+  "Return the best deterministic Speedbar target window in FRAME."
+  (let ((remembered (frame-parameter frame 'rk/speedbar-last-edit-window)))
+    (if (rk/speedbar--editing-window-p remembered frame)
+        remembered
+      (let ((fallback nil))
+        (dolist (window (window-list frame 'nomini frame))
+          (when (and (not fallback)
+                     (rk/speedbar--editing-window-p window frame))
+            (setq fallback window)))
+        fallback))))
+
+(defun rk/speedbar-find-file-in-frame-deterministic (original file)
+  "Open FILE in a deterministic editing window for the current Speedbar frame."
+  (let* ((target-frame (or (and (frame-live-p dframe-attached-frame)
+                                dframe-attached-frame)
+                           (selected-frame)))
+         (target-window (rk/speedbar--target-editing-window target-frame)))
+    (if (window-live-p target-window)
+        (let ((buffer (find-file-noselect file)))
+          (select-frame-set-input-focus target-frame)
+          (select-window target-window)
+          (switch-to-buffer buffer)
+          (set-frame-parameter target-frame 'rk/speedbar-last-edit-window
+                               target-window))
+      (funcall original file))))
+
+(add-hook 'window-selection-change-functions
+          #'rk/speedbar--remember-editing-window)
+(rk/speedbar--remember-editing-window (selected-frame))
+(advice-add 'speedbar-find-file-in-frame :around
+            #'rk/speedbar-find-file-in-frame-deterministic)
+
+(defun rk/speedbar-toggle ()
+  "Toggle Speedbar in a side window on the current frame."
+  (interactive)
+  (let ((speedbar-prefer-window t))
+    (speedbar-window-mode)))
 
 (defun rk/speedbar-open-with-mouse (_event)
   "Open or follow the item clicked in speedbar."

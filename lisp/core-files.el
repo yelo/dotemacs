@@ -16,7 +16,7 @@
   (setq dired-omit-files (concat dired-omit-files "\\|^\\.\\.?$"))
   (add-hook 'dired-mode-hook #'dired-omit-mode))
 
-;; Keep file management simple: built-in dired + speedbar side window.
+;; Keep file management simple: built-in dired + speedbar navigator.
 
 (setq auto-revert-verbose nil)
 (add-hook 'emacs-startup-hook #'global-auto-revert-mode)

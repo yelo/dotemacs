@@ -54,13 +54,7 @@
       completions-format 'one-column
       completions-max-height 10
       completions-sort 'historical
-      minibuffer-visible-completions 'up-down)
-
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-visible-completions-up-down-map (kbd "C-n")
-              #'minibuffer-next-completion)
-  (define-key minibuffer-visible-completions-up-down-map (kbd "C-p")
-              #'minibuffer-previous-completion))
+      minibuffer-visible-completions nil)
 
 ;; File and buffer candidates for built-in completion commands.
 (recentf-mode 1)
