@@ -174,11 +174,9 @@ persistent cache and a tmp-backed ephemeral cache.
 
 ## 8. Completion & the minibuffer (`core-completion.el`)
 
-- **`fido-vertical-mode`** gives you a vertical completion UI in the
-  minibuffer; `*Completions*` is shown/updated eagerly and rendered as a
-  one-column list with bounded height.
-- Candidate display is intentionally single-surface: `*Completions*` is used,
-  with inline minibuffer candidate lists disabled to avoid duplicate panes.
+- **`fido-vertical-mode`** gives you a vertical completion UI directly inside
+  the minibuffer. Candidates are shown there and only there — no separate
+  `*Completions*` pane is opened eagerly, avoiding duplicate candidate windows.
 - **Completion styles** are `basic`, `partial-completion`, `flex`, `initials`,
   `substring` — so `M-x` and `C-x b` match abbreviations, substrings, and
   fuzzy in-order patterns

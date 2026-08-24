@@ -46,9 +46,10 @@
       '((file (styles basic partial-completion))
         (eglot-capf (styles rk/flex-noinsert basic initials substring))))
 
-;; Emacs 31: refresh and show completions eagerly while typing.
-(setq completion-eager-update t
-      completion-eager-display t
+;; fido-vertical-mode renders candidates inside the minibuffer itself.
+;; Disable eager *Completions* display to avoid a duplicate pane.
+(setq completion-eager-update nil
+      completion-eager-display nil
       completion-auto-select t
       completion-show-help nil
       completions-format 'one-column
