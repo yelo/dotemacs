@@ -18,7 +18,8 @@
   (xref-find-definitions (xref-backend-identifier-at-point
                           (xref-find-backend))))
 
-(keymap-global-set "<s-mouse-1>" #'rk/mouse-goto-definition)
+(when (key-valid-p "<s-mouse-1>")
+  (keymap-global-set "<s-mouse-1>" #'rk/mouse-goto-definition))
 
 (provide 'core-eglot)
 ;;; core-eglot.el ends here

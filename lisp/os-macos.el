@@ -8,8 +8,8 @@
     (add-to-list 'exec-path dir)
     (setenv "PATH" (concat dir ":" (getenv "PATH")))))
 
-;; MSBuild.Locator (used by csharp-ls) requires DOTNET_ROOT to find the SDK
-;; when Emacs is launched as a GUI app without the shell environment.
+;; C# language servers launched via dotnet tooling may require DOTNET_ROOT
+;; to find the SDK when Emacs is launched as a GUI app without shell env.
 (let ((dotnet-root (seq-find #'file-directory-p
                               '("/usr/local/share/dotnet"
                                 "/opt/homebrew/share/dotnet"))))

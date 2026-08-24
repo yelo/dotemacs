@@ -1,11 +1,28 @@
 ;;; lang-csharp.el --- C# / .NET bindings -*- lexical-binding: t; -*-
 
 ;; Requires: .NET SDK on $PATH.
-;; LSP server: csharp-ls — install with: dotnet tool install --global csharp-ls
+;; LSP server: roslyn-language-server (csharp-roslyn) —
+;; install with: dotnet tool install --global roslyn-language-server --prerelease
 ;; csharpier: optional format-on-save — dotnet tool install -g csharpier
 
+(defun rk/csharp--eglot-server-command ()
+  "Return preferred C# LSP server command for Eglot.
+Prefer roslyn-language-server; fallback to csharp-ls if Roslyn isn't installed yet."
+  (cond
+   ((executable-find "roslyn-language-server")
+    '("roslyn-language-server" "--stdio"))
+   ((file-executable-p (expand-file-name "~/.dotnet/tools/roslyn-language-server"))
+    (list (expand-file-name "~/.dotnet/tools/roslyn-language-server") "--stdio"))
+   ((executable-find "csharp-ls")
+    '("csharp-ls"))
+   ((file-executable-p (expand-file-name "~/.dotnet/tools/csharp-ls"))
+    (list (expand-file-name "~/.dotnet/tools/csharp-ls")))
+   (t
+    '("roslyn-language-server" "--stdio"))))
+
 (with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs '((csharp-mode csharp-ts-mode) . ("csharp-ls"))))
+  (add-to-list 'eglot-server-programs
+               `((csharp-mode csharp-ts-mode) . ,(rk/csharp--eglot-server-command))))
 
 ;; Prefer tree-sitter mode for .cs files.
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))

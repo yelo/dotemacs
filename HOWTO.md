@@ -254,7 +254,8 @@ Option = none (for composed/unicode chars).
 
 `eglot` is configured via **language modules** in `lisp/lang-*.el`. Each module
 registers an LSP server program and enables eglot for that language's major modes.
-Currently configured: Python (`pylsp`), Rust (`rust-analyzer`), C# (`csharp-ls`),
+Currently configured: Python (`pylsp`), Rust (`rust-analyzer`), C#
+(`roslyn-language-server`, with `csharp-ls` fallback when Roslyn isn't installed),
 and Elisp (built-in). To add support for a new language, create `lisp/lang-newlang.el`
 and register your LSP server; language servers must be installed separately per
 each module's documentation.
