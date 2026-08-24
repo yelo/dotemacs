@@ -265,6 +265,7 @@ each module's documentation.
 | `C-c ! n` / `p` | Next / previous error |
 | `C-c ! s` | Start flymake |
 | `M-.` | Jump to definition (`xref-find-definitions`; stock Emacs) |
+| `⌘-click` (`s-mouse-1`) | Jump to definition with mouse |
 | `M-,` | Go back (`xref-go-back`; stock Emacs) |
 | `M-?` | Find references |
 | `C-c i` | imenu (jump to symbol in buffer) |

@@ -10,5 +10,15 @@
   ;; Keep enough protocol logs for troubleshooting.
   (setq eglot-events-buffer-config '(:size 2000000 :format full)))
 
+;; Cmd+click (s-mouse-1) → go to definition via xref/eglot.
+(defun rk/mouse-goto-definition (event)
+  "Go to definition of the symbol at mouse EVENT position."
+  (interactive "e")
+  (mouse-set-point event)
+  (xref-find-definitions (xref-backend-identifier-at-point
+                          (xref-find-backend))))
+
+(keymap-global-set "<s-mouse-1>" #'rk/mouse-goto-definition)
+
 (provide 'core-eglot)
 ;;; core-eglot.el ends here
