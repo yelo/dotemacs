@@ -7,6 +7,9 @@
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '((csharp-mode csharp-ts-mode) . ("csharp-ls"))))
 
+;; Prefer tree-sitter mode for .cs files.
+(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
+
 (add-hook 'csharp-mode-hook    #'eglot-ensure)
 (add-hook 'csharp-ts-mode-hook #'eglot-ensure)
 
