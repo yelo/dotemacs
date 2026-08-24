@@ -269,8 +269,8 @@ each module's documentation.
 | `M-x eglot-rename` | Rename symbol |
 | `M-x eglot-code-actions` | Quick-fixes / code actions |
 
-Compile/test output scrolls and stops at the first error
-(`compilation-scroll-output 'first-error`).
+Compile/test output auto-scrolls continuously
+(`compilation-scroll-output t`).
 
 **Language-specific helpers** — Each language module provides commands for its
 build/test/run tools. For example:
