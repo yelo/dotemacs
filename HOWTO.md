@@ -85,11 +85,13 @@ Version control lives under `C-c v`:
 | Keys | Action |
 |------|--------|
 | `C-c f` / `C-x C-f` | Find (open) a file |
-| `C-c b` / `C-x b` | Switch buffer (fido vertical completion) |
+| `C-c b b` / `C-x b` | Switch buffer (fido vertical completion) |
+| `C-c b k` | Kill (close) the current buffer |
+| `C-c b r` | Revert buffer from disk |
+| `C-c b l` / `C-x C-b` | List all buffers |
+| `C-c b n` / `C-c b p` | Next / previous buffer |
 | `C-c r` | Recent files (`recentf`) |
 | `C-x C-j` | Jump to the current file's directory in dired |
-| `C-x k` | Kill the current buffer |
-| `C-x C-b` | List all buffers |
 | `C-l` | Recenter the view around point |
 
 Conveniences enabled for you:
@@ -108,15 +110,17 @@ The `C-c w` prefix (see `core-windows.el`) manages window layouts:
 
 | Keys | Action |
 |------|--------|
-| `C-c w 2` / `3` | Split below / right |
-| `C-c w 0` / `1` | Delete this window / delete others |
+| `C-c w s` | Split below |
+| `C-c w v` | Split right (vertical bar) |
+| `C-c w k` | Kill (close) this window pane |
+| `C-c w K` | Kill all other window panes |
 | `C-c w o` | Other window |
 | `C-c w =` | Balance window sizes |
 | `C-c w z` | Zoom current window (toggle maximize) |
 | `C-c w t` | Transpose the layout |
 | `C-c w r` / `R` | Rotate layout clockwise / counter-clockwise |
 | `C-c w f` / `F` | Flip layout left-right / top-bottom |
-| `C-c w s` | Toggle Speedbar in a side window (same frame) |
+| `C-c w S` | Toggle Speedbar in a side window (same frame) |
 | `Shift+←/→/↑/↓` | Move between windows (`windmove`) |
 | `C-c ←` / `C-c →` | Undo / redo window config (`winner-mode`) |
 
@@ -125,7 +129,7 @@ The `C-c w` prefix (see `core-windows.el`) manages window layouts:
 - `*Help*`, `*Apropos*`, `*info*`, `*Man*`, `*xref*`, `*eldoc*` → **right** side
 - `*Compilation*`, flymake, `*Messages*`, `*Warnings*`, `*Backtrace*` → **bottom**
 - `eshell`/`shell`/`term` → **bottom**
-- Speedbar (`C-c w s` / `M-x rk/speedbar-toggle`) → **left** side window
+- Speedbar (`C-c w S` / `M-x rk/speedbar-toggle`) → **left** side window
   in the current frame (not a separate frame)
   - Opening files from Speedbar (`RET` / click) reuses the last non-side
     editing window in that frame for consistent navigation.
