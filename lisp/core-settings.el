@@ -158,12 +158,5 @@ Each pair should be (SYMBOL CACHE-KEY) where SYMBOL is set to (rk/cache-path CAC
   (interactive)
   (load-file (expand-file-name "init.el" rk/emacs-dir)))
 
-(defun rk/startup-profile-recipe ()
-  "Show terminal commands to benchmark and profile startup."
-  (interactive)
-  (message
-   "Measure: emacs --init-directory %s --eval '(kill-emacs)'; Profile: RK_PROFILE_STARTUP=1 emacs --init-directory %s"
-   rk/emacs-dir rk/emacs-dir))
-
 (provide 'core-settings)
 ;;; core-settings.el ends here
