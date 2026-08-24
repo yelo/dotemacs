@@ -29,8 +29,7 @@ Help is one keystroke away. Learn these first.
 | `C-h r` | The full Emacs manual |
 | `C-h i` | Info browser |
 
-Also useful: `C-c S` reopens the startup launcher, `M-x reload-config`
-reloads `init.el` without restarting.
+Also useful: `M-x reload-config` reloads `init.el` without restarting.
 
 ---
 
@@ -296,12 +295,11 @@ side window. Line numbers are disabled automatically in shell/term buffers.
 
 ---
 
-## 12. Startup launcher
+## 12. Startup behavior
 
-On startup Emacs shows a minimal launcher. From it:
-
-- `f` find file, `r` recent files, `p` switch project, `i` open `init.el`.
-- Reopen anytime with `C-c S`.
+On startup, Emacs restores your previous desktop/session (see §7) instead of
+opening a launcher buffer. Startup timing is reported in `*Messages*` (for
+example: `Emacs ready in 0.45 seconds with 5 garbage collections.`).
 
 ---
 

@@ -20,7 +20,6 @@
 (dolist (core '("core-settings"
                 "core-ui"
                 "core-modeline"
-                "core-dashboard"
                 "core-files"
                 "core-editing"
                 "core-windows"

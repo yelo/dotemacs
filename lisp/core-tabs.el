@@ -13,10 +13,9 @@
       tab-bar-close-button-show nil
       tab-bar-format '(tab-bar-format-history tab-bar-format-tabs tab-bar-separator))
 
-;; New tabs (e.g. from `tab-bar-new-tab') start at the dashboard rather than
-;; cloning the current window layout.
+;; New tabs (e.g. from `tab-bar-new-tab') start in a neutral scratch buffer.
 (setq tab-bar-new-tab-choice
-      (lambda () (get-buffer-create "*rk-startup*")))
+      (lambda () (get-buffer-create "*scratch*")))
 
 (defun rk/project-open-in-new-tab ()
   "Open a project in a new tab, named after the project."

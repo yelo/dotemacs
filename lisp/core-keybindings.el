@@ -47,7 +47,6 @@
 (define-key rk/buffer-map (kbd "p") #'previous-buffer)
 
 (keymap-global-set "C-c r" #'recentf-open-files)
-(keymap-global-set "C-c S" #'rk/startup-buffer)
 (keymap-global-set "C-c i" #'imenu)
 (keymap-global-set "C-c t" #'rk/toggle-light-dark-theme)
 

@@ -9,7 +9,7 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
 - `init.el` loads `custom.el`, then loads modules from `lisp/`.
 - `lisp/` contains configuration modules by concern:
   - Core modules loaded in fixed order: `core-settings`, `core-ui`,
-    `core-modeline`, `core-dashboard`, `core-files`, `core-editing`,
+    `core-modeline`, `core-files`, `core-editing`,
     `core-windows`, `core-keybindings`, `core-completion`, `core-eglot`,
     `core-flymake`, `core-treesit`, `core-vc`, `core-shell`, `core-markdown`,
     `core-tabs`.
