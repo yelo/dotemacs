@@ -31,7 +31,8 @@
                "Flex completion without inserting ambiguous merged candidates."
                (completion--adjust-metadata . rk/completion-flex-noinsert-metadata)))
 
-;; Built-in minibuffer completion UI via native *Completions* buffer.
+;; Built-in minibuffer completion UI.
+(fido-vertical-mode 1)
 (setq enable-recursive-minibuffers t)
 
 ;; Persist minibuffer history, plus kill-ring and search history.
@@ -45,31 +46,16 @@
       '((file (styles basic partial-completion))
         (eglot-capf (styles rk/flex-noinsert basic initials substring))))
 
-;; Native *Completions* buffer settings: eager display, one-column layout,
-;; historical sorting, and arrow-key navigation from inside the minibuffer.
-(setq completion-eager-update t
-      completion-eager-display t
+;; fido-vertical-mode renders candidates inside the minibuffer itself.
+;; Disable eager *Completions* display to avoid a duplicate pane.
+(setq completion-eager-update nil
+      completion-eager-display nil
       completion-auto-select t
       completion-show-help nil
       completions-format 'one-column
       completions-max-height 10
       completions-sort 'historical
-      ;; Up/down navigate *Completions* while point stays in the minibuffer.
-      minibuffer-visible-completions 'up-down)
-
-;; Navigate candidates with C-n/C-p while typing in the minibuffer.
-(define-key minibuffer-local-completion-map (kbd "C-n") #'minibuffer-next-completion)
-(define-key minibuffer-local-completion-map (kbd "C-p") #'minibuffer-previous-completion)
-
-;; Show depth indicator when recursing into a second minibuffer.
-(minibuffer-depth-indicate-mode 1)
-;; Hide "(default foo)" in prompt while typing; restore if input is erased.
-(minibuffer-electric-default-mode 1)
-
-;; Keep point out of the read-only prompt text.
-(setq minibuffer-prompt-properties
-      '(read-only t cursor-intangible t face minibuffer-prompt))
-(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+      minibuffer-visible-completions nil)
 
 ;; File and buffer candidates for built-in completion commands.
 (recentf-mode 1)
