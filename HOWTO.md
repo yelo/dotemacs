@@ -260,6 +260,14 @@ and Elisp (built-in). To add support for a new language, create `lisp/lang-newla
 and register your LSP server; language servers must be installed separately per
 each module's documentation.
 
+**Python virtualenv auto-detection:** `lang-python.el` automatically looks for
+a virtualenv in the project root (checking `.venv`, `venv`, then `env`, in that
+order) using only built-in `project.el` — no third-party packages (e.g.
+`pyvenv`, `pet`) are required. When found, it sets the buffer-local
+`python-shell-virtualenv-root` and prepends the venv's `bin`/`Scripts`
+directory to `exec-path`/`PATH`. Eglot then prefers the venv's own `pylsp`
+binary if present, falling back to a global `pylsp` on `PATH` otherwise.
+
 | Keys | Action |
 |------|--------|
 | `C-c ! l` | List diagnostics |
