@@ -27,6 +27,13 @@
 ;; Emacs 31: don't highlight mismatched parens inside comments and strings.
 (setq show-paren-not-in-comments-or-strings 'on-mismatch)
 
+;; Emacs 31: mark the affected region after `delete-pair', making it easy
+;; to act on (e.g. C-x C-x to highlight it) right after deleting delimiters.
+(setq delete-pair-push-mark t)
+
+;; Emacs 31: inverse of M-q (fill-paragraph).
+(keymap-global-set "M-Q" #'unfill-paragraph)
+
 ;; Emacs 31: show fold indicators and line counts in the fringe.
 (setq hs-show-indicators t)
 (setq hs-display-lines-hidden t)

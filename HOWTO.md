@@ -114,6 +114,7 @@ The `C-c w` prefix (see `core-windows.el`) manages window layouts:
 | `C-c w k` | Kill (close) this window pane |
 | `C-c w K` | Kill all other window panes |
 | `C-c w o` | Other window |
+| `C-x O` | Other window, backwards (built-in, Emacs 31: `other-window-backward`) |
 | `C-c w =` | Balance window sizes |
 | `C-c w z` | Zoom current window (toggle maximize) |
 | `C-c w t` | Transpose the layout |

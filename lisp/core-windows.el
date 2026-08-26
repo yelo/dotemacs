@@ -7,6 +7,11 @@
 ;; ── Prefer not to switch to another buffer when closing a popup window ──
 (setq quit-restore-window-no-switch t)
 
+;; ── Kill (not bury) buffers shown in our dedicated Help/Info/xref side
+;;    windows when quit, so they don't pile up in the buffer list ──
+(setq quit-window-kill-buffer
+      '(help-mode apropos-mode Info-mode Man-mode xref--xref-buffer-mode))
+
 ;; ── Fast window navigation with Shift+arrow keys ──
 (windmove-default-keybindings 'shift)
 
@@ -15,6 +20,13 @@
 
 ;; ── Auto-scroll compile/flymake output continuously ──
 (setq compilation-scroll-output t)
+
+;; ── Emacs 31: prefer vertical (stacked) ad-hoc splits ──
+;; Most of this frame's real estate is already claimed by side windows
+;; (see `display-buffer-alist' below), so keep the remaining editing area
+;; splitting top/bottom by default rather than the new 'longest' default,
+;; which would favor side-by-side splits on our normally-landscape frames.
+(setq split-window-preferred-direction 'vertical)
 
 ;; ── display-buffer-alist: single source of truth for window placement ──
 ;;

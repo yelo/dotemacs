@@ -10,6 +10,14 @@
 ;; package initialization, so setting it there would be too late.
 (setq package-enable-at-startup nil)
 
+;; Emacs 31: User Lisp Directory. Point it at `site-lisp/', which this
+;; config already documents (see AGENTS.md) as the place for manually
+;; installed Lisp code. Files there are auto-byte-compiled, scraped for
+;; autoload cookies, and added to `load-path' — no custom bootstrap needed.
+;; Must be set here (in early-init.el), not init.el: the value is consulted
+;; before the regular init file loads.
+(setq user-lisp-directory (expand-file-name "site-lisp/" user-emacs-directory))
+
 ;; Temporarily disable expensive file-name handlers during startup.
 (defvar rk/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)

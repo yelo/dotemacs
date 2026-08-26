@@ -33,6 +33,9 @@
 (define-key rk/vc-map (kbd "d") #'vc-dir)
 (define-key rk/vc-map (kbd "=") #'vc-diff)
 (define-key rk/vc-map (kbd "l") #'vc-print-log)
+;; Emacs 31: switch between git/jj worktrees of the same repo.
+(define-key rk/vc-map (kbd "w") #'vc-switch-working-tree)
+(define-key rk/project-map (kbd "b") #'project-find-matching-buffer)
 
 (keymap-global-set "C-c f" #'find-file)
 
