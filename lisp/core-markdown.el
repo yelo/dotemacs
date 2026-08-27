@@ -15,7 +15,11 @@
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-ts-mode))
-  (add-to-list 'auto-mode-alist '("\\.mkd\\'" . markdown-ts-mode)))
+  (add-to-list 'auto-mode-alist '("\\.mkd\\'" . markdown-ts-mode))
+  ;; Extra goodies: emphasis helpers, structure insertion, list/checkbox
+  ;; commands, subtree movement, hide-markup toggle, etc.
+  (with-eval-after-load 'markdown-ts-mode
+    (require 'markdown-ts-mode-x nil t)))
 
 (provide 'core-markdown)
 ;;; core-markdown.el ends here

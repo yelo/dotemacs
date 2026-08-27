@@ -4,7 +4,7 @@
 ;; hooks live in the respective lang-*.el modules.
 (with-eval-after-load 'eglot
   ;; Use markdown-ts-mode to render hover documentation.
-  (setq eglot-doc-markdown-mode 'markdown-ts-view-mode)
+  (setopt eglot-documentation-renderer #'markdown-ts-view-mode)
   ;; Inline code-action hints can be noisy with some language servers.
   (setq eglot-code-action-indications nil)
   ;; Keep enough protocol logs for troubleshooting.
