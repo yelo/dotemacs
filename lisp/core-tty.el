@@ -14,9 +14,10 @@
 ;;; Avoid garbled display: don't blink the cursor (terminal cursors vary)
 (blink-cursor-mode -1)
 
-;;; Show a visible bell instead of an audible one (many terminals beep)
-(setq visible-bell t
-      ring-bell-function #'ignore)
+;;; Silence the bell entirely (terminal bells are either audible beeps or
+;;; full-screen flashes, both distracting). `ring-bell-function' wins over
+;;; `visible-bell', so only the former is set.
+(setq ring-bell-function #'ignore)
 
 ;;; Make C-l also recenter and clear terminal cruft
 (global-set-key (kbd "C-l") #'recenter-top-bottom)

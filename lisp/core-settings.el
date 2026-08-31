@@ -9,7 +9,12 @@
 (setq use-short-answers t)           ; answer prompts with y/n instead of yes/no
 (delete-selection-mode 1)         ; typing replaces selected region
 (setq auto-revert-use-notify t)   ; use OS filesystem notifications instead of polling
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; Only in code buffers: in text/Markdown, trailing whitespace is meaningful
+;; (two trailing spaces are a hard line break) and stripping it in shared
+;; repositories produces noisy, unrelated diffs.
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook #'delete-trailing-whitespace nil t)))
 
 ;;; Centralized writable-state paths (persistent or ephemeral)
 (defconst rk/emacs-ephemeral-cache-dir
@@ -26,10 +31,6 @@
                  ,rk/emacs-ephemeral-cache-dir)
           (directory :tag "Custom cache directory"))
   :group 'convenience)
-
-(when (and (stringp custom-file)
-           (file-readable-p custom-file))
-  (load custom-file 'noerror 'nomessage))
 
 (defconst rk/cache-paths
   '((backup-directory . "backup/")
@@ -104,9 +105,7 @@ Each pair should be (SYMBOL CACHE-KEY) where SYMBOL is set to (rk/cache-path CAC
 
 (setq create-lockfiles nil)
 
-;;; Global font and startup frame behavior
-(add-to-list 'default-frame-alist '(font . "Iosevka NFM-14"))
-(add-to-list 'initial-frame-alist '(font . "Iosevka NFM-14"))
+;;; Fonts are configured in one place: `core-ui.el'.
 
 ;;; Restore previous session state (including frame/window state when available)
 (setq desktop-dirname (rk/cache-path 'desktop-directory)
@@ -116,6 +115,17 @@ Each pair should be (SYMBOL CACHE-KEY) where SYMBOL is set to (rk/cache-path CAC
       desktop-load-locked-desktop t
       desktop-restore-eager 5)
 (desktop-save-mode 1)
+
+;; Colors and fonts come from the theme and `core-ui.el', never from the saved
+;; session. Without this, restoring a frameset repaints the new frame with the
+;; colors that were active when the session was saved — e.g. a dark background
+;; under a freshly loaded light theme.
+(with-eval-after-load 'frameset
+  (setq frameset-filter-alist (copy-alist frameset-filter-alist))
+  (dolist (param '(background-color foreground-color cursor-color
+                   background-mode font font-parameter fontsize
+                   scroll-bar-foreground scroll-bar-background))
+    (setf (alist-get param frameset-filter-alist) :never)))
 
 (with-eval-after-load 'tramp
   (setopt tramp-persistency-file-name

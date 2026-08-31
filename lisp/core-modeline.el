@@ -63,9 +63,11 @@
 (defun rk/modeline-vc-branch ()
   "VC branch segment, empty when the buffer is not version-controlled."
   (when (and vc-mode buffer-file-name)
+    ;; `vc-mode' looks like " Git:main" or " Git-main"; strip the backend prefix.
     (let ((branch (string-trim
-                   (substring-no-properties vc-mode
-                                             (+ (if (eq (vc-backend buffer-file-name) 'Git) 4 1) 1)))))
+                   (replace-regexp-in-string
+                    "\\`[ \t]*[A-Za-z]+[:@!?-]" ""
+                    (substring-no-properties vc-mode)))))
       (propertize (format "%s %s" (rk/modeline--glyph "\ue0a0" "@") branch)
                   'face 'rk/modeline-vc-branch
                   'help-echo (format "VC branch: %s" branch)))))

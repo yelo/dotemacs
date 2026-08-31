@@ -58,15 +58,20 @@ Prefer roslyn-language-server; fallback to csharp-ls if Roslyn isn't installed y
   (let ((default-directory (rk/dotnet--project-root)))
     (compile "dotnet test")))
 
+;; ── Keybindings ──
+;; Under a `C-c c' prefix so C# buffers don't shadow the global `C-c b'
+;; (buffers), `C-c r' (recent files) and `C-c t' (theme toggle) bindings.
+(defvar rk/csharp-map (make-sparse-keymap)
+  "C# / .NET shortcuts under C-c c.")
+(define-key rk/csharp-map (kbd "b") #'rk/dotnet-build)
+(define-key rk/csharp-map (kbd "r") #'rk/dotnet-run)
+(define-key rk/csharp-map (kbd "t") #'rk/dotnet-test)
+
 (with-eval-after-load 'csharp-mode
   (when (boundp 'csharp-mode-map)
-    (define-key csharp-mode-map (kbd "C-c b") #'rk/dotnet-build)
-    (define-key csharp-mode-map (kbd "C-c r") #'rk/dotnet-run)
-    (define-key csharp-mode-map (kbd "C-c t") #'rk/dotnet-test))
+    (define-key csharp-mode-map (kbd "C-c c") rk/csharp-map))
   (when (boundp 'csharp-ts-mode-map)
-    (define-key csharp-ts-mode-map (kbd "C-c b") #'rk/dotnet-build)
-    (define-key csharp-ts-mode-map (kbd "C-c r") #'rk/dotnet-run)
-    (define-key csharp-ts-mode-map (kbd "C-c t") #'rk/dotnet-test)))
+    (define-key csharp-ts-mode-map (kbd "C-c c") rk/csharp-map)))
 
 (provide 'lang-csharp)
 ;;; lang-csharp.el ends here

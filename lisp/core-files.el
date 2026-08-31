@@ -1,12 +1,15 @@
 ;;; core-files.el --- File management -*- lexical-binding: t; -*-
 
+;; Deleting files sends them to the system trash. Set globally (not just under
+;; dired) so plain `delete-file' is covered before dired is ever loaded.
+(setq delete-by-moving-to-trash t)
+
 (with-eval-after-load 'dired
   (setq dired-listing-switches "-alh")
   (setq dired-dwim-target t)
   (setq dired-recursive-copies 'always)
   (setq dired-recursive-deletes 'top)
   (setq dired-kill-when-opening-new-dired-buffer t)
-  (setq delete-by-moving-to-trash t)
   (let ((gls (executable-find "gls")))
     (when gls
       (setq insert-directory-program gls)

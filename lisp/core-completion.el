@@ -22,6 +22,9 @@
 (savehist-mode 1)
 
 ;; Built-in completion styles only.
+;; Note: `fido-vertical-mode' forces its own `completion-styles' inside the
+;; minibuffer, so the list below effectively governs *in-buffer* completion
+;; (CAPF) and the category overrides, not minibuffer matching.
 (setq completion-styles '(basic partial-completion flex initials substring)
       completion-category-defaults nil
       completion-category-overrides
@@ -40,8 +43,13 @@
       minibuffer-visible-completions nil)
 
 ;; File and buffer candidates for built-in completion commands.
+;; `recentf-mode' normally runs a cleanup pass when enabled, which stats every
+;; saved entry — including remote/TRAMP paths, which can stall startup. Defer
+;; cleanup to idle time and never touch remote files.
+(setq recentf-max-saved-items 500
+      recentf-auto-cleanup 300
+      recentf-keep '(file-remote-p file-readable-p))
 (recentf-mode 1)
-(setq recentf-max-saved-items 500)
 
 ;; Completion at point remains the built-in CAPF stack.
 (setq tab-always-indent 'complete)

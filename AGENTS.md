@@ -65,7 +65,7 @@ workflows. Trigger points include:
 
 - **Keybindings changed or added** in `core-keybindings.el` or language modules
   (e.g., `C-c p`, `C-c w`, `C-c v`, `C-c !`, language-specific helpers like
-  `C-c t a` for Python).
+  `C-c t a` for Python or `C-c c b` for C#).
 - **Window/popup routing modified** in `core-windows.el`'s `display-buffer-alist`
   (e.g., which side Help/compilation/shell windows appear on).
 - **Language modules added/removed** in `lisp/lang-*.el` (affects §10 "LSP &

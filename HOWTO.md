@@ -165,6 +165,9 @@ have more than one tab (`tab-bar-show 1`).
   `~/.config/emacs/cache/desktop/desktop` by default and restores it on startup.
   Use `M-x desktop-save` to save on demand.
 - **`save-place-mode`** remembers point per file (§4).
+- Frame **colors and fonts are not restored** from the saved session — they
+  always come from the current theme and `core-ui.el`, so restoring a session
+  saved in dark mode never leaves a light theme on a dark frame.
 - **`savehist-mode`** persists minibuffer history, the kill ring, and search
   history across sessions.
 
@@ -231,6 +234,9 @@ Config-specific niceties:
 - **`C->` / `C-<`** — indent region right / left.
 - **`M-/`** — dynamic abbreviation expansion (word completion).
 - **`C-x h`** — select all; **`C-x C-x`** — swap point and mark.
+- **Trailing whitespace on save** — stripped automatically in **code buffers
+  only** (`prog-mode`). Text and Markdown buffers are left alone, so Markdown's
+  two-space hard line breaks survive.
 
 **macOS modifiers** (`os-macos.el`): `Cmd` = Super (so `Cmd+C/V/X/A/Z` are the
 usual copy/paste/cut/select-all/undo), left `Option` = Meta (`M-`), right
@@ -290,7 +296,7 @@ build/test/run tools. For example:
 
 - **Python:** `C-c t a` (run all pytest), `C-c t t` (run current test)
 - **Rust:** `M-x rk/rust-cargo` (run cargo subcommand interactively)
-- **C#:** `C-c b` (build), `C-c r` (run), `C-c t` (test with dotnet)
+- **C#:** `C-c c b` (build), `C-c c r` (run), `C-c c t` (test with dotnet)
 - **Elisp:** `C-c C-b` (eval buffer), `C-c C-d` (eval defun), `C-c C-z`
   (ielm REPL), `C-c C-f`/`C-c C-v` (find function/variable)
 
@@ -314,6 +320,10 @@ On startup, Emacs restores your previous desktop/session (see §7) instead of
 opening a launcher buffer. Startup timing is reported in `*Messages*` (for
 example: `Emacs ready in 0.45 seconds with 5 garbage collections.`).
 
+Module loading is fail-soft: if one module in `lisp/` signals an error, the
+error is reported in `*Messages*` (`Error loading …`) and the remaining modules
+still load, so Emacs always comes up usable.
+
 ---
 
 ## 12a. Appearance & themes
@@ -329,6 +339,17 @@ optimized for accessibility.
 The toggle disables the current theme and loads the other. The modeline and all
 UI elements adapt automatically. If you want to customize theme settings, edit
 `core-ui.el` (see `rk/toggle-light-dark-theme` and `rk/apply-ui-face-tweaks`).
+
+The theme is applied while `core-ui.el` loads (not after startup), so the first
+frame is already drawn with it — no flash of the default theme.
+
+**Font** — `core-ui.el` is the single source of truth: `rk/font-family` and
+`rk/font-size` (default *Iosevka Nerd Font 14*) feed both the frame defaults and
+the `default`/`fixed-pitch` faces. If the font isn't installed, the settings are
+skipped and Emacs falls back to the system default instead of erroring.
+
+The current line is highlighted by `global-hl-line-mode` using the theme's own
+`hl-line` background.
 
 ---
 
@@ -349,6 +370,6 @@ UI elements adapt automatically. If you want to customize theme settings, edit
 **Run tests & iterate**
 1. Your language's test/build command is available via helpers (see §10). For
    example, Python offers `C-c t a`/`C-c t t` (pytest), Rust uses `M-x
-   rk/rust-cargo test`, C# has `C-c t` (dotnet test).
+   rk/rust-cargo test`, C# has `C-c c t` (dotnet test).
 2. Compile/test output appears in a bottom window and stops at the first failure.
 3. Fix errors and re-run: most test runners show line references Emacs can jump to.

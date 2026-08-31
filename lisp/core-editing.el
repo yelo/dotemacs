@@ -11,9 +11,7 @@
 (defun rk/backward-kill-word ()
   "Delete word backward without copying it to the kill ring."
   (interactive "*")
-  (push-mark)
-  (backward-word)
-  (delete-region (point) (mark)))
+  (delete-region (point) (save-excursion (backward-word) (point))))
 
 (keymap-global-set "M-DEL" 'rk/backward-kill-word)
 (keymap-global-set "C-DEL" 'rk/backward-kill-word)
@@ -46,7 +44,9 @@
 (setq isearch-lazy-count t)
 
 ;; Show the current function/method name in the mode line.
-(add-hook 'prog-mode-hook #'which-function-mode)
+;; `which-function-mode' is a *global* mode: enabling it from `prog-mode-hook'
+;; would toggle it off again on every other prog buffer.
+(which-function-mode 1)
 
 (provide 'core-editing)
 ;;; core-editing.el ends here

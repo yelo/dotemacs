@@ -16,12 +16,18 @@
 ;; Avoid loading stale byte-compiled files when source is newer.
 (setq load-prefer-newer t)
 
-(setq byte-compile-warnings '(not cl-functions))
-(require 'cl-lib)
-
 (when (getenv "RK_PROFILE_STARTUP")
   (require 'profiler)
   (profiler-start 'cpu+mem))
+
+;; Load a module without letting one broken file abort the rest of startup.
+(defun rk/load-module (file &optional noerror-missing)
+  "Load Lisp FILE, reporting errors instead of aborting init.
+With NOERROR-MISSING non-nil, a missing file is not an error."
+  (condition-case err
+      (load file noerror-missing)
+    (error
+     (message "Error loading %s: %s" file (error-message-string err)))))
 
 ;; Core modules (order matters for dependencies)
 (dolist (core '("core-settings"
@@ -39,20 +45,20 @@
                 "core-shell"
                 "core-markdown"
                 "core-tabs"))
-  (load (expand-file-name core rk/lisp-dir)))
+  (rk/load-module (expand-file-name core rk/lisp-dir)))
 
 ;; TTY / terminal-mode enhancements (only when running without a window system)
 (unless (display-graphic-p)
-  (load (expand-file-name "core-tty" rk/lisp-dir) nil t))
+  (rk/load-module (expand-file-name "core-tty" rk/lisp-dir) t))
 
 ;; OS-specific modules
 (pcase system-type
   ('darwin
-   (load (expand-file-name "os-macos" rk/lisp-dir)))
+   (rk/load-module (expand-file-name "os-macos" rk/lisp-dir)))
   ('gnu/linux
-   (load (expand-file-name "os-linux" rk/lisp-dir) nil t))
+   (rk/load-module (expand-file-name "os-linux" rk/lisp-dir) t))
   ('windows-nt
-   (load (expand-file-name "os-windows" rk/lisp-dir) nil t)))
+   (rk/load-module (expand-file-name "os-windows" rk/lisp-dir) t)))
 
 (defvar rk/extra-modules-loaded nil
   "Non-nil once optional language modules have been loaded.")
@@ -60,7 +66,7 @@
 (defun rk/load-module-family (prefix)
   "Load all optional modules from lisp/ that start with PREFIX."
   (dolist (file (directory-files rk/lisp-dir t (format "^%s-.*\\.el$" prefix)))
-    (load file nil t)))
+    (rk/load-module file t)))
 
 (defun rk/load-extra-modules ()
   "Load optional language modules once."

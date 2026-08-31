@@ -37,9 +37,7 @@
 
 (setq display-buffer-alist
       (append
-       '(("\\*[Dd]ashboard\\*"
-          (display-buffer-same-window))
-         ("\\*\\(Help\\|Apropos\\|info\\|Man .*\\)\\*"
+       '(("\\*\\(Help\\|Apropos\\|info\\|Man .*\\)\\*"
           (display-buffer-in-side-window)
           (side . right)
           (slot . 0)
@@ -68,8 +66,9 @@
 ;; ── Speedbar as a side window (Emacs 31) ──
 ;; File opens from Speedbar are routed to the last non-side editing window
 ;; in the same frame to avoid jarring target-window changes.
-
-(require 'speedbar)
+;; Speedbar itself is not loaded here — `speedbar-window-mode' is autoloaded,
+;; and these variables are plain `defcustom's whose values survive the later
+;; load, so nothing needs to be required at startup.
 
 (setq speedbar-use-images nil
       speedbar-prefer-window t
@@ -122,8 +121,9 @@ the first available eligible editing window. This avoids jarring window switches
 (add-hook 'window-selection-change-functions
           #'rk/speedbar--remember-editing-window)
 (rk/speedbar--remember-editing-window (selected-frame))
-(advice-add 'speedbar-find-file-in-frame :around
-            #'rk/speedbar-find-file-in-frame-deterministic)
+(with-eval-after-load 'speedbar
+  (advice-add 'speedbar-find-file-in-frame :around
+              #'rk/speedbar-find-file-in-frame-deterministic))
 
 (defun rk/speedbar-toggle ()
   "Toggle Speedbar in a side window on the current frame."
