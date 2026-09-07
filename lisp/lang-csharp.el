@@ -31,32 +31,139 @@ Prefer roslyn-language-server; fallback to csharp-ls if Roslyn isn't installed y
 (add-hook 'csharp-ts-mode-hook #'eglot-ensure)
 
 ;; ── dotnet build/run/test helpers ──
-(defun rk/dotnet--project-root ()
-  "Return the project root (nearest .sln or .csproj ancestor, else project.el root)."
-  (or (locate-dominating-file default-directory
-                               (lambda (dir)
-                                 (directory-files dir nil "\\.\\(sln\\|csproj\\)$")))
+;;
+;; Multi-project solutions: every command takes an explicit target
+;; (solution or project file).  The target is chosen with completion over
+;; the files found below the workspace root, defaults to the last target
+;; used in that workspace, and can be pinned per project via
+;; `.dir-locals.el':
+;;
+;;   ((nil . ((rk/dotnet-target . "src/Api/Api.csproj")
+;;            (rk/dotnet-extra-args . "-c Debug"))))
+
+(defvar rk/dotnet-target nil
+  "Default `dotnet' target (solution or project file) for this buffer.
+Relative paths are resolved against the workspace root.  Usually set
+from `.dir-locals.el'.")
+(put 'rk/dotnet-target 'safe-local-variable #'stringp)
+
+(defvar rk/dotnet-extra-args nil
+  "Extra arguments appended to every `dotnet' command in this buffer.
+Usually set from `.dir-locals.el'.")
+(put 'rk/dotnet-extra-args 'safe-local-variable #'stringp)
+
+(defvar rk/dotnet-project-file-regexp "\\.\\(sln\\|slnx\\|slnf\\|csproj\\|fsproj\\|vbproj\\)\\'"
+  "Regexp matching MSBuild solution/project files.")
+
+(defvar rk/dotnet--last-target (make-hash-table :test #'equal)
+  "Maps workspace root -> last target used there.")
+
+(defun rk/dotnet--root ()
+  "Return the workspace root for dotnet commands.
+Prefers the outermost directory containing a solution file, then
+project.el's root, then the nearest project file directory."
+  (or (rk/dotnet--dominating-dir "\\.\\(sln\\|slnx\\|slnf\\)\\'")
       (when-let* ((proj (project-current nil default-directory)))
         (project-root proj))
+      (rk/dotnet--dominating-dir rk/dotnet-project-file-regexp)
       default-directory))
 
-(defun rk/dotnet-build ()
-  "Run `dotnet build` in the project root."
-  (interactive)
-  (let ((default-directory (rk/dotnet--project-root)))
-    (compile "dotnet build")))
+(defun rk/dotnet--dominating-dir (regexp)
+  "Return the topmost ancestor directory of `default-directory' holding REGEXP.
+Searching upward keeps the highest match so a solution above nested
+projects wins.  Return nil when nothing matches."
+  (let ((dir default-directory) found)
+    (while dir
+      (when (directory-files dir nil regexp t)
+        (setq found dir))
+      (let ((parent (file-name-directory (directory-file-name dir))))
+        (setq dir (unless (equal parent dir) parent))))
+    (and found (file-name-as-directory found))))
 
-(defun rk/dotnet-run ()
-  "Run `dotnet run` in the project root."
-  (interactive)
-  (let ((default-directory (rk/dotnet--project-root)))
-    (compile "dotnet run")))
+(defun rk/dotnet--targets (root)
+  "Return solution/project files under ROOT, relative to it."
+  (let (files)
+    (dolist (f (ignore-errors
+                 (directory-files-recursively
+                  root rk/dotnet-project-file-regexp nil
+                  (lambda (dir)
+                    (not (member (file-name-nondirectory dir)
+                                 '("bin" "obj" ".git" "node_modules")))))))
+      (push (file-relative-name f root) files))
+    (sort files #'string<)))
 
-(defun rk/dotnet-test ()
-  "Run `dotnet test` in the project root."
-  (interactive)
-  (let ((default-directory (rk/dotnet--project-root)))
-    (compile "dotnet test")))
+(defun rk/dotnet--default-target (root)
+  "Return the preferred default target for ROOT, or nil."
+  (or (when (and rk/dotnet-target (not (string-empty-p rk/dotnet-target)))
+        (if (file-name-absolute-p rk/dotnet-target)
+            (file-relative-name rk/dotnet-target root)
+          rk/dotnet-target))
+      (gethash root rk/dotnet--last-target)
+      (car (rk/dotnet--targets root))))
+
+(defun rk/dotnet--read-target (root verb)
+  "Read a target for VERB below ROOT with completion."
+  (let* ((targets (rk/dotnet--targets root))
+         (default (rk/dotnet--default-target root))
+         (choice (completing-read
+                  (format "dotnet %s target (empty = %s): " verb
+                          (abbreviate-file-name root))
+                  targets nil nil default)))
+    (if (string-empty-p choice) nil choice)))
+
+(defvar rk/dotnet-project-flag-verbs '("run" "watch" "watch run")
+  "Subcommands that take the project via `--project' instead of positionally.")
+
+(defun rk/dotnet--command (verb target args)
+  "Build the shell command string for VERB on TARGET with ARGS."
+  (string-join
+   (delq nil (list "dotnet" verb
+                   (when target
+                     (if (member verb rk/dotnet-project-flag-verbs)
+                         (concat "--project " (shell-quote-argument target))
+                       (shell-quote-argument target)))
+                   (and args (not (string-empty-p args)) args)))
+   " "))
+
+(defun rk/dotnet--compile (verb &optional arg)
+  "Run `dotnet VERB' on a target chosen interactively.
+With one prefix ARG also prompt for extra arguments; with two prefix
+args, edit the whole command line before running it."
+  (let* ((root (rk/dotnet--root))
+         (target (rk/dotnet--read-target root verb))
+         (args (if (and arg (>= (prefix-numeric-value arg) 4))
+                   (read-string (format "dotnet %s args: " verb)
+                                (or rk/dotnet-extra-args ""))
+                 rk/dotnet-extra-args))
+         (command (rk/dotnet--command verb target args))
+         (default-directory root))
+    (when target (puthash root target rk/dotnet--last-target))
+    (compile (if (and arg (>= (prefix-numeric-value arg) 16))
+                 (read-string "Compile command: " command)
+               command))))
+
+(defmacro rk/dotnet--defcommand (name verb docstring)
+  "Define interactive command NAME running `dotnet VERB'."
+  (declare (indent defun))
+  `(defun ,name (&optional arg)
+     ,(concat docstring "\n\nThe target is read with completion (empty input runs at
+the workspace root).  With \\[universal-argument] also prompt for extra
+arguments, with \\[universal-argument] \\[universal-argument] edit the
+full command line.")
+     (interactive "P")
+     (rk/dotnet--compile ,verb arg)))
+
+(rk/dotnet--defcommand rk/dotnet-build "build" "Run `dotnet build' on a solution or project.")
+(rk/dotnet--defcommand rk/dotnet-run "run" "Run `dotnet run' on a project.")
+(rk/dotnet--defcommand rk/dotnet-test "test" "Run `dotnet test' on a solution or project.")
+(rk/dotnet--defcommand rk/dotnet-clean "clean" "Run `dotnet clean' on a solution or project.")
+(rk/dotnet--defcommand rk/dotnet-restore "restore" "Run `dotnet restore' on a solution or project.")
+(rk/dotnet--defcommand rk/dotnet-watch "watch run" "Run `dotnet watch run' on a project.")
+
+(defun rk/dotnet-command (verb &optional arg)
+  "Run an arbitrary `dotnet' VERB (e.g. \"publish\", \"format\") on a target."
+  (interactive "sdotnet subcommand: \nP")
+  (rk/dotnet--compile verb arg))
 
 ;; ── Keybindings ──
 ;; Under a `C-c c' prefix so C# buffers don't shadow the global `C-c b'
@@ -66,6 +173,10 @@ Prefer roslyn-language-server; fallback to csharp-ls if Roslyn isn't installed y
 (define-key rk/csharp-map (kbd "b") #'rk/dotnet-build)
 (define-key rk/csharp-map (kbd "r") #'rk/dotnet-run)
 (define-key rk/csharp-map (kbd "t") #'rk/dotnet-test)
+(define-key rk/csharp-map (kbd "w") #'rk/dotnet-watch)
+(define-key rk/csharp-map (kbd "c") #'rk/dotnet-clean)
+(define-key rk/csharp-map (kbd "n") #'rk/dotnet-restore)
+(define-key rk/csharp-map (kbd "!") #'rk/dotnet-command)
 
 (with-eval-after-load 'csharp-mode
   (when (boundp 'csharp-mode-map)

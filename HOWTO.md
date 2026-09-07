@@ -296,7 +296,13 @@ build/test/run tools. For example:
 
 - **Python:** `C-c t a` (run all pytest), `C-c t t` (run current test)
 - **Rust:** `M-x rk/rust-cargo` (run cargo subcommand interactively)
-- **C#:** `C-c c b` (build), `C-c c r` (run), `C-c c t` (test with dotnet)
+- **C#:** `C-c c b` (build), `C-c c r` (run), `C-c c t` (test), `C-c c w`
+  (`dotnet watch run`), `C-c c c` (clean), `C-c c n` (restore), `C-c c !`
+  (arbitrary `dotnet` subcommand). Each prompts for the solution/project file
+  with completion (multi-project solutions), remembers the last target per
+  workspace, and accepts `C-u` for extra arguments or `C-u C-u` to edit the
+  whole command line. Pin a default per repository in `.dir-locals.el` with
+  `rk/dotnet-target` (and optionally `rk/dotnet-extra-args`).
 - **Elisp:** `C-c C-b` (eval buffer), `C-c C-d` (eval defun), `C-c C-z`
   (ielm REPL), `C-c C-f`/`C-c C-v` (find function/variable)
 
