@@ -249,6 +249,9 @@ locations are hardcoded, so an SDK that registers itself there (like the .NET
 installer) resolves identically inside and outside Emacs. `DOTNET_ROOT` is
 derived from whichever `dotnet` that `PATH` resolves to, never pinned to a
 specific install, so `global.json` picks the SDK version for each project.
+`DOTNET_HOST_PATH` is set beside that real host as well, preventing global
+.NET tools such as the Roslyn language server from mistaking Homebrew's
+`bin/dotnet` shim for an SDK installation.
 
 **Best practices:**
 
@@ -270,7 +273,7 @@ specific install, so `global.json` picks the SDK version for each project.
 `eglot` is configured via **language modules** in `lisp/lang-*.el`. Each module
 registers an LSP server program and enables eglot for that language's major modes.
 Currently configured: Python (`pylsp`), Rust (`rust-analyzer`), C#
-(`roslyn-language-server`, with `csharp-ls` fallback when Roslyn isn't installed),
+(`csharp-ls`, with `roslyn-language-server` fallback when necessary),
 and Elisp (built-in). To add support for a new language, create `lisp/lang-newlang.el`
 and register your LSP server; language servers must be installed separately per
 each module's documentation.
@@ -288,6 +291,7 @@ binary if present, falling back to a global `pylsp` on `PATH` otherwise.
 | `C-c ! l` | List diagnostics |
 | `C-c ! n` / `p` | Next / previous error |
 | `C-c ! s` | Start flymake |
+| Hover a C# symbol | Show its Eglot signature and documentation in a tooltip |
 | `M-.` | Jump to definition (`xref-find-definitions`; stock Emacs) |
 | `⌘-click` (`s-mouse-1`) | Jump to definition with mouse |
 | `M-,` | Go back (`xref-go-back`; stock Emacs) |
@@ -295,6 +299,20 @@ binary if present, falling back to a global `pylsp` on `PATH` otherwise.
 | `C-c i` | imenu (jump to symbol in buffer) |
 | `M-x eglot-rename` | Rename symbol |
 | `M-x eglot-code-actions` | Quick-fixes / code actions |
+
+In C# buffers, move the mouse over a symbol and wait for the usual tooltip
+delay to see the language server's signature and documentation. ElDoc continues
+to show the same information for the symbol at point, which also works in a
+terminal session. With a graphical Emacs, this configuration enables
+`tooltip-mode`; other buffers continue to use their normal Emacs tooltips.
+
+`M-.` and `⌘-click` also follow definitions in referenced .NET SDK assemblies.
+`csharp-ls` is started with its `metadata-uris` feature enabled, so SDK
+definitions open as navigable decompiled metadata source. Roslyn remains a
+fallback and may open real source when symbols or Source Link make it
+available; otherwise it also provides metadata/decompiled definitions. The
+precise result depends on the language server, installed SDK, and the
+referenced assembly's symbols; `M-,` always returns to the calling code.
 
 Compile/test output auto-scrolls continuously
 (`compilation-scroll-output t`).
@@ -310,7 +328,9 @@ build/test/run tools. For example:
   with completion (multi-project solutions), remembers the last target per
   workspace, and accepts `C-u` for extra arguments or `C-u C-u` to edit the
   whole command line. Pin a default per repository in `.dir-locals.el` with
-  `rk/dotnet-target` (and optionally `rk/dotnet-extra-args`).
+  `rk/dotnet-target` (and optionally `rk/dotnet-extra-args`). Install the
+  preferred server with `dotnet tool install --global csharp-ls`; the Roslyn
+  language server remains a fallback.
 - **Elisp:** `C-c C-b` (eval buffer), `C-c C-d` (eval defun), `C-c C-z`
   (ielm REPL), `C-c C-f`/`C-c C-v` (find function/variable)
 

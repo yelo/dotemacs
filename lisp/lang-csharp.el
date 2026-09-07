@@ -1,24 +1,27 @@
 ;;; lang-csharp.el --- C# / .NET bindings -*- lexical-binding: t; -*-
 
 ;; Requires: .NET SDK on $PATH.
-;; LSP server: roslyn-language-server (csharp-roslyn) —
-;; install with: dotnet tool install --global roslyn-language-server --prerelease
+;; LSP server: csharp-ls —
+;; install with: dotnet tool install --global csharp-ls
 ;; csharpier: optional format-on-save — dotnet tool install -g csharpier
+
+(require 'eglot)
 
 (defun rk/csharp--eglot-server-command ()
   "Return preferred C# LSP server command for Eglot.
-Prefer roslyn-language-server; fallback to csharp-ls if Roslyn isn't installed yet."
+Prefer csharp-ls; fall back to roslyn-language-server when necessary."
   (cond
+   ((executable-find "csharp-ls")
+    '("csharp-ls" "--features" "metadata-uris"))
+   ((file-executable-p (expand-file-name "~/.dotnet/tools/csharp-ls"))
+    (list (expand-file-name "~/.dotnet/tools/csharp-ls")
+          "--features" "metadata-uris"))
    ((executable-find "roslyn-language-server")
     '("roslyn-language-server" "--stdio"))
    ((file-executable-p (expand-file-name "~/.dotnet/tools/roslyn-language-server"))
     (list (expand-file-name "~/.dotnet/tools/roslyn-language-server") "--stdio"))
-   ((executable-find "csharp-ls")
-    '("csharp-ls"))
-   ((file-executable-p (expand-file-name "~/.dotnet/tools/csharp-ls"))
-    (list (expand-file-name "~/.dotnet/tools/csharp-ls")))
    (t
-    '("roslyn-language-server" "--stdio"))))
+    '("csharp-ls" "--features" "metadata-uris"))))
 
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
@@ -29,6 +32,61 @@ Prefer roslyn-language-server; fallback to csharp-ls if Roslyn isn't installed y
 
 (add-hook 'csharp-mode-hook    #'eglot-ensure)
 (add-hook 'csharp-ts-mode-hook #'eglot-ensure)
+
+;; ── Hover documentation ──
+
+(defvar-local rk/csharp--hover-cache nil
+  "Cached Eglot hover documentation, keyed by buffer tick and position.")
+
+(defun rk/csharp--hover-documentation (position)
+  "Return Eglot hover documentation at POSITION, or nil when unavailable."
+  (let* ((key (cons (buffer-chars-modified-tick) position))
+         (cached (assoc key rk/csharp--hover-cache)))
+    (if cached
+        (cdr cached)
+      (let* ((server (eglot-current-server))
+             (params (list :textDocument
+                           (list :uri (eglot-path-to-uri buffer-file-name))
+                           :position (eglot--pos-to-lsp-position position)))
+             (hover
+              (condition-case err
+                  (eglot--request server :textDocument/hover params
+                                  :timeout 1 :cancel-on-input t)
+                (jsonrpc-error
+                 (message "C# hover request failed: %s"
+                          (error-message-string err))
+                 nil)))
+             (documentation
+              (when-let* ((contents (plist-get hover :contents))
+                          (text (eglot--format-markup contents))
+                          ((not (string-empty-p text))))
+                text)))
+        (push (cons key documentation) rk/csharp--hover-cache)
+        documentation))))
+
+(defun rk/csharp-tooltip-at-mouse (event)
+  "Show Eglot documentation for the C# symbol under mouse EVENT.
+Return non-nil when a C# tooltip was shown, allowing other tooltip handlers
+to handle buffers without Eglot C# documentation."
+  (let* ((position (event-end event))
+         (window (posn-window position))
+         (point (posn-point position)))
+    (when (and (windowp window)
+               (integer-or-marker-p point)
+               (display-graphic-p (window-frame window)))
+      (with-current-buffer (window-buffer window)
+        (when (and (derived-mode-p 'csharp-mode 'csharp-ts-mode)
+                   buffer-file-name
+                   (featurep 'eglot)
+                   (eglot-managed-p))
+          (when-let* ((documentation (rk/csharp--hover-documentation point)))
+            (tooltip-show documentation)
+            t))))))
+
+(when (display-graphic-p)
+  (require 'tooltip)
+  (tooltip-mode 1)
+  (add-hook 'tooltip-functions #'rk/csharp-tooltip-at-mouse))
 
 ;; ── dotnet build/run/test helpers ──
 ;;

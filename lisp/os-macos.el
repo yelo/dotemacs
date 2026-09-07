@@ -57,7 +57,10 @@ Uses `path_helper' so /etc/paths and /etc/paths.d ordering is preserved."
 (when-let* ((dotnet-root (or (rk/macos--dotnet-root)
                              (let ((env (getenv "DOTNET_ROOT")))
                                (and (rk/dotnet-root-p env) env)))))
-  (setenv "DOTNET_ROOT" dotnet-root))
+  (setenv "DOTNET_ROOT" dotnet-root)
+  ;; Global-tool apphosts use this to avoid mistaking Homebrew's bin/dotnet
+  ;; shim for the real host beside the SDK.
+  (setenv "DOTNET_HOST_PATH" (expand-file-name "dotnet" dotnet-root)))
 
 ;; Command key is Super (Cmd+C/V/X/A/Z work as macOS copy/paste)
 (setq ns-command-modifier 'super)
