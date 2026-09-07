@@ -111,9 +111,10 @@ Each pair should be (SYMBOL CACHE-KEY) where SYMBOL is set to (rk/cache-path CAC
 (setq desktop-dirname (rk/cache-path 'desktop-directory)
       desktop-path (list desktop-dirname) ; list of directories to save/restore from
       desktop-base-file-name "desktop"
-      desktop-save t
-      desktop-load-locked-desktop t
-      desktop-restore-eager 5)
+;; Restore the existing session without asking about saving it on exit.
+desktop-save 'if-exists
+desktop-load-locked-desktop t
+desktop-restore-eager 5)
 (desktop-save-mode 1)
 
 ;; Colors and fonts come from the theme and `core-ui.el', never from the saved
