@@ -302,7 +302,53 @@ build/test/run tools. For example:
 
 ---
 
-## 11. Shells
+## 11. Org, notes & spell checking
+
+Org mode is configured as a lightweight writing and task system
+(`core-org.el`): visual line wrapping is enabled in org buffers, startup uses
+indented content folding, emphasis markup is hidden, and completed TODOs log a
+timestamp.
+
+| Keys / command | Action |
+|----------------|--------|
+| `C-c a` | Open the org agenda |
+| `C-c l` | Store a link for later insertion |
+| `M-x rk/spell-set-dictionary` | Switch among the configured dictionaries |
+| `M-x flymake-show-buffer-diagnostics` | List spelling diagnostics when using macOS native checking |
+| `M-x ispell-change-dictionary` | Switch the dictionary for Hunspell/Flyspell fallback |
+| `M-x flyspell-mode` | Toggle fallback live spell checking in the current buffer |
+| `M-x ispell-buffer` | Spell-check the current buffer with the fallback checker |
+
+Org buffers default to the Finnish dictionary (`fi_FI`) for Finnish practice.
+The configured dictionaries are:
+
+- `fi_FI` — Finnish
+- `sv_SE` — Swedish
+- `en_US` — English
+
+On macOS, org buffers prefer the native system spell checker through
+`NSSpellChecker`. Misspellings appear as Flymake diagnostics, using the same
+diagnostic commands as code buffers (`C-c ! l`, `C-c ! n`, `C-c ! p`). The
+Emacs dictionary names above are mapped internally to macOS language IDs:
+`fi_FI` → `fi`, `sv_SE` → `sv`, and `en_US` → `en`.
+
+Use `M-x rk/spell-set-dictionary RET sv_SE RET` to switch the current org buffer
+to Swedish, and similarly for `fi_FI` or `en_US`.
+
+Hunspell remains the portable fallback, because Emacs' stock `ispell` and
+`flyspell` interfaces require an ispell-compatible process. Hunspell and its
+dictionaries are system dependencies, not Emacs packages. Install the
+`hunspell` executable plus Finnish, Swedish, and English dictionaries with your
+OS package manager when you need the fallback path.
+
+Basic task states are `TODO`, `NEXT`, `WAIT`, `DONE`, and `CANCELLED`.
+Agenda files live under `~/.org/`, which is created automatically, with
+`~/.org/notes.org` as the default notes file. Refile targets include headings up
+to level 3 in the current file and agenda files.
+
+---
+
+## 12. Shells
 
 `M-x eshell` (recommended), `M-x shell`, or `M-x term`. All open in the bottom
 side window. Line numbers are disabled automatically in shell/term buffers.
@@ -314,7 +360,7 @@ side window. Line numbers are disabled automatically in shell/term buffers.
 
 ---
 
-## 12. Startup behavior
+## 13. Startup behavior
 
 On startup, Emacs restores your previous desktop/session (see §7) instead of
 opening a launcher buffer. Startup timing is reported in `*Messages*` (for
@@ -326,7 +372,7 @@ still load, so Emacs always comes up usable.
 
 ---
 
-## 12a. Appearance & themes
+## 13a. Appearance & themes
 
 This config uses **modus-operandi-tinted** (light) and **modus-vivendi-tinted**
 (dark) themes, built into Emacs 31+. Both are WCAG AAA compliant and
@@ -353,7 +399,7 @@ The current line is highlighted by `global-hl-line-mode` using the theme's own
 
 ---
 
-## 13. Daily workflows
+## 14. Daily workflows
 
 **Start work on a project**
 1. `C-c p t` → open project in a new tab (or `C-c p p` to switch in place).

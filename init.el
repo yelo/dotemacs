@@ -44,6 +44,7 @@ With NOERROR-MISSING non-nil, a missing file is not an error."
                 "core-vc"
                 "core-shell"
                 "core-markdown"
+                "core-org"
                 "core-tabs"))
   (rk/load-module (expand-file-name core rk/lisp-dir)))
 

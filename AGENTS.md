@@ -12,7 +12,7 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
     `core-modeline`, `core-files`, `core-editing`,
     `core-windows`, `core-keybindings`, `core-completion`, `core-eglot`,
     `core-flymake`, `core-treesit`, `core-vc`, `core-shell`, `core-markdown`,
-    `core-tabs`.
+    `core-org`, `core-tabs`.
   - TTY-only module: `core-tty` (loaded only when Emacs has no window
     system, i.e. `(display-graphic-p)` is nil).
   - OS-specific modules: `os-macos`, `os-linux`, `os-windows`.
@@ -24,6 +24,7 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
 ## Directory and file roles
 
 - `lisp/` — first-party config modules (main customization surface).
+- `scripts/` — small helper scripts used by first-party modules.
 - `site-lisp/` — manually installed Lisp code (if present).
 
 Keep behavior changes in modules under `lisp/` and keep bootstrap concerns in

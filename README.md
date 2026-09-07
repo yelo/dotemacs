@@ -23,13 +23,17 @@ This config is organized as a **modular system**. At its core are two bootstrap
 files: `init.el` and `early-init.el`, which handle loading and initial setup.
 
 The **core modules** in `lisp/` provide essential functionality: UI rendering,
-editing, completion, and LSP integration. These form the foundation of the
-configuration and are loaded in a fixed order to ensure proper initialization.
+editing, completion, LSP integration, Markdown, and Org writing support. These
+form the foundation of the configuration and are loaded in a fixed order to
+ensure proper initialization.
 
 **Language-specific modules** (`lang-python.el`, `lang-rust.el`, etc.) extend
 support for particular programming languages.
 
 **OS-specific modules** adapt the configuration for macOS, Linux, and Windows.
+
+**Helper scripts** in `scripts/` support first-party modules where Emacs needs
+to call out to host OS functionality, such as macOS native spell checking.
 
 Each module is independent; features and keybindings are self-contained and
 easy to customize or disable.
@@ -45,6 +49,12 @@ easy to customize or disable.
 **Documentation:**
 - Keybindings and workflows: [HOWTO.md](HOWTO.md)
 - Detailed feature breakdowns: See module files in `lisp/`
+
+**Writing:** Org mode is configured for notes, tasks, agenda basics, and spell
+checking in Finnish, Swedish, and English. On macOS, org buffers use the native
+system dictionaries through Flymake diagnostics; elsewhere, or when native
+checking is unavailable, Hunspell remains the fallback and dictionaries must be
+installed separately on the host system.
 
 ## Startup profiling
 
