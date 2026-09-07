@@ -242,6 +242,14 @@ Config-specific niceties:
 usual copy/paste/cut/select-all/undo), left `Option` = Meta (`M-`), right
 Option = none (for composed/unicode chars).
 
+**macOS tool discovery** (`os-macos.el`): GUI Emacs doesn't inherit the login
+shell's `PATH`, so it is rebuilt with the system's own `path_helper`, honouring
+`/etc/paths` and `/etc/paths.d` in the same order a terminal sees. No tool
+locations are hardcoded, so an SDK that registers itself there (like the .NET
+installer) resolves identically inside and outside Emacs. `DOTNET_ROOT` is
+derived from whichever `dotnet` that `PATH` resolves to, never pinned to a
+specific install, so `global.json` picks the SDK version for each project.
+
 **Best practices:**
 
 1. **Think in commands, not menus.** Type `M-x` + a few letters to discover.
