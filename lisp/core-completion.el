@@ -31,12 +31,12 @@
       '((file (styles basic partial-completion))
         (eglot-capf (styles rk/flex-noinsert basic initials substring))))
 
-;; Keep the vertical minibuffer UI, while also making the standard
-;; `*Completions*' buffer useful in contexts that display it.
-(setq completion-eager-update t
-      completion-eager-display t
-      completion-auto-select 'second-tab
-      completion-auto-help 'always
+;; Fido renders candidates inside the minibuffer.  Do not also open a
+;; duplicate `*Completions*' window for every minibuffer completion.
+(setq completion-eager-update nil
+      completion-eager-display nil
+      completion-auto-select t
+      completion-auto-help 'lazy
       completion-show-help nil
       completions-detailed t
       completions-group t

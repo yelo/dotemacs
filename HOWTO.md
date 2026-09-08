@@ -187,8 +187,10 @@ persistent cache and a tmp-backed ephemeral cache.
 ## 8. Completion & the minibuffer (`core-completion.el`)
 
 - **`fido-vertical-mode`** gives you a vertical completion UI directly inside
-  the minibuffer. Standard completion contexts also keep the built-in
-  `*Completions*` buffer eagerly displayed and updated as you type.
+  the minibuffer, without opening a duplicate `*Completions*` window for every
+  minibuffer command. The standard `*Completions*` buffer remains available
+  when explicitly requested or used by completion contexts that do not use
+  Fido.
 - **Completion styles** are `basic`, `partial-completion`, `flex`, `initials`,
   `substring` — so `M-x` and `C-x b` match abbreviations, substrings, and
   fuzzy in-order patterns
@@ -203,9 +205,9 @@ persistent cache and a tmp-backed ephemeral cache.
 - **Eglot completion** uses `rk/flex-noinsert`: flex-ranked candidates are kept,
   but ambiguous `TAB` no longer inserts merged fuzzy guesses before selection.
 
-The `*Completions*` buffer is configured for detailed, grouped, one-column
-display with historical sorting and a bounded height. `TAB` remains dedicated
-to indentation/completion at point; `M-TAB` accepts an inline preview.
+When `*Completions*` is shown, it uses detailed, grouped, one-column display
+with historical sorting and a bounded height. `TAB` remains dedicated to
+indentation/completion at point; `M-TAB` accepts an inline preview.
 
 ---
 
