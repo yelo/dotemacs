@@ -40,8 +40,17 @@
 ;; Stop at camelCase/snake_case boundaries when moving/killing words.
 (global-subword-mode 1)
 
-;; Show "N/M" match position while isearching (Emacs 27+).
-(setq isearch-lazy-count t)
+;; Make incremental search more informative and forgiving.
+(setq lazy-count-prefix-format "(%s/%s) "
+      isearch-lazy-count t
+      isearch-allow-motion t
+      isearch-allow-scroll t
+      isearch-repeat-on-direction-change t
+      isearch-wrap-pause 'no-ding)
+(with-eval-after-load 'isearch
+  (keymap-set isearch-mode-map
+              "C-."
+              #'isearch-forward-thing-at-point))
 
 ;; Show the current function/method name in the mode line.
 ;; `which-function-mode' is a *global* mode: enabling it from `prog-mode-hook'

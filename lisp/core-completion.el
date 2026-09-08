@@ -31,16 +31,19 @@
       '((file (styles basic partial-completion))
         (eglot-capf (styles rk/flex-noinsert basic initials substring))))
 
-;; fido-vertical-mode renders candidates inside the minibuffer itself.
-;; Disable eager *Completions* display to avoid a duplicate pane.
-(setq completion-eager-update nil
-      completion-eager-display nil
-      completion-auto-select t
+;; Keep the vertical minibuffer UI, while also making the standard
+;; `*Completions*' buffer useful in contexts that display it.
+(setq completion-eager-update t
+      completion-eager-display t
+      completion-auto-select 'second-tab
+      completion-auto-help 'always
       completion-show-help nil
+      completions-detailed t
+      completions-group t
       completions-format 'one-column
-      completions-max-height 10
+      completions-max-height 20
       completions-sort 'historical
-      minibuffer-visible-completions nil)
+      minibuffer-visible-completions t)
 
 ;; File and buffer candidates for built-in completion commands.
 ;; `recentf-mode' normally runs a cleanup pass when enabled, which stats every

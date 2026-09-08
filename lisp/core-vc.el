@@ -14,8 +14,11 @@
 ;; Allow rewriting already-published history (Jujutsu / force-push workflows).
 (setq vc-allow-rewriting-published-history t)
 
-;; Note: xref-edit-mode is available in Emacs 31 — press 'e' in *xref* buffers
-;; to edit results inline (like grep-edit-mode). No configuration needed.
+;; Emacs 31's built-in grep edit mode replaces the old wgrep workflow.
+(with-eval-after-load 'grep
+  (keymap-set grep-mode-map
+              "C-c C-e"
+              #'grep-change-to-grep-edit-mode))
 
 (provide 'core-vc)
 ;;; core-vc.el ends here

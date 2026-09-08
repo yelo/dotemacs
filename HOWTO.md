@@ -77,6 +77,11 @@ Version control lives under `C-c v`:
 | `C-c v =` | Diff |
 | `C-c v l` | Log |
 
+In a `*grep*` results buffer, press `C-c C-e` to enter Emacs 31's built-in
+grep-edit mode, edit the matches directly, then use the mode's apply command
+to write the changes back to the files. This replaces the third-party `wgrep`
+workflow.
+
 ---
 
 ## 4. Buffer navigation
@@ -182,8 +187,8 @@ persistent cache and a tmp-backed ephemeral cache.
 ## 8. Completion & the minibuffer (`core-completion.el`)
 
 - **`fido-vertical-mode`** gives you a vertical completion UI directly inside
-  the minibuffer. Candidates are shown there and only there — no separate
-  `*Completions*` pane is opened eagerly, avoiding duplicate candidate windows.
+  the minibuffer. Standard completion contexts also keep the built-in
+  `*Completions*` buffer eagerly displayed and updated as you type.
 - **Completion styles** are `basic`, `partial-completion`, `flex`, `initials`,
   `substring` — so `M-x` and `C-x b` match abbreviations, substrings, and
   fuzzy in-order patterns
@@ -197,6 +202,10 @@ persistent cache and a tmp-backed ephemeral cache.
   preview acceptance so it can always reach the completion popup.
 - **Eglot completion** uses `rk/flex-noinsert`: flex-ranked candidates are kept,
   but ambiguous `TAB` no longer inserts merged fuzzy guesses before selection.
+
+The `*Completions*` buffer is configured for detailed, grouped, one-column
+display with historical sorting and a bounded height. `TAB` remains dedicated
+to indentation/completion at point; `M-TAB` accepts an inline preview.
 
 ---
 
@@ -233,6 +242,9 @@ Config-specific niceties:
 - **`M-DEL` / `C-DEL`** — delete word backward *without* touching the kill ring.
 - **`C->` / `C-<`** — indent region right / left.
 - **`M-/`** — dynamic abbreviation expansion (word completion).
+- **Incremental search** shows lazy match counts, allows scrolling and motion
+  while searching, repeats immediately when changing direction, and wraps
+  without a warning beep. `C-.` searches forward for the thing at point.
 - **`C-x h`** — select all; **`C-x C-x`** — swap point and mark.
 - **Trailing whitespace on save** — stripped automatically in **code buffers
   only** (`prog-mode`). Text and Markdown buffers are left alone, so Markdown's
@@ -285,6 +297,10 @@ order) using only built-in `project.el` — no third-party packages (e.g.
 `python-shell-virtualenv-root` and prepends the venv's `bin`/`Scripts`
 directory to `exec-path`/`PATH`. Eglot then prefers the venv's own `pylsp`
 binary if present, falling back to a global `pylsp` on `PATH` otherwise.
+
+Where an Emacs tree-sitter grammar is installed, supported language buffers
+automatically use the corresponding built-in `*-ts-mode` with maximum
+font-lock detail. Without a grammar, the ordinary major mode remains in use.
 
 | Keys | Action |
 |------|--------|
