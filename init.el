@@ -48,8 +48,10 @@ With NOERROR-MISSING non-nil, a missing file is not an error."
                 "core-tabs"))
   (rk/load-module (expand-file-name core rk/lisp-dir)))
 
-;; TTY / terminal-mode enhancements (only when running without a window system)
-(unless (display-graphic-p)
+;; TTY / terminal-mode enhancements (only for direct terminal Emacs, not daemon
+;; startup before the first client frame exists).
+(when (and (not (daemonp))
+           (not (display-graphic-p)))
   (rk/load-module (expand-file-name "core-tty" rk/lisp-dir) t))
 
 ;; OS-specific modules

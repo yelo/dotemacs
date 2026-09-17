@@ -422,6 +422,13 @@ Module loading is fail-soft: if one module in `lisp/` signals an error, the
 error is reported in `*Messages*` (`Error loading …`) and the remaining modules
 still load, so Emacs always comes up usable.
 
+On multi-user macOS systems, run Emacs daemon mode as a **per-user
+LaunchAgent**, not a system LaunchDaemon. This keeps each user's server socket,
+buffers, config, and filesystem permissions isolated. Connect with
+`emacsclient -c` for a GUI frame or `emacsclient -t` in the terminal. TTY-only
+tweaks are loaded only for direct terminal Emacs sessions, not during daemon
+startup before any client frame exists.
+
 ---
 
 ## 13a. Appearance & themes
