@@ -11,27 +11,35 @@
 (defconst rk/font-size 14
   "Font size in points for `rk/font-family'.")
 
-(defun rk/font-available-p (family)
-  "Return non-nil if FAMILY is installed on this system."
-  (and (display-graphic-p)
-       (member family (font-family-list))
+(defun rk/font-available-p (family &optional frame)
+  "Return non-nil if FAMILY is installed on FRAME (or the selected frame).
+Always nil for non-graphical frames, since font queries are meaningless
+there (notably the placeholder frame present during daemon startup)."
+  (and (display-graphic-p frame)
+       (member family (font-family-list frame))
        t))
 
-(defun rk/apply-font-settings ()
-  "Apply `rk/font-family' to frame alists and fixed-pitch faces.
+(defun rk/apply-font-settings (&optional frame)
+  "Apply `rk/font-family' to frame alists and FRAME's faces.
 Does nothing when the font is not installed, so Emacs still starts
-cleanly on machines without it."
-  (when (rk/font-available-p rk/font-family)
+cleanly on machines without it. Also does nothing for non-graphical
+frames (e.g. the placeholder frame under `emacs --daemon', or a
+`-nw' client frame), since font settings do not apply to them; the
+frame alists still carry the spec so later graphical frames pick it
+up, and `rk/apply-font-settings' is re-run per new frame via
+`after-make-frame-functions' to cover daemon clients."
+  (when (rk/font-available-p rk/font-family frame)
     (let ((spec (format "%s-%d" rk/font-family rk/font-size)))
       (add-to-list 'default-frame-alist `(font . ,spec))
       (add-to-list 'initial-frame-alist `(font . ,spec)))
     (dolist (face '(default fixed-pitch))
-      (set-face-attribute face nil
+      (set-face-attribute face frame
                           :family rk/font-family
                           :height (* rk/font-size 10)
                           :weight 'regular))))
 
 (rk/apply-font-settings)
+(add-hook 'after-make-frame-functions #'rk/apply-font-settings)
 
 (defun rk/apply-ui-face-tweaks ()
   "Apply small readability tweaks after theme load.
