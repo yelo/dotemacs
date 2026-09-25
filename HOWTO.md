@@ -65,6 +65,7 @@ stock `C-x p` prefix works too (`C-x p p`, `C-x p f`, …).
 | `C-c p d` | Open the project root in dired |
 | `C-c p s` | Search across the project (`project-find-regexp`) |
 | `C-c p t` | Open a project in a **new tab** (named after the project) |
+| `C-c p l` | Switch to the dedicated **Loose Files** tab |
 
 The `C-c p p` switch menu offers `f`/`d`/`s`/`v` (find-file, dired, search,
 VC status) — configured in `core-vc.el`.
@@ -148,7 +149,8 @@ them.
 
 `tab-bar-mode` is used as a lightweight **project-per-tab workspace** switcher
 (see `core-tabs.el`). Each tab holds its own window layout, so switching
-projects into a fresh tab keeps unrelated buffers/windows from piling up.
+projects into a fresh tab keeps unrelated buffers/windows from piling up. A
+dedicated **Loose Files** tab is used for files outside any project.
 
 | Keys | Action |
 |------|--------|
@@ -156,10 +158,14 @@ projects into a fresh tab keeps unrelated buffers/windows from piling up.
 | `C-x t 0` | Close current tab |
 | `C-x t o` / `C-x t O` | Next / previous tab |
 | `C-x t t` | Recent-tab switcher |
+| `C-c p l` | Switch to or create the **Loose Files** tab |
 
 Workflow: `C-c p t` opens the chosen project in a new tab that is
 **automatically renamed** to the project name. The tab bar is hidden until you
-have more than one tab (`tab-bar-show 1`).
+have more than one tab (`tab-bar-show 1`). Ordinary file opening (`C-c f`,
+`C-x C-f`, recent files, and Speedbar) keeps project files in their matching
+project tab and sends non-project files to **Loose Files**. Opening a file
+outside the active project therefore does not pollute that project workspace.
 
 ---
 
