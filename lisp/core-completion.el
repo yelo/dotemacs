@@ -14,7 +14,8 @@
                (cycle-sort-function . rk/completion-preserve-order)))
 
 ;; Built-in minibuffer completion UI.
-(fido-vertical-mode 1)
+(icomplete-vertical-mode 1)
+(which-key-mode 1)
 (setq enable-recursive-minibuffers t)
 
 ;; Persist minibuffer history, plus kill-ring and search history.
@@ -22,10 +23,8 @@
 (savehist-mode 1)
 
 ;; Built-in completion styles only.
-;; Note: `fido-vertical-mode' forces its own `completion-styles' inside the
-;; minibuffer, so the list below effectively governs *in-buffer* completion
-;; (CAPF) and the category overrides, not minibuffer matching.
-(setq completion-styles '(basic partial-completion flex initials substring)
+(setq completion-ignore-case t
+      completion-styles '(basic flex)
       completion-category-defaults nil
       completion-category-overrides
       '((file (styles basic partial-completion))
@@ -64,7 +63,7 @@
   (keymap-unset completion-preview-active-mode-map "<tab>" t)
   (keymap-unset completion-preview-active-mode-map "TAB" t)
   (keymap-set completion-preview-active-mode-map "M-<tab>" #'completion-preview-insert))
-(add-hook 'prog-mode-hook #'completion-preview-mode)
+(global-completion-preview-mode 1)
 
 (provide 'core-completion)
 ;;; core-completion.el ends here

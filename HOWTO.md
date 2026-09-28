@@ -8,6 +8,8 @@ no external packages.
 > If you ever forget a binding, run it with `M-x` and then ask Emacs what key it
 > lives on (`C-h w <command>`).
 
+`which-key-mode` displays available key continuations after you press a prefix.
+
 ---
 
 ## 1. Getting help
@@ -192,18 +194,18 @@ persistent cache and a tmp-backed ephemeral cache.
 
 ## 8. Completion & the minibuffer (`core-completion.el`)
 
-- **`fido-vertical-mode`** gives you a vertical completion UI directly inside
+- **`icomplete-vertical-mode`** gives you a vertical completion UI directly inside
   the minibuffer, without opening a duplicate `*Completions*` window for every
   minibuffer command. The standard `*Completions*` buffer remains available
   when explicitly requested or used by completion contexts that do not use
-  Fido.
-- **Completion styles** are `basic`, `partial-completion`, `flex`, `initials`,
-  `substring` — so `M-x` and `C-x b` match abbreviations, substrings, and
-  fuzzy in-order patterns
+  Icomplete.
+- Completion matching ignores letter case.
+- **Completion styles** are `basic` and `flex`, so `M-x` and `C-x b` match
+  exact names and fuzzy in-order patterns
   (e.g. `M-x rvb` → `revert-buffer`; `C-x b p t` → `project-todos`).
 - **Minibuffer completion navigation** supports `↑`/`↓`; `RET` accepts the
   highlighted completion candidate.
-- **`completion-preview-mode`** shows inline completion previews in code
+- **`global-completion-preview-mode`** shows inline completion previews in
   buffers; press `M-TAB` to accept the preview.
 - **`tab-always-indent`** is `complete`, so `TAB` indents or triggers
   completion at point (CAPF/Eglot). `TAB` is intentionally *not* bound to
