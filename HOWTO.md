@@ -194,11 +194,11 @@ persistent cache and a tmp-backed ephemeral cache.
 
 ## 8. Completion & the minibuffer (`core-completion.el`)
 
-- **`icomplete-vertical-mode`** gives you a vertical completion UI directly inside
+- **`fido-vertical-mode`** gives you an Ido-like vertical completion UI directly inside
   the minibuffer, without opening a duplicate `*Completions*` window for every
   minibuffer command. The standard `*Completions*` buffer remains available
   when explicitly requested or used by completion contexts that do not use
-  Icomplete.
+  Fido.
 - Completion matching ignores letter case.
 - **Completion styles** are `basic` and `flex`, so `M-x` and `C-x b` match
   exact names and fuzzy in-order patterns

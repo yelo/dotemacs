@@ -14,7 +14,7 @@
                (cycle-sort-function . rk/completion-preserve-order)))
 
 ;; Built-in minibuffer completion UI.
-(icomplete-vertical-mode 1)
+(fido-vertical-mode 1)
 (which-key-mode 1)
 (setq enable-recursive-minibuffers t)
 
