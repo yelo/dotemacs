@@ -66,9 +66,8 @@
 ;; ── Speedbar as a side window (Emacs 31) ──
 ;; File opens from Speedbar are routed to the last non-side editing window
 ;; in the same frame to avoid jarring target-window changes.
-;; Speedbar itself is not loaded here — `speedbar-window-mode' is autoloaded,
-;; and these variables are plain `defcustom's whose values survive the later
-;; load, so nothing needs to be required at startup.
+;; Speedbar is loaded when toggled, not during init. These defaults apply when
+;; its options are defined; load it before dynamically binding those options.
 
 (setq speedbar-use-images nil
       speedbar-prefer-window t
@@ -101,7 +100,7 @@ the first available eligible editing window. This avoids jarring window switches
     (if (rk/speedbar--editing-window-p remembered frame)
         remembered
       (seq-find (lambda (w) (rk/speedbar--editing-window-p w frame))
-                (window-list frame 'nomini frame)))))
+                (window-list frame 'nomini)))))
 
 (defun rk/speedbar-find-file-in-frame-deterministic (original file)
   "Open FILE in a deterministic editing window for the current Speedbar frame."
@@ -130,6 +129,7 @@ the first available eligible editing window. This avoids jarring window switches
 (defun rk/speedbar-toggle ()
   "Toggle Speedbar in a side window on the current frame."
   (interactive)
+  (require 'speedbar)
   (let ((speedbar-prefer-window t))
     (speedbar-window-mode)))
 

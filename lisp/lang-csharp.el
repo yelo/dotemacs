@@ -107,7 +107,8 @@ from `.dir-locals.el'.")
 
 (defvar rk/dotnet-extra-args nil
   "Extra arguments appended to every `dotnet' command in this buffer.
-Usually set from `.dir-locals.el'.")
+Usually set from `.dir-locals.el'.  Double-quote whole arguments containing
+whitespace.  Shell operators and expansions are passed literally.")
 (put 'rk/dotnet-extra-args 'safe-local-variable #'stringp)
 
 (defvar rk/dotnet-project-file-regexp "\\.\\(sln\\|slnx\\|slnf\\|csproj\\|fsproj\\|vbproj\\)\\'"
@@ -173,14 +174,16 @@ projects wins.  Return nil when nothing matches."
   "Subcommands that take the project via `--project' instead of positionally.")
 
 (defun rk/dotnet--command (verb target args)
-  "Build the shell command string for VERB on TARGET with ARGS."
+  "Build the shell command string for VERB on TARGET with quoted ARGS."
   (string-join
    (delq nil (list "dotnet" verb
                    (when target
                      (if (member verb rk/dotnet-project-flag-verbs)
                          (concat "--project " (shell-quote-argument target))
                        (shell-quote-argument target)))
-                   (and args (not (string-empty-p args)) args)))
+                   (and args (not (string-empty-p args))
+                        (mapconcat #'shell-quote-argument
+                                   (split-string-and-unquote args) " "))))
    " "))
 
 (defun rk/dotnet--compile (verb &optional arg)

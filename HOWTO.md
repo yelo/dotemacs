@@ -141,6 +141,8 @@ The `C-c w` prefix (see `core-windows.el`) manages window layouts:
   in the current frame (not a separate frame)
   - Opening files from Speedbar (`RET` / click) reuses the last non-side
     editing window in that frame for consistent navigation.
+    If that window is no longer eligible, another non-side, non-dedicated
+    editing window in the same frame is selected.
 
 `*Help*` windows auto-focus (`help-window-select`), so no `C-x o` needed to read
 them.
@@ -176,6 +178,7 @@ outside the active project therefore does not pollute that project workspace.
 - **`desktop-save-mode`** (on by default, `core-settings.el`) saves your session
   — buffers, window/frame layout — to
   `~/.config/emacs/cache/desktop/desktop` by default and restores it on startup.
+  The desktop is created automatically on the first normal exit (`C-x C-c`).
   Use `M-x desktop-save` to save on demand.
 - **`save-place-mode`** remembers point per file (§4).
 - Frame **colors and fonts are not restored** from the saved session — they
@@ -354,8 +357,12 @@ build/test/run tools. For example:
   with completion (multi-project solutions), remembers the last target per
   workspace, and accepts `C-u` for extra arguments or `C-u C-u` to edit the
   whole command line. Pin a default per repository in `.dir-locals.el` with
-  `rk/dotnet-target` (and optionally `rk/dotnet-extra-args`). Install the
-  preferred server with `dotnet tool install --global csharp-ls`; the Roslyn
+  `rk/dotnet-target` (and optionally `rk/dotnet-extra-args`, e.g. `"-c Debug"`).
+  Extra arguments are parsed as data and individually shell-quoted. Double-quote
+  whole arguments containing whitespace (e.g. `--name "two words"`); shell
+  operators, redirection, and expansions are not executed. For intentional shell
+  syntax, use `C-u C-u` and edit the full command line.
+  Install the preferred server with `dotnet tool install --global csharp-ls`; the Roslyn
   language server remains a fallback.
 - **Elisp:** `C-c C-b` (eval buffer), `C-c C-d` (eval defun), `C-c C-z`
   (ielm REPL), `C-c C-f`/`C-c C-v` (find function/variable)
@@ -425,6 +432,10 @@ side window. Line numbers are disabled automatically in shell/term buffers.
 On startup, Emacs restores your previous desktop/session (see §7) instead of
 opening a launcher buffer. Startup timing is reported in `*Messages*` (for
 example: `Emacs ready in 0.45 seconds with 5 garbage collections.`).
+
+All discovered `lang-*.el` modules load during init, before files are visited.
+Language hooks therefore apply to the first command-line file and to buffers
+restored from the desktop, without waiting for an idle timer.
 
 Module loading is fail-soft: if one module in `lisp/` signals an error, the
 error is reported in `*Messages*` (`Error loading …`) and the remaining modules

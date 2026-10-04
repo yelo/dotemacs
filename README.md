@@ -29,6 +29,8 @@ ensure proper initialization.
 
 **Language-specific modules** (`lang-python.el`, `lang-rust.el`, etc.) extend
 support for particular programming languages.
+They load during init so language hooks apply to the first opened file and to
+buffers restored from the saved desktop.
 
 **OS-specific modules** adapt the configuration for macOS, Linux, and Windows.
 

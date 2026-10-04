@@ -111,8 +111,8 @@ Each pair should be (SYMBOL CACHE-KEY) where SYMBOL is set to (rk/cache-path CAC
 (setq desktop-dirname (rk/cache-path 'desktop-directory)
       desktop-path (list desktop-dirname) ; list of directories to save/restore from
       desktop-base-file-name "desktop"
-;; Restore the existing session without asking about saving it on exit.
-desktop-save 'if-exists
+;; Save the session on exit, including the first run without an existing desktop.
+desktop-save t
 desktop-load-locked-desktop t
 desktop-restore-eager 5)
 (desktop-save-mode 1)

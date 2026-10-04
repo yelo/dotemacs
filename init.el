@@ -63,26 +63,13 @@ With NOERROR-MISSING non-nil, a missing file is not an error."
   ('windows-nt
    (rk/load-module (expand-file-name "os-windows" rk/lisp-dir) t)))
 
-(defvar rk/extra-modules-loaded nil
-  "Non-nil once optional language modules have been loaded.")
-
 (defun rk/load-module-family (prefix)
   "Load all optional modules from lisp/ that start with PREFIX."
   (dolist (file (directory-files rk/lisp-dir t (format "^%s-.*\\.el$" prefix)))
     (rk/load-module file t)))
 
-(defun rk/load-extra-modules ()
-  "Load optional language modules once."
-  (unless rk/extra-modules-loaded
-    (setq rk/extra-modules-loaded t)
-    (rk/load-module-family "lang")))
-
-;; Keep startup critical path minimal; load optional modules right after startup
-;; or immediately when the first file is opened.
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (run-with-idle-timer 0.2 nil #'rk/load-extra-modules)))
-(add-hook 'find-file-hook #'rk/load-extra-modules)
+;; Install language hooks before startup visits command-line or restored files.
+(rk/load-module-family "lang")
 
 (add-hook 'emacs-startup-hook
           (lambda ()
