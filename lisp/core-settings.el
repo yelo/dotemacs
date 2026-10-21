@@ -108,13 +108,16 @@ Each pair should be (SYMBOL CACHE-KEY) where SYMBOL is set to (rk/cache-path CAC
 ;;; Fonts are configured in one place: `core-ui.el'.
 
 ;;; Restore previous session state (including frame/window state when available)
+(require 'desktop)
 (setq desktop-dirname (rk/cache-path 'desktop-directory)
       desktop-path (list desktop-dirname) ; list of directories to save/restore from
       desktop-base-file-name "desktop"
 ;; Save the session on exit, including the first run without an existing desktop.
 desktop-save t
 desktop-load-locked-desktop t
-desktop-restore-eager 5)
+desktop-restore-eager 5
+;; Initialize this before desktop buffer serialization can inspect it.
+desktop-io-file-version desktop-native-file-version)
 (desktop-save-mode 1)
 
 ;; Colors and fonts come from the theme and `core-ui.el', never from the saved
