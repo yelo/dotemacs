@@ -55,29 +55,27 @@ some themes add on top of it."
                         :extend t)))
 
 ;; ---- Theme toggle ----
-(defun rk/toggle-light-dark-theme ()
-  "Toggle between modus-operandi-tinted (light) and modus-vivendi-tinted (dark)."
+(defun rk/toggle-foxglove-theme ()
+  "Toggle between the Foxglove light and dark themes."
   (interactive)
   (let ((current (car custom-enabled-themes)))
-    (cond
-     ((eq current 'modus-operandi-tinted)
-      (disable-theme 'modus-operandi-tinted)
-      (load-theme 'modus-vivendi-tinted t)
-      (rk/apply-ui-face-tweaks)
-      (message "Switched to dark mode"))
-     ((eq current 'modus-vivendi-tinted)
-      (disable-theme 'modus-vivendi-tinted)
-      (load-theme 'modus-operandi-tinted t)
-      (rk/apply-ui-face-tweaks)
-      (message "Switched to light mode"))
-     (t
-      (load-theme 'modus-operandi-tinted t)
-      (rk/apply-ui-face-tweaks)
-      (message "Loaded light mode")))))
+    (mapc #'disable-theme custom-enabled-themes)
+    (if (eq current 'foxglove)
+        (progn
+          (load-theme 'foxglove-dark t)
+          (message "Switched to Foxglove dark"))
+      (load-theme 'foxglove t)
+      (message "Switched to Foxglove light"))
+    (rk/apply-ui-face-tweaks)))
 
-;; Built-in theme only. Loaded here rather than from `emacs-startup-hook' so the
-;; first frame is drawn with the theme already applied (no default-theme flash).
-(load-theme 'modus-operandi-tinted t)
+;; `:vc' installs Foxglove and its missing Modus Themes dependency. Load it
+;; here, not from `emacs-startup-hook', to theme the first frame.
+(require 'use-package)
+(use-package foxglove-themes
+  :vc (:url "https://gitlab.com/vegasharmon/foxglove-themes")
+  :demand t)
+
+(load-theme 'foxglove t)
 (rk/apply-ui-face-tweaks)
 
 (provide 'core-ui)

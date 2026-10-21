@@ -5,7 +5,7 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
 ## Current architecture
 
 - `early-init.el` runs first and handles pre-package startup tuning (GC/process
-  settings, frame UI defaults, and disabling package auto-init).
+  settings and frame UI defaults).
 - `init.el` loads `custom.el`, then loads modules from `lisp/`.
 - `lisp/` contains configuration modules by concern:
   - Core modules loaded in fixed order: `core-settings`, `core-ui`,
@@ -32,8 +32,9 @@ Keep behavior changes in modules under `lisp/` and keep bootstrap concerns in
 
 ## Emacs 31 target
 
-This configuration is intentionally **built-in only**: no external package
-dependency is required for normal startup and workflows.
+This configuration uses built-in Emacs features and external packages where
+they make sense. Packages are managed through Emacs's package system and
+`use-package`.
 
 ## Commit Conventions
 

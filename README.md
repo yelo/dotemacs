@@ -2,9 +2,8 @@
 
 > **Requires Emacs 31+**
 
-A **vanilla Emacs 31** configuration: modern, minimal, built-in features only.
-No external packages—just a well-organized collection of Elisp modules that
-enhance the baseline Emacs experience.
+A personal Emacs 31+ configuration: modern and modular, using built-in
+features alongside external packages where they make sense.
 
 **For workflows, keybindings, and detailed how-tos, see [HOWTO.md](HOWTO.md).**
 
@@ -39,6 +38,9 @@ to call out to host OS functionality, such as macOS native spell checking.
 
 Each module is independent; features and keybindings are self-contained and
 easy to customize or disable.
+
+Packages are managed with Emacs's built-in package support and `use-package`;
+VC-hosted packages can be declared directly from their upstream repositories.
 
 ## Support & Navigation
 

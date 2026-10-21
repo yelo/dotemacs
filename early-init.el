@@ -5,11 +5,6 @@
       gc-cons-percentage 0.6)
 (setq read-process-output-max (* 1024 1024))
 
-;; This config is built-in only (no elpa/ packages), so skip package.el's
-;; startup activation entirely. Must be set here — init.el is loaded after
-;; package initialization, so setting it there would be too late.
-(setq package-enable-at-startup nil)
-
 ;; Emacs 31: User Lisp Directory. Point it at `site-lisp/', which this
 ;; config already documents (see AGENTS.md) as the place for manually
 ;; installed Lisp code. Files there are auto-byte-compiled, scraped for

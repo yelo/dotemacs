@@ -1,8 +1,8 @@
 # HOWTO: Working with Emacs
 
 A short, practical guide to the workflows and keybindings this configuration
-provides. This is a **vanilla Emacs 31** setup — everything below is built-in,
-no external packages.
+provides. It targets Emacs 31+ and uses built-in features as well as external
+packages where they make sense.
 
 > **Rule of thumb:** every keybinding is just a shortcut for a named command.
 > If you ever forget a binding, run it with `M-x` and then ask Emacs what key it
@@ -452,20 +452,22 @@ startup before any client frame exists.
 
 ## 13a. Appearance & themes
 
-This config uses **modus-operandi-tinted** (light) and **modus-vivendi-tinted**
-(dark) themes, built into Emacs 31+. Both are WCAG AAA compliant and
-optimized for accessibility.
+This config uses the external **Foxglove** theme package:
+**foxglove** (light) and **foxglove-dark** (dark). It is installed from
+[vegasharmon/foxglove-themes](https://gitlab.com/vegasharmon/foxglove-themes)
+with Emacs's built-in `use-package` VC support; its required Modus Themes
+dependency is installed by the package manager when needed.
 
 | Keys | Action |
 |------|--------|
-| `C-c t` | Toggle between light and dark theme |
+| `C-c t` | Toggle between `foxglove` and `foxglove-dark` |
 
 The toggle disables the current theme and loads the other. The modeline and all
-UI elements adapt automatically. If you want to customize theme settings, edit
-`core-ui.el` (see `rk/toggle-light-dark-theme` and `rk/apply-ui-face-tweaks`).
+UI elements adapt automatically. To customize theme settings, see the Foxglove
+package documentation; UI face tweaks are in `core-ui.el`.
 
-The theme is applied while `core-ui.el` loads (not after startup), so the first
-frame is already drawn with it — no flash of the default theme.
+The theme package and light theme are loaded while `core-ui.el` loads, so the
+first frame is already drawn with the selected theme.
 
 **Font** — `core-ui.el` is the single source of truth: `rk/font-family` and
 `rk/font-size` (default *Iosevka Nerd Font 14*) feed both the frame defaults and
