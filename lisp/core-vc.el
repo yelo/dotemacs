@@ -1,10 +1,17 @@
 ;;; core-vc.el --- Version control -*- lexical-binding: t; -*-
 
+(require 'use-package)
+
+(use-package magit
+  :ensure t
+  :commands (magit-status))
+
 (setq project-switch-commands
       '((project-find-file    "Find file"    "f")
         (project-dired        "Dired"        "d")
         (project-find-regexp  "Search"       "s")
-        (vc-dir               "VC status"    "v")))
+        (vc-dir               "VC status"    "v")
+        (magit-status         "Git status"   "g")))
 
 ;; ── Emacs 31 VC improvements ──
 

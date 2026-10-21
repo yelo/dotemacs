@@ -1,6 +1,8 @@
-;;; core-keybindings.el --- Minimal built-in keybindings -*- lexical-binding: t; -*-
+;;; core-keybindings.el --- Navigation and workflow keybindings -*- lexical-binding: t; -*-
 
 ;; Keep stock Emacs bindings and add a few mnemonic prefixes.
+
+(declare-function rk/consult-project-search "core-completion")
 
 (defvar rk/project-map (make-sparse-keymap)
   "Project shortcuts under C-c p.")
@@ -8,7 +10,7 @@
 (define-key rk/project-map (kbd "f") #'project-find-file)
 (define-key rk/project-map (kbd "p") #'project-switch-project)
 (define-key rk/project-map (kbd "d") #'project-dired)
-(define-key rk/project-map (kbd "s") #'project-find-regexp)
+(define-key rk/project-map (kbd "s") #'rk/consult-project-search)
 
 (defvar rk/window-map (make-sparse-keymap)
   "Window shortcuts under C-c w.")
@@ -33,24 +35,26 @@
 (define-key rk/vc-map (kbd "d") #'vc-dir)
 (define-key rk/vc-map (kbd "=") #'vc-diff)
 (define-key rk/vc-map (kbd "l") #'vc-print-log)
+(define-key rk/vc-map (kbd "s") #'magit-status)
 ;; Emacs 31: switch between git/jj worktrees of the same repo.
 (define-key rk/vc-map (kbd "w") #'vc-switch-working-tree)
-(define-key rk/project-map (kbd "b") #'project-find-matching-buffer)
+(define-key rk/project-map (kbd "b") #'consult-project-buffer)
 
 (keymap-global-set "C-c f" #'find-file)
 
 (defvar rk/buffer-map (make-sparse-keymap)
   "Buffer shortcuts under C-c b.")
 (keymap-global-set "C-c b" rk/buffer-map)
-(define-key rk/buffer-map (kbd "b") #'switch-to-buffer)
+(define-key rk/buffer-map (kbd "b") #'consult-buffer)
 (define-key rk/buffer-map (kbd "k") #'kill-buffer)
 (define-key rk/buffer-map (kbd "r") #'revert-buffer)
 (define-key rk/buffer-map (kbd "l") #'list-buffers)
 (define-key rk/buffer-map (kbd "n") #'next-buffer)
 (define-key rk/buffer-map (kbd "p") #'previous-buffer)
 
-(keymap-global-set "C-c r" #'recentf-open-files)
-(keymap-global-set "C-c i" #'imenu)
+(keymap-global-set "C-c r" #'consult-recent-file)
+(keymap-global-set "C-c i" #'consult-imenu)
+(keymap-global-set "M-s l" #'consult-line)
 (keymap-global-set "C-c t" #'rk/toggle-foxglove-theme)
 
 (provide 'core-keybindings)

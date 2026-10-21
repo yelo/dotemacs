@@ -120,6 +120,20 @@ desktop-restore-eager 5
 desktop-io-file-version desktop-native-file-version)
 (desktop-save-mode 1)
 
+(defvar eww-desktop-remove-duplicates)
+(defvar eww-history-position)
+
+(defun rk/eww-desktop-save-history (original directory)
+  "Serialize EWW history through ORIGINAL into DIRECTORY without losing entries."
+  ;; EWW's duplicate removal can lose the selected entry and save a nil
+  ;; position, which breaks the next desktop save after that session restores.
+  (let ((eww-desktop-remove-duplicates nil)
+        (eww-history-position (or eww-history-position 0)))
+    (funcall original directory)))
+
+(with-eval-after-load 'eww
+  (advice-add 'eww-desktop-misc-data :around #'rk/eww-desktop-save-history))
+
 ;; Colors and fonts come from the theme and `core-ui.el', never from the saved
 ;; session. Without this, restoring a frameset repaints the new frame with the
 ;; colors that were active when the session was saved — e.g. a dark background

@@ -65,12 +65,16 @@ stock `C-x p` prefix works too (`C-x p p`, `C-x p f`, …).
 | `C-c p f` | Find a file in the project |
 | `C-c p p` | Switch project (project.el menu) |
 | `C-c p d` | Open the project root in dired |
-| `C-c p s` | Search across the project (`project-find-regexp`) |
+| `C-c p s` | Live project search (`consult-ripgrep`; requires `rg`) |
+| `C-c p b` | Select project buffers/recent files with Consult |
 | `C-c p t` | Open a project in a **new tab** (named after the project) |
 | `C-c p l` | Switch to the dedicated **Loose Files** tab |
 
-The `C-c p p` switch menu offers `f`/`d`/`s`/`v` (find-file, dired, search,
-VC status) — configured in `core-vc.el`.
+The `C-c p p` switch menu offers `f`/`d`/`s`/`v`/`g` (find-file, dired,
+built-in search, VC status, Magit Git status) — configured in `core-vc.el`.
+`C-c p s` searches from the current project root and updates results while you
+type. Install `ripgrep` if `rg` is missing; `C-x p s` retains the built-in
+project search and its grep results buffer.
 
 Version control lives under `C-c v`:
 
@@ -79,6 +83,14 @@ Version control lives under `C-c v`:
 | `C-c v d` | `vc-dir` (status; up-to-date files auto-hidden) |
 | `C-c v =` | Diff |
 | `C-c v l` | Log |
+| `C-c v s` | Magit status (Git repositories) |
+| `C-c v w` | Switch VC working tree (Emacs 31) |
+
+In Magit status, `TAB` expands a section or diff hunk; `s` stages the file,
+hunk, or selected lines at point, and `u` unstages them. `c c` starts a commit;
+finish the message with `C-c C-c` or cancel with `C-c C-k`. `b` opens branch
+actions, `r` rebase actions, and `?` shows contextual help. Built-in VC remains
+available, including for non-Git repositories.
 
 In a `*grep*` results buffer, press `C-c C-e` to enter Emacs 31's built-in
 grep-edit mode, edit the matches directly, then use the mode's apply command
@@ -92,12 +104,13 @@ workflow.
 | Keys | Action |
 |------|--------|
 | `C-c f` / `C-x C-f` | Find (open) a file |
-| `C-c b b` / `C-x b` | Switch buffer (fido vertical completion) |
+| `C-c b b` | Consult buffers, recent files, and bookmarks |
+| `C-x b` | Stock buffer switching, with Vertico completion |
 | `C-c b k` | Kill (close) the current buffer |
 | `C-c b r` | Revert buffer from disk |
 | `C-c b l` / `C-x C-b` | List all buffers |
 | `C-c b n` / `C-c b p` | Next / previous buffer |
-| `C-c r` | Recent files (`recentf`) |
+| `C-c r` | Consult recent files (`recentf`) |
 | `C-x C-j` | Jump to the current file's directory in dired |
 | `C-l` | Recenter the view around point |
 
@@ -147,6 +160,9 @@ The `C-c w` prefix (see `core-windows.el`) manages window layouts:
 `*Help*` windows auto-focus (`help-window-select`), so no `C-x o` needed to read
 them.
 
+Magit uses its normal editing-window display, not the dedicated Help or
+compilation side windows.
+
 ---
 
 ## 6. Workspaces & tabs (`C-x t`)
@@ -171,6 +187,11 @@ have more than one tab (`tab-bar-show 1`). Ordinary file opening (`C-c f`,
 project tab and sends non-project files to **Loose Files**. Opening a file
 outside the active project therefore does not pollute that project workspace.
 
+Accepted file candidates from Consult's recent-file and project-recent-file
+sources follow the same routing policy. Previewing candidates or cancelling
+selection does not switch/create tabs. Selecting an already-open buffer in
+Consult remains a buffer switch, not a new routed file visit.
+
 ---
 
 ## 7. desktop-mode & session restore
@@ -186,6 +207,9 @@ outside the active project therefore does not pollute that project workspace.
   saved in dark mode never leaves a light theme on a dark frame.
 - **`savehist-mode`** persists minibuffer history, the kill ring, and search
   history across sessions.
+- EWW browser history is saved without duplicate removal. This preserves its
+  current-page position and avoids an Emacs 31 desktop-save error on quit;
+  older restored EWW buffers with a missing position save as the current page.
 
 To start fresh without a restored session, run
 `M-x desktop-clear` or remove the `desktop/` entry in your cache directory.
@@ -197,28 +221,51 @@ persistent cache and a tmp-backed ephemeral cache.
 
 ## 8. Completion & the minibuffer (`core-completion.el`)
 
-- **`fido-vertical-mode`** gives you an Ido-like vertical completion UI directly inside
-  the minibuffer, without opening a duplicate `*Completions*` window for every
-  minibuffer command. The standard `*Completions*` buffer remains available
-  when explicitly requested or used by completion contexts that do not use
-  Fido.
-- Completion matching ignores letter case.
-- **Completion styles** are `basic` and `flex`, so `M-x` and `C-x b` match
-  exact names and fuzzy in-order patterns
-  (e.g. `M-x rvb` → `revert-buffer`; `C-x b p t` → `project-todos`).
-- **Minibuffer completion navigation** supports `↑`/`↓`; `RET` accepts the
-  highlighted completion candidate.
-- **`global-completion-preview-mode`** shows inline completion previews in
-  buffers; press `M-TAB` to accept the preview.
-- **`tab-always-indent`** is `complete`, so `TAB` indents or triggers
-  completion at point (CAPF/Eglot). `TAB` is intentionally *not* bound to
-  preview acceptance so it can always reach the completion popup.
-- **Eglot completion** uses `rk/flex-noinsert`: flex-ranked candidates are kept,
-  but ambiguous `TAB` no longer inserts merged fuzzy guesses before selection.
+**Vertico** replaces Fido with a vertical candidate list inside the minibuffer.
+Use `↑`/`↓` to navigate, `TAB` to insert the highlighted candidate into the
+prompt, and `RET` to accept it. To submit your literal input (for example a
+new file/buffer name), use `M-RET`, or move up to the prompt and press `RET`.
+The standard `*Completions*` buffer is still available when explicitly requested.
 
-When `*Completions*` is shown, it uses detailed, grouped, one-column display
-with historical sorting and a bounded height. `TAB` remains dedicated to
-indentation/completion at point; `M-TAB` accepts an inline preview.
+**Orderless** matches space-separated terms in any order: `M-x file project`
+can match `project-find-file`. Matching ignores case; literal/regexp
+components are supported. File paths retain basic/partial-path matching for
+wildcards and TRAMP rather than using Orderless everywhere.
+**Marginalia** adds descriptions and other useful annotations to candidates.
+History is still saved by `savehist-mode`.
+
+**Consult** adds navigation with previews:
+
+| Keys | Action |
+|------|--------|
+| `C-c b b` | Buffers, recent files, and bookmarks; narrow with `b SPC` / `f SPC` / `m SPC` |
+| `C-c p b` | Project buffers/recent files |
+| `C-c r` | Recent files |
+| `C-c i` | Symbols in the current buffer (`consult-imenu`) |
+| `C-c p s` | Live ripgrep search in the current project |
+| `M-s l` | Search/select a line in the current buffer (`consult-line`) |
+
+Line, symbol, and existing-buffer previews update as you navigate. For
+recent files, file registers, and bookmarks, press `M-.` explicitly to preview;
+simply moving through those candidates does not open remote connections.
+`C-g` cancels and restores the original view. File-source acceptance preserves
+the workspace policy (§6); previews do not route files.
+`C-s`, `C-x b`, `C-x p s`, and `M-y` retain their stock commands.
+
+**Corfu** displays in-buffer completion candidates near point, using the same
+CAPFs/Eglot servers as before. Popups are manual: `TAB` indents or invokes
+completion (`tab-always-indent` is `complete`); `M-TAB` invokes completion
+directly. The prompt is selected initially. Use `↑`/`↓` to select a candidate,
+then `RET` to insert it; `TAB` also inserts an explicitly selected candidate.
+With the prompt selected, `TAB` may expand a common prefix and `RET` dismisses
+completion without choosing a candidate. `C-g` dismisses the popup.
+Candidates are not automatically previewed/committed as you keep typing.
+
+Inline `completion-preview` is disabled, so `M-TAB` no longer accepts ghost
+text. Corfu works in graphical and terminal Emacs 31 without an extra package.
+Eglot keeps its existing flex matching and ordering override rather than
+inheriting Orderless matching from the minibuffer. Ambiguous fuzzy input stays
+unchanged until you select a candidate or narrow to a unique match.
 
 ---
 
@@ -325,7 +372,7 @@ font-lock detail. Without a grammar, the ordinary major mode remains in use.
 | `⌘-click` (`s-mouse-1`) | Jump to definition with mouse |
 | `M-,` | Go back (`xref-go-back`; stock Emacs) |
 | `M-?` | Find references |
-| `C-c i` | imenu (jump to symbol in buffer) |
+| `C-c i` | Consult imenu (preview/jump to symbol in buffer) |
 | `M-x eglot-rename` | Rename symbol |
 | `M-x eglot-code-actions` | Quick-fixes / code actions |
 
@@ -345,6 +392,9 @@ referenced assembly's symbols; `M-,` always returns to the calling code.
 
 Compile/test output auto-scrolls continuously
 (`compilation-scroll-output t`).
+
+In-buffer completion is presented by Corfu (§8), but language-server selection,
+Eglot, and Flymake are unchanged.
 
 **Language-specific helpers** — Each language module provides commands for its
 build/test/run tools. For example:
@@ -441,6 +491,27 @@ Module loading is fail-soft: if one module in `lisp/` signals an error, the
 error is reported in `*Messages*` (`Error loading …`) and the remaining modules
 still load, so Emacs always comes up usable.
 
+External completion packages and Magit are declared with `use-package` and
+installed through package.el from GNU/NonGNU ELPA when missing. Initial
+installation requires network access; routine startup does not refresh the
+archives or update every package. Consult and Magit load when invoked, while
+Vertico, Orderless, Marginalia, and Corfu are enabled during startup.
+Installation/loading failures are reported through normal Emacs warnings and
+module-loading messages.
+
+After upgrading Emacs, an older compiled package can still refer to Compat
+helpers that the new built-in Compat no longer defines. If Vertico reports
+`void-function compat--seconds-to-string` while annotating files, recompile
+Marginalia against the current Emacs:
+
+```elisp
+(byte-recompile-directory
+ (file-name-directory (locate-library "marginalia")) 0 t)
+```
+
+Evaluate this with `M-:`, then restart Emacs to unload the old compiled code.
+This preserves relative file-age annotations; disabling Vertico is unnecessary.
+
 On multi-user macOS systems, run Emacs daemon mode as a **per-user
 LaunchAgent**, not a system LaunchDaemon. This keeps each user's server socket,
 buffers, config, and filesystem permissions isolated. Connect with
@@ -483,7 +554,7 @@ The current line is highlighted by `global-hl-line-mode` using the theme's own
 
 **Start work on a project**
 1. `C-c p t` → open project in a new tab (or `C-c p p` to switch in place).
-2. `C-c p f` → jump to a file (completion preview helps).
+2. `C-c p f` → jump to a file with Vertico completion.
 3. `C-c p s` → search across the project; `C-c i` → jump to a function.
 4. `C-c w z` → zoom the editor while you focus.
 
@@ -491,7 +562,8 @@ The current line is highlighted by `global-hl-line-mode` using the theme's own
 1. Edit; flymake highlights errors in the fringe.
 2. `C-c ! n` / `C-c ! p` to step through issues.
 3. `M-x eglot-code-actions` for quick-fixes; `M-.` to read definitions.
-4. `C-c v =` to review your diff, `C-c v d` for status.
+4. `C-c v s` → review/stage hunks in Magit; `C-c v =` / `C-c v d` retain
+   built-in VC diff/status.
 
 **Run tests & iterate**
 1. Your language's test/build command is available via helpers (see §10). For
