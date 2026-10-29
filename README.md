@@ -61,6 +61,12 @@ updated on each startup.
 - **Magit** adds Git status and staging at `C-c v s`, alongside the existing
   built-in VC shortcuts. Install **Git** on the host.
 
+**[Ghostel](https://github.com/dakra/ghostel)** provides a full terminal
+emulator powered by libghostty-vt. Open a terminal with `C-c s` (or
+`M-x ghostel`); it offers to download its native module on first use. See
+[the shell and terminal guide](HOWTO.md#12-shells) for project commands and
+input-mode shortcuts.
+
 Eglot, Flymake, project.el, Speedbar, and tab-bar/desktop remain the underlying
 language, diagnostics, project, file-tree, and workspace/session facilities.
 

@@ -33,7 +33,8 @@
 ;; Layout:
 ;;   LEFT  (slot -1, 25%):  Speedbar — file tree, imenu, VC
 ;;   RIGHT (slot  0, 38%):  Help, Apropos, Info, Man, Eldoc, xref
-;;   BOTTOM (slot 0, 25%):  Compilation, flymake, eshell, Messages, Warnings
+;;   BOTTOM (slot 0, 25%):  Compilation, flymake, eshell, Ghostel, Messages,
+;;                          Warnings
 
 (setq display-buffer-alist
       (append
@@ -55,7 +56,7 @@
           (slot . 0)
           (window-height . 0.25)
           (dedicated . t))
-         ("\\*\\(e?shell\\|term\\)\\*"
+         ("\\*\\(e?shell\\|term\\|ghostel\\)"
           (display-buffer-in-side-window)
           (side . bottom)
           (slot . 1)

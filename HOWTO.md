@@ -71,10 +71,12 @@ stock `C-x p` prefix works too (`C-x p p`, `C-x p f`, …).
 | `C-c p l` | Switch to the dedicated **Loose Files** tab |
 
 The `C-c p p` switch menu offers `f`/`d`/`s`/`v`/`g` (find-file, dired,
-built-in search, VC status, Magit Git status) — configured in `core-vc.el`.
+built-in search, VC status, Magit Git status) and Ghostel.
 `C-c p s` searches from the current project root and updates results while you
 type. Install `ripgrep` if `rg` is missing; `C-x p s` retains the built-in
 project search and its grep results buffer.
+Ghostel also binds `C-x p m` to open a terminal in the project and `C-x p M`
+to select a Ghostel buffer for that project.
 
 Version control lives under `C-c v`:
 
@@ -467,13 +469,18 @@ to level 3 in the current file and agenda files.
 
 ## 12. Shells
 
-`M-x eshell` (recommended), `M-x shell`, or `M-x term`. All open in the bottom
-side window. Line numbers are disabled automatically in shell/term buffers.
+`M-x eshell` (recommended), `M-x shell`, `M-x term`, or `M-x ghostel`. These
+terminals open in the bottom side window, with line numbers disabled. Ghostel
+is also available at `C-c s`; its native module can be downloaded on first
+use (Emacs must support dynamic modules). In Ghostel's default semi-char mode,
+`C-s` searches the scrollback with Consult, and `C-c C-t` enters copy mode.
 
 - `eshell` runs your normal commands with extra Emacs niceties (e.g. globbing,
   redirecting to buffers).
 - Interactive full-screen programs (`htop`, `top`, `less`, `ssh`, `tmux`) are
   handed off to `term` automatically so they don't garble the eshell buffer.
+- `C-x p m` opens a Ghostel terminal in the current project; `C-x p M` lists
+  its Ghostel buffers. Ghostel also appears in the project-switch menu.
 
 ---
 
