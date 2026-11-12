@@ -43,6 +43,7 @@
   :ensure t
   :bind (:map rk/project-map
               ("a" . agent-shell-github-start-copilot))
+  :custom (agent-shell-github-default-model-id "auto")
   :hook (agent-shell-mode . (lambda () (display-line-numbers-mode -1)))
   :config
   (require 'agent-shell-github))

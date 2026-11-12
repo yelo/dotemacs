@@ -489,7 +489,8 @@ use (Emacs must support dynamic modules). In Ghostel's default semi-char mode,
 **GitHub Copilot with agent-shell** — `C-c p a` starts a Copilot agent session
 in the current project. This uses the Copilot CLI's ACP server; install the
 CLI and authenticate once with `copilot login`. `agent-shell` and its Emacs
-dependencies are installed from MELPA when Emacs starts.
+dependencies are installed from MELPA when Emacs starts. The default model is
+`auto`.
 
 ---
 
