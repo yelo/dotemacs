@@ -483,6 +483,11 @@ use (Emacs must support dynamic modules). In Ghostel's default semi-char mode,
 - `C-x p m` opens a Ghostel terminal in the current project; `C-x p M` lists
   its Ghostel buffers. Ghostel also appears in the project-switch menu.
 
+**GitHub Copilot with agent-shell** — `C-c p a` starts a Copilot agent session
+in the current project. This uses the Copilot CLI's ACP server; install the
+CLI and authenticate once with `copilot login`. `agent-shell` and its Emacs
+dependencies are installed from MELPA when Emacs starts.
+
 ---
 
 ## 13. Startup behavior
@@ -500,10 +505,11 @@ error is reported in `*Messages*` (`Error loading …`) and the remaining module
 still load, so Emacs always comes up usable.
 
 External completion packages and Magit are declared with `use-package` and
-installed through package.el from GNU/NonGNU ELPA when missing. Initial
-installation requires network access; routine startup does not refresh the
-archives or update every package. Consult and Magit load when invoked, while
-Vertico, Orderless, Marginalia, and Corfu are enabled during startup.
+installed through package.el from GNU/NonGNU ELPA when missing. `agent-shell`
+and its dependencies are installed from MELPA. Initial installation requires
+network access; routine startup does not refresh the archives or update every
+package. Consult, Magit, and agent-shell load when invoked, while Vertico,
+Orderless, Marginalia, and Corfu are enabled during startup.
 Installation/loading failures are reported through normal Emacs warnings and
 module-loading messages.
 

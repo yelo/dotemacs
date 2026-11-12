@@ -39,5 +39,13 @@
   (add-to-list 'project-switch-commands
                '(ghostel-project-list-buffers "Ghostel buffers") t))
 
+(use-package agent-shell
+  :ensure t
+  :bind (:map rk/project-map
+              ("a" . agent-shell-github-start-copilot))
+  :hook (agent-shell-mode . (lambda () (display-line-numbers-mode -1)))
+  :config
+  (require 'agent-shell-github))
+
 (provide 'core-shell)
 ;;; core-shell.el ends here

@@ -13,6 +13,9 @@
 ;; before the regular init file loads.
 (setq user-lisp-directory (expand-file-name "site-lisp/" user-emacs-directory))
 
+(with-eval-after-load 'package
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+
 ;; Temporarily disable expensive file-name handlers during startup.
 (defvar rk/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)

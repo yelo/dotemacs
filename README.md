@@ -41,16 +41,16 @@ easy to customize or disable.
 
 Packages are managed with Emacs's built-in package support and `use-package`;
 VC-hosted packages can be declared directly from their upstream repositories.
-Missing declared packages are installed during startup; Consult and Magit load
-on demand. The completion and Git packages below use the default GNU/NonGNU
-ELPA archives.
+Missing declared packages are installed during startup; Consult, Magit, and
+agent-shell load on demand. The completion and Git packages below use the
+default GNU/NonGNU ELPA archives; agent-shell and its dependencies use MELPA.
 An initial installation needs network access; packages are not automatically
 updated on each startup.
 
 ## Completion, search, and Git
 
 - **Vertico**, **Orderless**, and **Marginalia** provide vertical minibuffer
-  completion, out-of-order matching, and informative candidate annotations.
+  completion, out-of-order fuzzy matching, and informative candidate annotations.
 - **Consult** adds previewable buffer/symbol navigation and live project
   search. Install **ripgrep** (`rg`) for `C-c p s`; built-in project search
   remains available at `C-x p s`.
@@ -66,6 +66,12 @@ emulator powered by libghostty-vt. Open a terminal with `C-c s` (or
 `M-x ghostel`); it offers to download its native module on first use. See
 [the shell and terminal guide](HOWTO.md#12-shells) for project commands and
 input-mode shortcuts.
+
+**[agent-shell](https://github.com/xenodium/agent-shell)** connects Emacs to
+GitHub Copilot through its ACP server. Press `C-c p a` to start a Copilot
+session in the current project. Install and authenticate the Copilot CLI with
+`copilot login`; agent-shell itself and its dependencies are installed from
+MELPA.
 
 Eglot, Flymake, project.el, Speedbar, and tab-bar/desktop remain the underlying
 language, diagnostics, project, file-tree, and workspace/session facilities.
