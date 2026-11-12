@@ -394,7 +394,10 @@ precise result depends on the language server, installed SDK, and the
 referenced assembly's symbols; `M-,` always returns to the calling code.
 
 Compile/test output auto-scrolls continuously
-(`compilation-scroll-output t`).
+(`compilation-scroll-output t`), and ANSI color sequences are rendered in
+compilation buffers. A build tool may need an option or environment setting to
+emit colors when its output is piped; Ghostel remains a separate interactive
+terminal rather than the compilation backend.
 
 In-buffer completion is presented by Corfu (§8), but language-server selection,
 Eglot, and Flymake are unchanged.

@@ -21,6 +21,10 @@
 ;; ── Auto-scroll compile/flymake output continuously ──
 (setq compilation-scroll-output t)
 
+;; Render ANSI color sequences in compiler output without replacing
+;; compilation-mode's diagnostics and navigation.
+(add-hook 'compilation-filter-hook #'ansi-color-compilation-filter)
+
 ;; ── Emacs 31: prefer vertical (stacked) ad-hoc splits ──
 ;; Most of this frame's real estate is already claimed by side windows
 ;; (see `display-buffer-alist' below), so keep the remaining editing area
