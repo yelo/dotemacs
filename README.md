@@ -82,6 +82,8 @@ language, diagnostics, project, file-tree, and workspace/session facilities.
 - Python
 - Rust
 - C#
+- Swift / SwiftUI (iOS)
+- Kotlin / Compose / Gradle (Android)
 - Elisp
 
 **Documentation:**

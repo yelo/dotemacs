@@ -349,6 +349,7 @@ specific install, so `global.json` picks the SDK version for each project.
 registers an LSP server program and enables eglot for that language's major modes.
 Currently configured: Python (`pylsp`), Rust (`rust-analyzer`), C#
 (`csharp-ls`, with `roslyn-language-server` fallback when necessary),
+Swift (`sourcekit-lsp`), Kotlin (`kotlin-lsp` or `kotlin-language-server`),
 and Elisp (built-in). To add support for a new language, create `lisp/lang-newlang.el`
 and register your LSP server; language servers must be installed separately per
 each module's documentation.
@@ -420,6 +421,14 @@ build/test/run tools. For example:
   syntax, use `C-u C-u` and edit the full command line.
   Install the preferred server with `dotnet tool install --global csharp-ls`; the Roslyn
   language server remains a fallback.
+- **Swift (iOS):** `C-c c b`/`r`/`t` (`swift build`/`run`/`test`), `C-c c x`
+  (`xcodebuild`, editable command line), `C-c c !` (any `swift` subcommand).
+  Install the grammar once with `M-x rk/swift-install-grammar` (pinned to 0.7.1).
+- **Kotlin / Gradle (Android):** `C-c c b` (`assembleDebug`), `C-c c i`
+  (`installDebug`), `C-c c t` (unit tests), `C-c c c` (`clean`), `C-c c !`
+  (any task, uses `./gradlew`). Also active in `.gradle` (groovy-mode) buffers;
+  `.gradle.kts` opens in `kotlin-ts-mode`. Install the grammar once with
+  `M-x rk/kotlin-install-grammar`.
 - **Elisp:** `C-c C-b` (eval buffer), `C-c C-d` (eval defun), `C-c C-z`
   (ielm REPL), `C-c C-f`/`C-c C-v` (find function/variable)
 

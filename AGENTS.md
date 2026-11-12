@@ -17,7 +17,7 @@ This repository is a modular Emacs configuration targeting **Emacs 31+**.
     system, i.e. `(display-graphic-p)` is nil).
   - OS-specific modules: `os-macos`, `os-linux`, `os-windows`.
   - Auto-discovered optional family: `lang-*.el`.
-    Current language modules: `lang-elisp`, `lang-python`, `lang-rust`, `lang-csharp`.
+    Current language modules: `lang-elisp`, `lang-python`, `lang-rust`, `lang-csharp`, `lang-swift`, `lang-kotlin`.
 - `custom.el` stores `custom-set-variables`/`custom-set-faces`
   (auto-generated).
 
