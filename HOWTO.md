@@ -230,8 +230,9 @@ new file/buffer name), use `M-RET`, or move up to the prompt and press `RET`.
 The standard `*Completions*` buffer is still available when explicitly requested.
 
 **Orderless** matches space-separated terms in any order: `M-x file project`
-can match `project-find-file`. Matching ignores case; literal/regexp
-components are supported. File paths retain basic/partial-path matching for
+can match `project-find-file`. Matching ignores case and supports literal
+terms and fuzzy subsequences: `M-x swb` can match `switch-to-buffer`.
+File paths retain basic/partial-path matching for
 wildcards and TRAMP rather than using Orderless everywhere.
 **Marginalia** adds descriptions and other useful annotations to candidates.
 History is still saved by `savehist-mode`.

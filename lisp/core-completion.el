@@ -59,6 +59,7 @@ PRED and POINT have the same meaning as in `completion-try-completion'."
   :demand t
   :custom
   (completion-styles '(orderless basic))
+  (orderless-matching-styles '(orderless-literal orderless-flex))
   (completion-category-defaults nil)
   (completion-category-overrides
    '((file (styles basic partial-completion))

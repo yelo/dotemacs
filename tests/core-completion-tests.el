@@ -156,6 +156,17 @@
         (should (equal (mapcar #'substring-no-properties matches)
                        '("project-find-file")))))))
 
+(ert-deftest rk/orderless-matches-fuzzy-command-subsequences ()
+  (let ((candidates '("switch-to-buffer" "switch-to-buffer-other-window"
+                      "find-file")))
+    (dolist (input '("swb" "buffer sw"))
+      (let ((matches (completion-all-completions
+                      input candidates nil (length input))))
+        (should matches)
+        (setcdr (last matches) nil)
+        (should (equal (mapcar #'substring-no-properties matches)
+                       '("switch-to-buffer" "switch-to-buffer-other-window")))))))
+
 (ert-deftest rk/marginalia-annotates-recent-project-files ()
   (let* ((directory (make-temp-file "rk-marginalia-test-" t))
          (default-directory (file-name-as-directory directory))
