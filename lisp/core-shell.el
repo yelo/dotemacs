@@ -23,6 +23,7 @@
 (use-package ghostel
   :vc (:url "https://github.com/dakra/ghostel"
        :lisp-dir "lisp")
+  :custom (ghostel-shell "fish")
   :bind (("C-c s" . ghostel)
          :map ghostel-semi-char-mode-map
          ("C-s" . consult-line))

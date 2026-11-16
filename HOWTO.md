@@ -484,9 +484,10 @@ to level 3 in the current file and agenda files.
 
 `M-x eshell` (recommended), `M-x shell`, `M-x term`, or `M-x ghostel`. These
 terminals open in the bottom side window, with line numbers disabled. Ghostel
-is also available at `C-c s`; its native module can be downloaded on first
-use (Emacs must support dynamic modules). In Ghostel's default semi-char mode,
-`C-s` searches the scrollback with Consult, and `C-c C-t` enters copy mode.
+is also available at `C-c s` and starts fish; its native module can be
+downloaded on first use (Emacs must support dynamic modules). In Ghostel's
+default semi-char mode, `C-s` searches the scrollback with Consult, and
+`C-c C-t` enters copy mode.
 
 - `eshell` runs your normal commands with extra Emacs niceties (e.g. globbing,
   redirecting to buffers).
